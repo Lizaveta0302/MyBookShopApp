@@ -31,6 +31,7 @@
 </head>
 <body>
 <div id="root_container">
+    <h3>Add new Book</h3>
     <form method="post" th:action="@{/books/save}" th:object="${book}">
         <table>
             <tr>
@@ -49,22 +50,51 @@
             </tr>
         </table>
     </form>
+    <hr>
+    <div>
+        <h3>Remove Book</h3>
+        <form method="post" th:action="@{/books/remove}">
+            <table>
+                <tr>
+                    <input type="radio" th:name="bookField" value="id" checked="checked">id<Br>
+                    <input type="radio" th:name="bookField" value="author">author<Br>
+                    <input type="radio" th:name="bookField" value="title">title<Br>
+                    <input type="radio" th:name="bookField" value="size">size<Br>
+                </tr>
+                <tr>
+                    <td>
+                        <input type="text" placeholder="field value to remove" th:name="bookFieldValue">
+                    </td>
+                    <td>
+                        <input type="submit" value="remove">
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+    <hr>
+    <div>
+        <h3>Filter by</h3>
+        <form method="post" th:action="@{/books/filter}">
+            <table>
+                <tr>
+                    <input type="radio" th:name="bookField" value="author">author<Br>
+                    <input type="radio" th:name="bookField" value="title">title<Br>
+                    <input type="radio" th:name="bookField" value="size">size<Br>
+                </tr>
+                <tr>
+                    <td>
+                        <input type="text" placeholder="search.." th:name="bookFieldValue">
+                    </td>
+                    <td>
+                        <input type="submit" value="filter">
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
 
-    <form method="post" th:action="@{/books/remove}">
-        <table>
-            <tr>
-                <td>
-                    <input type="text" placeholder="id number" th:name="bookIdToRemove">
-                </td>
-                <td>
-                    <input type="submit" value="remove">
-                </td>
-            </tr>
-        </table>
-    </form>
-
-
-    <table id="books">
+    <table id="books" style="margin-bottom: 50px">
         <tr>
             <th>id</th>
             <th>author</th>
