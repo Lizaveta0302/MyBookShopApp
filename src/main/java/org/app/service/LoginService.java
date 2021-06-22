@@ -1,9 +1,9 @@
-package org.app.services;
+package org.app.service;
 
 import org.apache.log4j.Logger;
 import org.app.dto.LoginForm;
 import org.app.dto.User;
-import org.app.repos.ProjectRepository;
+import org.app.repository.ProjectRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

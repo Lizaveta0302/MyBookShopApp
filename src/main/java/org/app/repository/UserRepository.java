@@ -1,7 +1,6 @@
-package org.app.repos;
+package org.app.repository;
 
 import org.apache.log4j.Logger;
-import org.app.dto.Book;
 import org.app.dto.User;
 import org.springframework.stereotype.Repository;
 

@@ -1,7 +1,7 @@
-package org.app.services;
+package org.app.service;
 
 import org.app.dto.Book;
-import org.app.repos.ProjectRepository;
+import org.app.repository.ProjectRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

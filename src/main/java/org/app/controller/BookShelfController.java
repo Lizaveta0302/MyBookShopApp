@@ -1,8 +1,8 @@
-package org.app.controllers;
+package org.app.controller;
 
 import org.apache.log4j.Logger;
 import org.app.dto.Book;
-import org.app.services.BookService;
+import org.app.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

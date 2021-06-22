@@ -1,4 +1,4 @@
-package org.app.repos;
+package org.app.repository;
 
 import org.apache.log4j.Logger;
 import org.app.dto.Book;

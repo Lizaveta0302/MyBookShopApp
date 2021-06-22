@@ -1,6 +1,4 @@
-package org.app.repos;
-
-import org.app.dto.Book;
+package org.app.repository;
 
 import java.util.List;
 
