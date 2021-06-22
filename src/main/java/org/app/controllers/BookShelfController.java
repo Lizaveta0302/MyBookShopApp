@@ -1,8 +1,8 @@
 package org.app.controllers;
 
 import org.apache.log4j.Logger;
-import org.app.services.BookService;
 import org.app.dto.Book;
+import org.app.services.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import java.util.List;
 
 @Controller
 @RequestMapping(value = "/books")
@@ -39,11 +41,23 @@ public class BookShelfController {
     }
 
     @PostMapping("/remove")
-    public String removeBook(@RequestParam(value = "bookIdToRemove") Integer bookIdToRemove) {
-        if (bookService.removeBookById(bookIdToRemove)) {
+    public String removeBook(@RequestParam(value = "bookField") String bookFieldToRemove,
+                             @RequestParam(value = "bookFieldValue") String bookFieldValueToRemove) {
+        logger.info("bookFieldToRemove: " + bookFieldToRemove + " " + "bookFieldValueToRemove: " + bookFieldValueToRemove);
+        bookService.removeBookByField(bookFieldToRemove, bookFieldValueToRemove);
+        return "redirect:/books/shelf";
+    }
+
+    @PostMapping("/filter")
+    public String filterBooks(@RequestParam(value = "bookField", required = false) String bookFieldToFilter,
+                              @RequestParam(value = "bookFieldValue", required = false) String bookFieldValueToFilter,
+                              Model model) {
+        if (bookFieldToFilter == null || bookFieldValueToFilter == null) {
             return "redirect:/books/shelf";
-        } else {
-            return "book_shelf";
         }
+        List<Book> filteredBooks = bookService.filterBooksByField(bookFieldToFilter, bookFieldValueToFilter);
+        model.addAttribute("book", new Book());
+        model.addAttribute("bookList", filteredBooks);
+        return "book_shelf";
     }
 }

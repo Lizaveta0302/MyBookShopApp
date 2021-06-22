@@ -1,11 +1,16 @@
 package org.app.repos;
 
+import org.app.dto.Book;
+
 import java.util.List;
 
 public interface ProjectRepository<T> {
     List<T> retrieveAll();
 
-    void store(T book);
+    void save(T item);
 
-    boolean removeItemById(Integer bookIdToRemove);
+    public void removeItemByField(String itemField, String itemValue);
+
+    public List<T> filterItemsByField(String itemField, String itemValue);
+
 }

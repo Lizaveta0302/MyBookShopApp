@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class BookService {
@@ -22,10 +23,18 @@ public class BookService {
     }
 
     public void saveBook(Book book) {
-        bookRepo.store(book);
+        if ((Objects.nonNull(book.getAuthor()) && !book.getAuthor().isEmpty())
+                || (Objects.nonNull(book.getTitle()) && !book.getTitle().isEmpty())
+                || Objects.nonNull(book.getSize())) {
+            bookRepo.save(book);
+        }
     }
 
-    public boolean removeBookById(Integer bookIdToRemove) {
-        return bookRepo.removeItemById(bookIdToRemove);
+    public void removeBookByField(String bookFieldToRemove, String bookFieldValueToRemove) {
+        bookRepo.removeItemByField(bookFieldToRemove, bookFieldValueToRemove);
+    }
+
+    public List<Book> filterBooksByField(String bookFieldToFilter, String bookFieldValueToFilter) {
+        return bookRepo.filterItemsByField(bookFieldToFilter, bookFieldValueToFilter);
     }
 }
