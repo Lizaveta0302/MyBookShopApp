@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Repository
 public class BookRepository implements ProjectRepository<Book> {
@@ -32,9 +33,12 @@ public class BookRepository implements ProjectRepository<Book> {
             for (Book book : retrieveAll()) {
                 Field bookField = book.getClass().getDeclaredField(field);
                 bookField.setAccessible(true);
-                if (bookField.get(book).toString().equals(value)) {
-                    repo.remove(book);
-                    logger.info("book is removed: " + book);
+                Object bookValue = bookField.get(book);
+                if (Objects.nonNull(bookValue)) {
+                    if (bookValue.toString().equals(value)) {
+                        repo.remove(book);
+                        logger.info("book is removed: " + book);
+                    }
                 }
             }
         } catch (NoSuchFieldException | IllegalAccessException ex) {
@@ -50,8 +54,10 @@ public class BookRepository implements ProjectRepository<Book> {
                 Field bookField = book.getClass().getDeclaredField(field);
                 bookField.setAccessible(true);
                 Object fieldValue = bookField.get(book);
-                if (fieldValue.toString().contains(value)) {
-                    filteredBooks.add(book);
+                if (Objects.nonNull(fieldValue)) {
+                    if (fieldValue.toString().contains(value)) {
+                        filteredBooks.add(book);
+                    }
                 }
             }
         } catch (NoSuchFieldException | IllegalAccessException ex) {
