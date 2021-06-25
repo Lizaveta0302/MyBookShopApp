@@ -13,7 +13,7 @@ import org.thymeleaf.spring5.view.ThymeleafViewResolver;
 @Configuration
 @ComponentScan("org.app")
 @EnableWebMvc //<mvc:annotation-driven/>
-public class WebContexConfig implements WebMvcConfigurer {
+public class WebContextConfig implements WebMvcConfigurer {
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/**").addResourceLocations("classpath:/images");

@@ -1,6 +1,6 @@
 package org.app;
 
-import org.app.config.WebContexConfig;
+import org.app.config.WebContextConfig;
 import org.springframework.web.WebApplicationInitializer;
 import org.springframework.web.context.ContextLoaderListener;
 import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
@@ -17,7 +17,7 @@ public class WebAppInitializer implements WebApplicationInitializer {
         servletContext.addListener(new ContextLoaderListener(appContext));
 
         AnnotationConfigWebApplicationContext webContext = new AnnotationConfigWebApplicationContext();
-        webContext.register(WebContexConfig.class);
+        webContext.register(WebContextConfig.class);
 
 
         DispatcherServlet dispatcherServlet = new DispatcherServlet(webContext);
