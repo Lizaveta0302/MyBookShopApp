@@ -10,7 +10,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.util.List;
 
 @Controller
@@ -59,5 +63,28 @@ public class BookShelfController {
         model.addAttribute("book", new Book());
         model.addAttribute("bookList", filteredBooks);
         return "book_shelf";
+    }
+
+    @PostMapping("/uploadFile")
+    public String uploadFile(@RequestParam("file") MultipartFile file) throws Exception {
+        String name = file.getOriginalFilename();
+        byte[] bytes = file.getBytes();
+
+        //create dir
+        String rootPath = System.getProperty("catalina.home");
+        File dir = new File(rootPath + File.separator + "external_uploads");
+        if (!dir.exists()) {
+            dir.mkdir();
+        }
+
+        //create file
+        File serverFile = new File(dir.getAbsolutePath() + File.separator + name);
+        BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(serverFile));
+        stream.write(bytes);
+        stream.close();
+
+        logger.info("new file saved at: " + serverFile.getAbsolutePath());
+
+        return "redirect:/books/shelf";
     }
 }
