@@ -49,6 +49,19 @@
         </dependency>
         <!--Security-->
 
+        <!--Database-->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-jdbc</artifactId>
+            <version>5.2.15.RELEASE</version>
+        </dependency>
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <version>1.4.200</version>
+        </dependency>
+        <!--Database-->
+
         <dependency>
             <groupId>log4j</groupId>
             <artifactId>log4j</artifactId>

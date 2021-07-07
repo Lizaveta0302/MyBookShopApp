@@ -2,9 +2,13 @@ package org.app.repository;
 
 import org.apache.log4j.Logger;
 import org.app.dto.Book;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import java.lang.reflect.Field;
+import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -13,18 +17,32 @@ import java.util.Objects;
 public class BookRepository implements ProjectRepository<Book> {
 
     private final Logger logger = Logger.getLogger(BookRepository.class);
-    private final List<Book> repo = new ArrayList<>();
+
+    @Autowired
+    private NamedParameterJdbcTemplate jdbcTemplate;
 
     @Override
     public List<Book> retrieveAll() {
-        return new ArrayList<>(repo);
+        List<Book> books = jdbcTemplate.query("SELECT * FROM books", (ResultSet rs, int rowNum) ->
+        {
+            Book book = new Book();
+            book.setId(rs.getInt("id"));
+            book.setAuthor(rs.getString("author"));
+            book.setTitle(rs.getString("title"));
+            book.setSize(rs.getInt("size"));
+            return book;
+        });
+        return books;
     }
 
     @Override
     public void save(Book book) {
-        book.setId(book.hashCode());
+        MapSqlParameterSource parameterSource = new MapSqlParameterSource();
+        parameterSource.addValue("author", book.getAuthor());
+        parameterSource.addValue("title", book.getTitle());
+        parameterSource.addValue("size", book.getSize());
+        jdbcTemplate.update("INSERT INTO books(author, title, size) VALUES(:author, :title, :size)", parameterSource);
         logger.info("store new book: " + book);
-        repo.add(book);
     }
 
     @Override
@@ -36,7 +54,9 @@ public class BookRepository implements ProjectRepository<Book> {
                 Object bookValue = bookField.get(book);
                 if (Objects.nonNull(bookValue)) {
                     if (bookValue.toString().equals(value)) {
-                        repo.remove(book);
+                        MapSqlParameterSource parameterSource = new MapSqlParameterSource();
+                        parameterSource.addValue("id", value);
+                        jdbcTemplate.update("DELETE FROM books WHERE id = :id", parameterSource);
                         logger.info("book is removed: " + book);
                     }
                 }
