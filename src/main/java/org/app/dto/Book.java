@@ -1,9 +1,16 @@
 package org.app.dto;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+
 public class Book {
+    @NotNull
     private Integer id;
+    @NotEmpty
     private String author;
+    @NotEmpty
     private String title;
+    @NotNull
     private Integer size;
 
     public Integer getId() {

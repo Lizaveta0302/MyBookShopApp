@@ -1,8 +1,14 @@
 package org.app.dto;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+
 public class User {
+    @NotNull
     private Integer id;
+    @NotEmpty
     private String username;
+    @NotEmpty
     private String password;
 
     public User() {
