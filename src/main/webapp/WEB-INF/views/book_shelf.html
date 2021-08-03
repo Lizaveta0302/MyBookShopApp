@@ -93,6 +93,19 @@
             </table>
         </form>
     </div>
+    <hr>
+    <form method="post" th:action="@{/books/downloadFile}" enctype="multipart/form-data">
+        <table>
+            <tr>
+                <td>
+                    <input type="file" name="file">
+                </td>
+                <td>
+                    <input type="submit" value="Download">
+                </td>
+            </tr>
+        </table>
+    </form>
 
     <form method="post" th:action="@{/books/uploadFile}" enctype="multipart/form-data">
         <table>
@@ -106,7 +119,7 @@
             </tr>
         </table>
     </form>
-
+    <hr>
     <table id="books" style="margin-bottom: 50px">
         <tr>
             <th>id</th>
