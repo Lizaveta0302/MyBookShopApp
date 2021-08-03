@@ -1,6 +1,7 @@
 package org.app.controller;
 
 import org.app.exception.BookShelfLoginException;
+import org.app.exception.UploadFileException;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -18,5 +19,11 @@ public class ErrorController {
     public String handleError(Model model, BookShelfLoginException exception) {
         model.addAttribute("errorMessage", exception.getMessage());
         return "errors/404";
+    }
+
+    @ExceptionHandler(UploadFileException.class)
+    public String handleUploadFileError(Model model, UploadFileException exception) {
+        model.addAttribute("errorMessage", exception.getMessage());
+        return "errors/upload_file_error_page";
     }
 }
