@@ -1,6 +1,7 @@
 package org.app.controller;
 
 import org.app.exception.BookShelfLoginException;
+import org.app.exception.FilterOrRemoveByFieldException;
 import org.app.exception.UploadFileException;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -24,6 +25,12 @@ public class ErrorController {
     @ExceptionHandler(UploadFileException.class)
     public String handleUploadFileError(Model model, UploadFileException exception) {
         model.addAttribute("errorMessage", exception.getMessage());
-        return "errors/upload_file_error_page";
+        return "errors/general_error_page_with_message";
+    }
+
+    @ExceptionHandler(FilterOrRemoveByFieldException.class)
+    public String handleNoSuchFieldDueFilterOrDelete(Model model, NoSuchFieldException exception) {
+        model.addAttribute("errorMessage", exception.getMessage());
+        return "errors/general_error_page_with_message";
     }
 }

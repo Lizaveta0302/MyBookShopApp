@@ -2,6 +2,7 @@ package org.app.controller;
 
 import org.apache.log4j.Logger;
 import org.app.dto.Book;
+import org.app.exception.FilterOrRemoveByFieldException;
 import org.app.exception.UploadFileException;
 import org.app.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,7 +50,7 @@ public class BookShelfController {
 
     @PostMapping("/remove")
     public String removeBook(@RequestParam(value = "bookField") String bookFieldToRemove,
-                             @RequestParam(value = "bookFieldValue") String bookFieldValueToRemove) {
+                             @RequestParam(value = "bookFieldValue") String bookFieldValueToRemove) throws FilterOrRemoveByFieldException {
         logger.info("bookFieldToRemove: " + bookFieldToRemove + " " + "bookFieldValueToRemove: " + bookFieldValueToRemove);
         bookService.removeBookByField(bookFieldToRemove, bookFieldValueToRemove);
         return "redirect:/books/shelf";
@@ -58,7 +59,7 @@ public class BookShelfController {
     @PostMapping("/filter")
     public String filterBooks(@RequestParam(value = "bookField", required = false) String bookFieldToFilter,
                               @RequestParam(value = "bookFieldValue", required = false) String bookFieldValueToFilter,
-                              Model model) {
+                              Model model) throws FilterOrRemoveByFieldException {
         if (bookFieldToFilter == null || bookFieldValueToFilter == null) {
             return "redirect:/books/shelf";
         }

@@ -1,5 +1,7 @@
 package org.app.repository;
 
+import org.app.exception.FilterOrRemoveByFieldException;
+
 import java.util.List;
 
 public interface ProjectRepository<T> {
@@ -7,8 +9,6 @@ public interface ProjectRepository<T> {
 
     void save(T item);
 
-    public void removeItemByField(String itemField, String itemValue);
-
-    public List<T> filterItemsByField(String itemField, String itemValue);
+    void removeItemByField(String itemField, String itemValue);
 
 }

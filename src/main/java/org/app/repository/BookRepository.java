@@ -7,11 +7,8 @@ import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import java.lang.reflect.Field;
 import java.sql.ResultSet;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 @Repository
 public class BookRepository implements ProjectRepository<Book> {
@@ -23,7 +20,7 @@ public class BookRepository implements ProjectRepository<Book> {
 
     @Override
     public List<Book> retrieveAll() {
-        List<Book> books = jdbcTemplate.query("SELECT * FROM books", (ResultSet rs, int rowNum) ->
+        return jdbcTemplate.query("SELECT * FROM books", (ResultSet rs, int rowNum) ->
         {
             Book book = new Book();
             book.setId(rs.getInt("id"));
@@ -32,7 +29,6 @@ public class BookRepository implements ProjectRepository<Book> {
             book.setSize(rs.getInt("size"));
             return book;
         });
-        return books;
     }
 
     @Override
@@ -46,43 +42,11 @@ public class BookRepository implements ProjectRepository<Book> {
     }
 
     @Override
-    public void removeItemByField(String field, String value) {
-        try {
-            for (Book book : retrieveAll()) {
-                Field bookField = book.getClass().getDeclaredField(field);
-                bookField.setAccessible(true);
-                Object bookValue = bookField.get(book);
-                if (Objects.nonNull(bookValue)) {
-                    if (bookValue.toString().equals(value)) {
-                        MapSqlParameterSource parameterSource = new MapSqlParameterSource();
-                        parameterSource.addValue("id", value);
-                        jdbcTemplate.update("DELETE FROM books WHERE id = :id", parameterSource);
-                        logger.info("book is removed: " + book);
-                    }
-                }
-            }
-        } catch (NoSuchFieldException | IllegalAccessException ex) {
-            logger.info("remove book by field exception: " + ex.getMessage());
-        }
-    }
-
-    @Override
-    public List<Book> filterItemsByField(String field, String value) {
-        List<Book> filteredBooks = new ArrayList<>();
-        try {
-            for (Book book : retrieveAll()) {
-                Field bookField = book.getClass().getDeclaredField(field);
-                bookField.setAccessible(true);
-                Object fieldValue = bookField.get(book);
-                if (Objects.nonNull(fieldValue)) {
-                    if (fieldValue.toString().contains(value)) {
-                        filteredBooks.add(book);
-                    }
-                }
-            }
-        } catch (NoSuchFieldException | IllegalAccessException ex) {
-            logger.info("filter books by field exception: " + ex.getMessage());
-        }
-        return filteredBooks;
+    public void removeItemByField(String itemField, String itemValue) {
+        MapSqlParameterSource parameterSource = new MapSqlParameterSource();
+        parameterSource.addValue("fieldName", itemField);
+        parameterSource.addValue("fieldValue", itemValue);
+        String deleteQuery = "DELETE FROM books WHERE " + parameterSource.getValue("fieldName") + " = :fieldValue";
+        jdbcTemplate.update(deleteQuery, parameterSource);
     }
 }

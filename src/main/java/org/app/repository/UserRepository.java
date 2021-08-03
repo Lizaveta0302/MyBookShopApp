@@ -28,12 +28,8 @@ public class UserRepository implements ProjectRepository<User> {
     }
 
     @Override
-    public void removeItemByField(String userField, String userValue) {
-        userRepo.remove(userField);
+    public void removeItemByField(String itemField, String itemValue) {
+
     }
 
-    @Override
-    public List<User> filterItemsByField(String itemField, String itemValue) {
-        return new ArrayList<>();
-    }
 }
