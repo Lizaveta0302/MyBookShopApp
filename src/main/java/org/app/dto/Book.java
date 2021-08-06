@@ -1,16 +1,17 @@
 package org.app.dto;
 
-import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 public class Book {
-    @NotNull
     private Integer id;
-    @NotEmpty
+    @NotBlank
+    @Size(min = 2)
     private String author;
-    @NotEmpty
+    @NotBlank
     private String title;
-    @NotNull
+    @NotNull(message = "size can't be NULL")
     private Integer size;
 
     public Integer getId() {

@@ -2,6 +2,7 @@ package org.app.service;
 
 import org.apache.log4j.Logger;
 import org.app.dto.Book;
+import org.app.dto.BookFieldValueDto;
 import org.app.exception.FilterOrRemoveByFieldException;
 import org.app.repository.ProjectRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,22 +29,18 @@ public class BookService {
     }
 
     public void saveBook(Book book) {
-        if ((Objects.nonNull(book.getAuthor()) && !book.getAuthor().isEmpty())
-                || (Objects.nonNull(book.getTitle()) && !book.getTitle().isEmpty())
-                || Objects.nonNull(book.getSize())) {
-            bookRepo.save(book);
-        }
+        bookRepo.save(book);
     }
 
-    public void removeBookByField(String bookFieldToRemove, String bookFieldValueToRemove) throws FilterOrRemoveByFieldException {
+    public void removeBookByField(String bookFieldToRemove, BookFieldValueDto bookFieldValueDto) throws FilterOrRemoveByFieldException {
         try {
             for (Book book : bookRepo.retrieveAll()) {
                 Field bookField = book.getClass().getDeclaredField(bookFieldToRemove);
                 bookField.setAccessible(true);
                 Object bookValue = bookField.get(book);
                 if (Objects.nonNull(bookValue)) {
-                    if (bookValue.toString().equals(bookFieldValueToRemove)) {
-                        bookRepo.removeItemByField(bookFieldToRemove, bookFieldValueToRemove);
+                    if (bookValue.toString().equals(bookFieldValueDto.getInputBookFieldValue())) {
+                        bookRepo.removeItemByField(bookFieldToRemove, bookFieldValueDto.getInputBookFieldValue());
                         logger.info("book is removed: " + book);
                     }
                 }
