@@ -11,6 +11,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Objects;
 
+//FIXME Service в repository?
 @Service
 public class ProcessFileService {
     private final Logger logger = Logger.getLogger(ProcessFileService.class);
@@ -24,6 +25,7 @@ public class ProcessFileService {
         //create dir
         String rootPath = System.getProperty("catalina.home");
         File dir = new File(rootPath + File.separator + "external_uploads");
+        //FIXME двойная вложенность if? Исправить на линейную структуру один if одна обработка
         if (!dir.exists()) {
             if (!dir.mkdir()) {
                 logger.info("directory is not created");
@@ -32,6 +34,7 @@ public class ProcessFileService {
         }
         //create file
         File serverFile = new File(dir.getAbsolutePath() + File.separator + name);
+        //FIXME исправить через try-with-resources
         BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(serverFile));
         stream.write(bytes);
         stream.close();

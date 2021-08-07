@@ -11,7 +11,7 @@ import java.util.Objects;
 
 @Service
 public class LoginService {
-
+    //FIXME final
     private Logger logger = Logger.getLogger(LoginService.class);
 
     private final ProjectRepository<User> userRepo;

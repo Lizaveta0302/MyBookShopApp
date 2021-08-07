@@ -1,5 +1,5 @@
 package org.app.dto;
-
+//TODO Зачем LoginForm и User это один и тот же обьект по сути
 public class LoginForm {
 
     private String username;

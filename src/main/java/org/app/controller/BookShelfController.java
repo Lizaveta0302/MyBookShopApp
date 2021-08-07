@@ -70,6 +70,7 @@ public class BookShelfController {
             return "redirect:/books/shelf";
         }
         List<Book> filteredBooks = bookService.filterBooksByField(bookFieldToFilter, bookFieldValueToFilter);
+        //FIXME добавить модель фильтра
         model.addAttribute("book", new Book());
         model.addAttribute("bookList", filteredBooks);
         return "book_shelf";
@@ -104,6 +105,7 @@ public class BookShelfController {
         if (Objects.isNull(file) || file.isEmpty()) {
             throw new UploadFileException("File download error, file is empty. Choose the correct file, please");
         }
+        //FIXME file.getContentType() если будет null приложение упадет
         return ResponseEntity.ok()
                 .contentType(MediaType.parseMediaType(file.getContentType()))
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getName() + "\"")

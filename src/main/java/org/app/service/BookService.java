@@ -36,8 +36,10 @@ public class BookService {
         try {
             for (Book book : bookRepo.retrieveAll()) {
                 Field bookField = book.getClass().getDeclaredField(bookFieldToRemove);
+
                 bookField.setAccessible(true);
                 Object bookValue = bookField.get(book);
+                //FIXME двойная вложенность if
                 if (Objects.nonNull(bookValue)) {
                     if (bookValue.toString().equals(bookFieldValueDto.getInputBookFieldValue())) {
                         bookRepo.removeItemByField(bookFieldToRemove, bookFieldValueDto.getInputBookFieldValue());

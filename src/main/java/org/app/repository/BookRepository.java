@@ -10,11 +10,14 @@ import org.springframework.stereotype.Repository;
 import java.sql.ResultSet;
 import java.util.List;
 
+//TODO SQL вынести в константы
+//TODO Можете добавить RowMapper https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/jdbc/core/RowMapper.html
 @Repository
 public class BookRepository implements ProjectRepository<Book> {
 
     private final Logger logger = Logger.getLogger(BookRepository.class);
 
+    //FIXME Autowired через конструктор
     @Autowired
     private NamedParameterJdbcTemplate jdbcTemplate;
 

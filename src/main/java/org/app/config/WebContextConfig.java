@@ -50,6 +50,7 @@ public class WebContextConfig implements WebMvcConfigurer {
     @Bean
     public CommonsMultipartResolver multipartResolver() {
         CommonsMultipartResolver resolver = new CommonsMultipartResolver();
+        //FIXME вынесите в константу размер, данная плохая практика наз-ся магические числа
         resolver.setMaxUploadSize(5000000); //5mb
         return resolver;
     }
