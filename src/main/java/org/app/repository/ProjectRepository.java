@@ -1,7 +1,5 @@
 package org.app.repository;
 
-import org.app.exception.FilterOrRemoveByFieldException;
-
 import java.util.List;
 
 public interface ProjectRepository<T> {

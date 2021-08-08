@@ -1,7 +1,6 @@
 package org.app.controller;
 
 import org.apache.log4j.Logger;
-import org.app.dto.LoginForm;
 import org.app.dto.User;
 import org.app.exception.BookShelfLoginException;
 import org.app.service.LoginService;
@@ -25,7 +24,7 @@ public class LoginController {
     @GetMapping("/login")
     public String login(Model model) {
         logger.info("GET /login returns login_page.html");
-        model.addAttribute("loginForm", new LoginForm());
+        model.addAttribute("loginForm", new User());
         return "login_page";
     }
 
@@ -48,8 +47,8 @@ public class LoginController {
     }
 
     @PostMapping("/login/auth")
-    public String authenticate(LoginForm loginForm) throws BookShelfLoginException {
-        if (loginService.authenticate(loginForm)) {
+    public String authenticate(User user) throws BookShelfLoginException {
+        if (loginService.authenticate(user)) {
             logger.info("login OK redirect to book shelf");
             return "redirect:/books/shelf";
         } else {

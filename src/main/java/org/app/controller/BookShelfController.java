@@ -5,7 +5,7 @@ import org.app.dto.Book;
 import org.app.dto.BookFieldValueDto;
 import org.app.exception.FilterOrRemoveByFieldException;
 import org.app.exception.UploadFileException;
-import org.app.repository.ProcessFileService;
+import org.app.service.ProcessFileService;
 import org.app.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -63,16 +63,16 @@ public class BookShelfController {
     }
 
     @PostMapping("/filter")
-    public String filterBooks(@RequestParam(value = "bookField", required = true) String bookFieldToFilter,
-                              @RequestParam(value = "bookFieldValue", required = true) String bookFieldValueToFilter,
+    public String filterBooks(@RequestParam(value = "bookField") String bookFieldToFilter,
+                              @RequestParam(value = "bookFieldValue") String bookFieldValueToFilter,
                               Model model) throws FilterOrRemoveByFieldException {
         if (bookFieldToFilter == null || bookFieldValueToFilter == null) {
             return "redirect:/books/shelf";
         }
         List<Book> filteredBooks = bookService.filterBooksByField(bookFieldToFilter, bookFieldValueToFilter);
-        //FIXME добавить модель фильтра
         model.addAttribute("book", new Book());
         model.addAttribute("bookList", filteredBooks);
+        model.addAttribute("bookFieldValue", new BookFieldValueDto());
         return "book_shelf";
     }
 
@@ -102,10 +102,9 @@ public class BookShelfController {
     @ResponseBody
     @PostMapping("/downloadFile")
     public ResponseEntity<byte[]> downloadFile(@RequestParam("file") MultipartFile file) throws IOException {
-        if (Objects.isNull(file) || file.isEmpty()) {
+        if (Objects.isNull(file) || file.isEmpty() || Objects.isNull(file.getContentType())) {
             throw new UploadFileException("File download error, file is empty. Choose the correct file, please");
         }
-        //FIXME file.getContentType() если будет null приложение упадет
         return ResponseEntity.ok()
                 .contentType(MediaType.parseMediaType(file.getContentType()))
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getName() + "\"")

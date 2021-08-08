@@ -15,6 +15,9 @@ import org.thymeleaf.spring5.view.ThymeleafViewResolver;
 @ComponentScan("org.app")
 @EnableWebMvc //<mvc:annotation-driven/>
 public class WebContextConfig implements WebMvcConfigurer {
+
+    private static final int MAX_UPLOAD_SIZE_IN_BYTES = 5000000;
+
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/**").addResourceLocations("classpath:/images");
@@ -50,8 +53,7 @@ public class WebContextConfig implements WebMvcConfigurer {
     @Bean
     public CommonsMultipartResolver multipartResolver() {
         CommonsMultipartResolver resolver = new CommonsMultipartResolver();
-        //FIXME вынесите в константу размер, данная плохая практика наз-ся магические числа
-        resolver.setMaxUploadSize(5000000); //5mb
+        resolver.setMaxUploadSize(MAX_UPLOAD_SIZE_IN_BYTES); //5mb
         return resolver;
     }
 }
