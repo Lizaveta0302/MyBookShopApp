@@ -7,7 +7,7 @@
         #root_container {
             position: absolute;
             left: 50%;
-            top: 50%;
+            top: 70%;
             transform: translate(-50%, -50%);
         }
 
@@ -27,33 +27,43 @@
         th, td {
             border-bottom: 1px solid #ddd;
         }
+
+        .error {
+            color: red;
+        }
     </style>
 </head>
 <body>
 <div id="root_container">
     <h3>Add new Book</h3>
-    <form method="post" th:action="@{/books/save}" th:object="${book}">
-        <table>
-            <tr>
-                <td>
-                    <input type="text" placeholder="author" th:field="*{author}">
-                </td>
-                <td>
-                    <input type="text" placeholder="book_title" th:field="*{title}">
-                </td>
-                <td>
-                    <input type="text" placeholder="size (pages)" th:field="*{size}">
-                </td>
-                <td>
-                    <input type="submit" value="save">
-                </td>
-            </tr>
-        </table>
-    </form>
+    <div>
+        <form method="post" th:action="@{/books/save}" th:object="${book}">
+            <table>
+                <tr>
+                    <td>
+                        <input type="text" placeholder="author" th:field="*{author}">
+                        <span th:if="${#fields.hasErrors('author')}" th:class="${#fields.hasErrors('author')}? error">
+                            Invalid author</span>
+                    </td>
+                    <td>
+                        <input type="text" placeholder="book_title" th:field="*{title}">
+                        <span th:if="${#fields.hasErrors('title')}" th:class="${#fields.hasErrors('title')}? error">Invalid title</span>
+                    </td>
+                    <td>
+                        <input type="text" placeholder="size (pages)" th:field="*{size}">
+                        <span th:if="${#fields.hasErrors('size')}" th:class="${#fields.hasErrors('size')}? error">Invalid size</span>
+                    </td>
+                    <td>
+                        <input type="submit" value="save">
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
     <hr>
     <div>
         <h3>Remove Book</h3>
-        <form method="post" th:action="@{/books/remove}">
+        <form method="post" th:action="@{/books/remove}" th:object="${bookFieldValue}">
             <table>
                 <tr>
                     <input type="radio" th:name="bookField" value="id" checked="checked">id<Br>
@@ -63,7 +73,9 @@
                 </tr>
                 <tr>
                     <td>
-                        <input type="text" placeholder="field value to remove" th:name="bookFieldValue">
+                        <input type="text" placeholder="field value to remove" th:field="*{inputBookFieldValue}">
+                        <span th:if="${#fields.hasErrors('inputBookFieldValue')}"
+                              th:class="${#fields.hasErrors('inputBookFieldValue')}? error">Invalid bookFieldValue, shouldn't be empty</span>
                     </td>
                     <td>
                         <input type="submit" value="remove">
@@ -78,7 +90,7 @@
         <form method="post" th:action="@{/books/filter}">
             <table>
                 <tr>
-                    <input type="radio" th:name="bookField" value="author">author<Br>
+                    <input type="radio" th:name="bookField" value="author" checked="checked">author<Br>
                     <input type="radio" th:name="bookField" value="title">title<Br>
                     <input type="radio" th:name="bookField" value="size">size<Br>
                 </tr>
@@ -93,7 +105,33 @@
             </table>
         </form>
     </div>
+    <hr>
+    <form method="post" th:action="@{/books/downloadFile}" enctype="multipart/form-data">
+        <table>
+            <tr>
+                <td>
+                    <input type="file" name="file">
+                </td>
+                <td>
+                    <input type="submit" value="Download">
+                </td>
+            </tr>
+        </table>
+    </form>
 
+    <form method="post" th:action="@{/books/uploadFile}" enctype="multipart/form-data">
+        <table>
+            <tr>
+                <td>
+                    <input type="file" name="file">
+                </td>
+                <td>
+                    <input type="submit" value="Upload">
+                </td>
+            </tr>
+        </table>
+    </form>
+    <hr>
     <table id="books" style="margin-bottom: 50px">
         <tr>
             <th>id</th>

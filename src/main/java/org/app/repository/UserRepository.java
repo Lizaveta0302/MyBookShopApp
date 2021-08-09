@@ -1,7 +1,6 @@
-package org.app.repos;
+package org.app.repository;
 
 import org.apache.log4j.Logger;
-import org.app.dto.Book;
 import org.app.dto.User;
 import org.springframework.stereotype.Repository;
 
@@ -29,12 +28,8 @@ public class UserRepository implements ProjectRepository<User> {
     }
 
     @Override
-    public void removeItemByField(String userField, String userValue) {
-        userRepo.remove(userField);
+    public void removeItemByField(String itemField, String itemValue) {
+
     }
 
-    @Override
-    public List<User> filterItemsByField(String itemField, String itemValue) {
-        return new ArrayList<>();
-    }
 }
