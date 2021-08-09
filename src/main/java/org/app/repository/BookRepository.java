@@ -10,16 +10,16 @@ import org.springframework.stereotype.Repository;
 import java.sql.ResultSet;
 import java.util.List;
 
-//TODO Можете добавить RowMapper https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/jdbc/core/RowMapper.html
 @Repository
 public class BookRepository implements ProjectRepository<Book> {
 
     private final Logger logger = Logger.getLogger(BookRepository.class);
 
-    private final String SELECT_ALL_BOOKS = "SELECT * FROM books";
+    private static final String SELECT_ALL_BOOKS = "SELECT * FROM books";
     private static final String INSERT_BOOK = "INSERT INTO books(author, title, size) VALUES(:author, :title, :size)";
+    private static final String DELETE_BOOK = "DELETE FROM books WHERE %s = :fieldValue";
 
-    private NamedParameterJdbcTemplate jdbcTemplate;
+    private final NamedParameterJdbcTemplate jdbcTemplate;
 
     @Autowired
     public BookRepository(NamedParameterJdbcTemplate jdbcTemplate) {
@@ -54,7 +54,7 @@ public class BookRepository implements ProjectRepository<Book> {
         MapSqlParameterSource parameterSource = new MapSqlParameterSource();
         parameterSource.addValue("fieldName", itemField);
         parameterSource.addValue("fieldValue", itemValue);
-        String deleteQuery = "DELETE FROM books WHERE " + parameterSource.getValue("fieldName") + " = :fieldValue";
+        String deleteQuery = String.format(DELETE_BOOK, parameterSource.getValue("fieldName"));
         jdbcTemplate.update(deleteQuery, parameterSource);
     }
 }
