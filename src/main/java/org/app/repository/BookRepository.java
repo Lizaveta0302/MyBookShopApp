@@ -2,12 +2,12 @@ package org.app.repository;
 
 import org.apache.log4j.Logger;
 import org.app.dto.Book;
+import org.app.mapper.BookMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import java.sql.ResultSet;
 import java.util.List;
 
 @Repository
@@ -28,15 +28,9 @@ public class BookRepository implements ProjectRepository<Book> {
 
     @Override
     public List<Book> retrieveAll() {
-        return jdbcTemplate.query(SELECT_ALL_BOOKS, (ResultSet rs, int rowNum) ->
-        {
-            Book book = new Book();
-            book.setId(rs.getInt("id"));
-            book.setAuthor(rs.getString("author"));
-            book.setTitle(rs.getString("title"));
-            book.setSize(rs.getInt("size"));
-            return book;
-        });
+        List<Book> result;
+        result = jdbcTemplate.query(SELECT_ALL_BOOKS, new BookMapper());
+        return result;
     }
 
     @Override
