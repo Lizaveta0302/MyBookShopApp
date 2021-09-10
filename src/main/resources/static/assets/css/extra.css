@@ -396,13 +396,13 @@
   line-height: 1.2em;
   letter-spacing: 2px;
 }
-.Cards_big .Card-priceOld {
+.Cards_big .Card-price_old {
   font-size: 20px;
   line-height: 1.2em;
   letter-spacing: 2px;
 }
 @media screen and (max-width: 480px) {
-  .Cards_big .Card-priceOld {
+  .Cards_big .Card-price_old {
     font-size: 18px;
   }
 }
@@ -718,7 +718,7 @@
   color: #6db33f;
   display: inline-block;
 }
-.Card-priceOld {
+.Card-price_old {
   color: #999;
   text-decoration: line-through;
   display: inline-block;
