@@ -21,6 +21,7 @@ public class BookController {
     @GetMapping("/main")
     public String mainPage(Model model) {
         model.addAttribute("bookData", bookService.getBooksData());
-        return "index";
+        model.addAttribute("searchPlaceholder", "search..");
+        return "/bookshop/main";
     }
 }
