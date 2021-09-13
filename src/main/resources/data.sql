@@ -1,30 +1,3 @@
-insert into shop.authors(name)
-values ('Drucie Goodbourn'),
-       ('Marcia Aggiss'),
-       ('Giovanni Bigg'),
-       ('Duffie Eynon'),
-       ('Anselma McKennan'),
-       ('Gert Kira'),
-       ('Clerc Djakovic'),
-       ('Stacee Elsy'),
-       ('Dorotea Bonhill'),
-       ('Minni Bunney'),
-       ('Berty Gandley'),
-       ('Raynard Tesdale'),
-       ('Joanna Hutfield'),
-       ('Dannie Glidder'),
-       ('Timmie Adshede'),
-       ('Fernando Neads'),
-       ('Teddy Guilliland'),
-       ('Paloma Grebert'),
-       ('Kristos Usher'),
-       ('Darcey Rohmer'),
-       ('Cristie Isacsson'),
-       ('Lindsay Coutthart'),
-       ('Helyn Schneidar'),
-       ('Bette-ann Askem'),
-       ('Dom Robuchon');
-
 insert into shop.books (title, price_old, price, author_id)
 values ('exploit real-time e-commerce', '$203.23', '$43.37', 1);
 insert into shop.books (title, price_old, price, author_id)

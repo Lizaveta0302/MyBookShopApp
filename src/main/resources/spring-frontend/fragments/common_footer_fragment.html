@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<footer class="Footer" th:fragment="footer">
+  <div class="wrap">
+    <div class="row Footer-main">
+      <div class="row-block"
+           th:replace="~{fragments/footer_left_side_info_block_fragment :: block}"></div>
+      <div class="row-block">
+        <ul class="menu menu_vt Footer-menu">
+          <li class="menu-item"><a class="menu-link" href="/index.html">Главная</a>
+          </li>
+          <li class="menu-item"><a class="menu-link" href="/genres/index.html">Жанры</a>
+          </li>
+          <li class="menu-item"><a class="menu-link" href="/books/recent.html">Новинки</a>
+          </li>
+          <li class="menu-item"><a class="menu-link" href="/books/popular.html">Популярное</a>
+          </li>
+          <li class="menu-item"><a class="menu-link" href="/authors/index.html">Авторы</a>
+          </li>
+        </ul>
+      </div>
+      <div class="row-block">
+        <ul class="menu menu_vt Footer-menu">
+          <li class="menu-item"><a class="menu-link" href="/signin.html">Войти</a>
+          </li>
+          <li class="menu-item"><a class="menu-link" href="/documents/index.html">Документы</a>
+          </li>
+          <li class="menu-item"><a class="menu-link" href="/about.html">О компании</a>
+          </li>
+          <li class="menu-item"><a class="menu-link" href="/faq.html">Помощь</a>
+          </li>
+          <li class="menu-item"><a class="menu-link" href="/contacts.html">Контакты</a>
+          </li>
+
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="Footer-copy">
+    <div class="wrap">© 2021 Bookshop Pty Ltd. ALL RIGHTS RESERVED
+    </div>
+  </div>
+</footer>
+</html>

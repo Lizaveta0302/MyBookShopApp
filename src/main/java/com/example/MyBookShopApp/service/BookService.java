@@ -30,7 +30,8 @@ public class BookService {
             book.setPrice(rs.getString("price"));
             Author author = new Author();
             author.setId(rs.getInt("author_id"));
-            author.setName(rs.getString("name"));
+            author.setFirstName(rs.getString("first_name"));
+            author.setLastName(rs.getString("last_name"));
             book.setAuthor(author);
             return book;
         });
