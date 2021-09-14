@@ -48,3 +48,7 @@ insert into shop.books (title, price_old, price, author_id)
 values ('e-enable dot-com supply-chains', '$297.83', '$110.15', 24);
 insert into shop.books (title, price_old, price, author_id)
 values ('facilitate efficient eyeballs', '$232.30', '$131.48', 25);
+insert into shop.books (title, price_old, price, author_id)
+values ('imagenetion efficient eyeballs', '$732.30', '$154.48', 1);
+insert into shop.books (title, price_old, price, author_id)
+values ('generari efficient eyeballs', '$533.30', '$43.48', 1);

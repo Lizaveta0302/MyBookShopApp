@@ -22,8 +22,7 @@
 <div class="Middle">
     <div class="wrap">
         <main class="Middle-main">
-            <h1 class="Middle-title">Авторы
-            </h1>
+            <h1 class="Middle-title">Авторы</h1>
             <div class="Section">
                 <div class="Authors">
                     <div class="Authors-links">
@@ -35,7 +34,8 @@
                             th:text="${authorList.key}"></h2>
                         <div class="Authors-letter">
                             <div class="Authors-item" th:each="author : ${authorList.value}">
-                                <a href="/authors/slug.html" th:text="${author.lastName + ' ' + author.firstName}"></a>
+                                <a th:href="@{'/authors/' + ${author.id}}"
+                                   th:text="${author.lastName + ' ' + author.firstName}"></a>
                             </div>
                         </div>
                     </div>

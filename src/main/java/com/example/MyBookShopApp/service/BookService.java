@@ -15,6 +15,7 @@ public class BookService {
 
     private JdbcTemplate jdbcTemplate;
     private static final String SELECT_ALL_BOOKS_QUERY = "SELECT * FROM shop.books LEFT JOIN shop.authors ON shop.books.author_id = shop.authors.author_id";
+    private static final String SELECT_ALL_BOOKS_BY_AUTHOR_ID_QUERY = " SELECT * FROM shop.books WHERE shop.books.author_id = ?";
 
     @Autowired
     public BookService(JdbcTemplate jdbcTemplate) {
@@ -35,6 +36,19 @@ public class BookService {
             book.setAuthor(author);
             return book;
         });
+        return new ArrayList<>(books);
+    }
+
+    public List<Book> getBooksByAuthorId(String id) {
+        List<Book> books = jdbcTemplate.query(SELECT_ALL_BOOKS_BY_AUTHOR_ID_QUERY, new Object[]{id},
+                (rs, rowNum) -> {
+                    Book book = new Book();
+                    book.setId(rs.getInt("id"));
+                    book.setTitle(rs.getString("title"));
+                    book.setPriceOld(rs.getString("price_old"));
+                    book.setPrice(rs.getString("price"));
+                    return book;
+                });
         return new ArrayList<>(books);
     }
 }
