@@ -2,15 +2,17 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <div class="ProductCard-desc" th:fragment="bookDesc">
     <div class="ProductCard-header">
-        <h1 class="ProductCard-title">Мара и морок
-        </h1>
-        <div class="ProductCard-author"><span class="ProductCard-titleProp">Автор:</span>&#32;<a
-                href="#">Лия Арден</a>
+        <h1 class="ProductCard-title">Мара и морок</h1>
+        <div class="ProductCard-author">
+            <span class="ProductCard-titleProp">Автор:</span>&#32;
+            <a th:href="@{'/authors/' + ${book.author.id}}"
+               th:text="${book.author.lastName} + ' ' + ${book.author.firstName}">Лия Арден</a>
         </div>
         <div class="ProductCard-rating"><span class="ProductCard-titleProp">Рейтинг:</span>
             <button class="trigger trigger_dropdown" type="button">
-                <div class="Rating Rating_noStyleLink"><span class="Rating-stars"><span
-                        class="Rating-star Rating-star_view">
+                <div class="Rating Rating_noStyleLink">
+                    <span class="Rating-stars">
+                        <span class="Rating-star Rating-star_view">
                           <svg xmlns="http://www.w3.org/2000/svg" width="19" height="18" viewBox="0 0 19 18">
                             <g>
                               <g>
@@ -53,8 +55,11 @@
                           </svg></span></span><span class="Rating-title">(567)</span>
                 </div>
                 <div class="modal modal_compression modal_dropdown">
-                    <div class="modal-window"><a class="modal-close"
-                                                 href="#"><span></span><span></span></a>
+                    <div class="modal-window">
+                        <a class="modal-close" href="#">
+                            <span></span>
+                            <span></span>
+                        </a>
                         <strong class="modal-title">Распределение оценок
                         </strong>
                         <div class="RatingGroup"><span class="Rating"><span
@@ -324,8 +329,10 @@
         <div class="ProductCard-tags"><span class="ProductCard-titleProp">Тэги:</span><a
                 href="/tags/">Современные</a>,&#32;<a href="/tags/">Психологическая проза</a>
         </div>
-        <div class="ProductCard-cost"><span class="ProductCard-titleProp">Цена:</span><span
-                class="ProductCard-priceOld">₽300</span><span class="ProductCard-price">₽180</span>
+        <div class="ProductCard-cost">
+            <span class="ProductCard-titleProp">Цена:</span>
+            <span class="ProductCard-priceOld" th:text="'₽' + ${book.priceOld}">₽300</span>
+            <span class="ProductCard-price" th:text="'₽' + ${book.price}">₽180</span>
         </div>
     </div>
     <div class="ProductCard-text">

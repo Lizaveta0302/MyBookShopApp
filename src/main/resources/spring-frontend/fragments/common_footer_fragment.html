@@ -7,15 +7,15 @@
            th:replace="~{fragments/footer_left_side_info_block_fragment :: block}"></div>
       <div class="row-block">
         <ul class="menu menu_vt Footer-menu">
-          <li class="menu-item"><a class="menu-link" href="/index.html">Главная</a>
+          <li class="menu-item"><a class="menu-link" th:href="@{/bookshop/main}">Главная</a>
           </li>
-          <li class="menu-item"><a class="menu-link" href="/genres/index.html">Жанры</a>
+          <li class="menu-item"><a class="menu-link" th:href="@{/genres}">Жанры</a>
           </li>
-          <li class="menu-item"><a class="menu-link" href="/books/recent.html">Новинки</a>
+          <li class="menu-item"><a class="menu-link" th:href="@{/books/recent}">Новинки</a>
           </li>
-          <li class="menu-item"><a class="menu-link" href="/books/popular.html">Популярное</a>
+          <li class="menu-item"><a class="menu-link" th:href="@{/books/popular}">Популярное</a>
           </li>
-          <li class="menu-item"><a class="menu-link" href="/authors/index.html">Авторы</a>
+          <li class="menu-item"><a class="menu-link" th:href="@{/authors}">Авторы</a>
           </li>
         </ul>
       </div>
@@ -31,7 +31,6 @@
           </li>
           <li class="menu-item"><a class="menu-link" href="/contacts.html">Контакты</a>
           </li>
-
         </ul>
       </div>
     </div>

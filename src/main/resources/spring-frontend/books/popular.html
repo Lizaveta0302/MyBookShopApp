@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="ru" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Тут название страницы написать</title>
-    <meta name="description" content="Описание страницы">
+    <title>Popular</title>
+    <meta name="description" content="Популярные книги">
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
     <link href="favicon.ico" rel="shortcut icon">
@@ -26,11 +26,10 @@
                 th:replace="~{fragments/breadcrumb_fragment :: breadcrumps(category='Популярное')}"></ul>
             <div class="Section">
                 <div class="Section-header">
-                    <h1 class="Section-title">Популярное
-                    </h1>
+                    <h1 class="Section-title">Популярное</h1>
                 </div>
                 <div class="Cards Cards_refresh"
-                     th:replace="~{fragments/books_pool_fragment :: pool(category='popular')}"></div>
+                     th:replace="~{fragments/books_pool_fragment :: pool(category=${popularBooks})}"></div>
             </div>
         </main>
     </div>

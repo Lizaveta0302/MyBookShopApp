@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="ru" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Тут название страницы написать</title>
-    <meta name="description" content="Описание страницы">
+    <title>Recent</title>
+    <meta name="description" content="Новинки">
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
     <link href="favicon.ico" rel="shortcut icon">
@@ -26,20 +26,17 @@
                 th:replace="~{fragments/breadcrumb_fragment :: breadcrumps(category='Новинки')}"></ul>
             <div class="Section">
                 <div class="Section-header">
-                    <h1 class="Section-title">Новинки
-                    </h1>
+                    <h1 class="Section-title">Новинки</h1>
                     <form class="form form_inline Section-header-form" action="#" method="post">
                         <div class="form-group">
-                            <label class="form-label">с
-                            </label>
+                            <label class="form-label">с</label>
                             <input class="form-input form-input_date form-input_date_uninit" id="fromdaterecent"
                                    name="fromdaterecent" type="text" placeholder="Дата" data-refreshoffset="20"
                                    data-refreshlimit="20" data-refreshshow="changedate" data-refreshfrom="0"
                                    autocomplete="off"/>
                         </div>
                         <div class="form-group">
-                            <label class="form-label">по
-                            </label>
+                            <label class="form-label">по</label>
                             <input class="form-input form-input_date form-input_date_uninit" id="enddaterecent"
                                    name="enddaterecent" type="text" placeholder="Дата" data-refreshoffset="20"
                                    data-refreshlimit="20" data-refreshshow="changedate" data-refreshto="0"
@@ -48,7 +45,7 @@
                     </form>
                 </div>
                 <div class="Cards Cards_refresh"
-                     th:replace="~{fragments/books_pool_fragment :: pool(category='recent')}"></div>
+                     th:replace="~{fragments/books_pool_fragment :: pool(category=${recentBooks})}"></div>
             </div>
         </main>
     </div>

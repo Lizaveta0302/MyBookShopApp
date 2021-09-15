@@ -1,8 +1,6 @@
 package com.example.MyBookShopApp.controller;
 
-import com.example.MyBookShopApp.entity.Author;
 import com.example.MyBookShopApp.entity.Book;
-import com.example.MyBookShopApp.service.AuthorService;
 import com.example.MyBookShopApp.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -19,12 +17,10 @@ import java.util.List;
 public class BookController {
 
     private final BookService bookService;
-    private final AuthorService authorService;
 
     @Autowired
-    public BookController(BookService bookService, AuthorService authorService) {
+    public BookController(BookService bookService) {
         this.bookService = bookService;
-        this.authorService = authorService;
     }
 
     @ModelAttribute("popularBooks")
@@ -33,7 +29,7 @@ public class BookController {
     }
 
     @ModelAttribute("recentBooks")
-    public List<Book> recentrBooks() {
+    public List<Book> recentBooks() {
         return bookService.getBooksData();
     }
 
@@ -49,10 +45,13 @@ public class BookController {
 
     @GetMapping("/author/{authorId}")
     public String allBooksByAuthorId(@PathVariable String authorId, Model model) {
-        List<Book> books = bookService.getBooksByAuthorId(authorId);
-        Author author = authorService.getAuthorById(authorId);
-        model.addAttribute("authorName", author.getLastName().concat(" ").concat(author.getFirstName()));
-        model.addAttribute("authorBooks", books);
+        model.addAttribute("authorBooks", bookService.getBooksByAuthorId(authorId));
         return "/books/author";
+    }
+
+    @GetMapping("/{id}")
+    public String BooksById(@PathVariable String id, Model model) {
+        model.addAttribute("book", bookService.getBookById(id));
+        return "/books/slug";
     }
 }

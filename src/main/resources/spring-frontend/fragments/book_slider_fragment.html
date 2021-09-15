@@ -12,7 +12,7 @@
                             src="/assets/img/content/main/card.jpg" alt="card.jpg"/></a>
                         <div class="Card-content">
                             <strong class="Card-title">
-                                <a href="/books/slug.html" th:text="${book.title}">Техника</a>
+                                <a th:href="@{'/books/' + ${book.id}}" th:text="${book.title}">Техника</a>
                             </strong>
                             <div class="Card-description"
                                  th:text="${book.author.firstName} + ' ' + ${book.author.lastName}">Кондратенко Валерий
