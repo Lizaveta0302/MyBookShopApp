@@ -18,6 +18,7 @@ public class BookService {
     private static final String SELECT_ALL_BOOKS_QUERY = "SELECT * FROM shop.books LEFT JOIN shop.authors ON shop.books.author_id = shop.authors.author_id";
     private static final String SELECT_ALL_BOOKS_BY_AUTHOR_ID_QUERY = " SELECT * FROM shop.books LEFT JOIN shop.authors ON shop.books.author_id = shop.authors.author_id WHERE shop.books.author_id = ?";
     private static final String SELECT_BOOK_BY_ID_QUERY = " SELECT * FROM shop.books LEFT JOIN shop.authors ON shop.books.author_id = shop.authors.author_id WHERE shop.books.id = ?";
+    private static final String SELECT_BOOK_BY_TITLE_QUERY = " SELECT * FROM shop.books LEFT JOIN shop.authors ON shop.books.author_id = shop.authors.author_id WHERE shop.books.title = ?";
 
     @Autowired
     public BookService(JdbcTemplate jdbcTemplate) {
@@ -45,6 +46,11 @@ public class BookService {
         });
     }
 
+    public Book getBooksByTitle(String title) {
+        return jdbcTemplate.queryForObject(SELECT_BOOK_BY_TITLE_QUERY, new Object[]{title}, (rs, rowNum) -> mapBook(rs));
+    }
+
+
     private Book mapBook(ResultSet rs) throws SQLException {
         Book book = new Book();
         book.setId(rs.getInt("id"));
@@ -58,4 +64,5 @@ public class BookService {
         book.setAuthor(author);
         return book;
     }
+
 }

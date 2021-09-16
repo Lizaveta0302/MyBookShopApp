@@ -7,23 +7,16 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/genres")
-public class GenresController {
+@RequestMapping("/cart")
+public class CartController {
 
-    private final GenresService genresService;
-
-    @Autowired
-    public GenresController(GenresService genresService) {
-        this.genresService = genresService;
+    @GetMapping("/postponed")
+    public String postponedPage() {
+        return "/postponed";
     }
 
     @GetMapping
-    public String genresPage() {
-        return "/genres/index";
-    }
-
-    @GetMapping("/slug")
     public String genresDescriptionPage() {
-        return "/genres/slug";
+        return "/cart";
     }
 }
