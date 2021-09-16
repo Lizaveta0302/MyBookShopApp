@@ -48,19 +48,19 @@
             <nav class="menuModal" id="navigate">
                 <ul class="menu menu_main">
                     <li class="menu-item" th:class="${main}">
-                        <a class="menu-link" th:href="@{/bookshop/main}">Главная</a>
+                        <a class="menu-link" th:href="@{/bookshop/main}" th:text="#{topbar.main}">Главная</a>
                     </li>
                     <li class="menu-item" th:class="${genres}">
-                        <a class="menu-link" th:href="@{/genres}">Жанры</a>
+                        <a class="menu-link" th:href="@{/genres}" th:text="#{topbar.genres}">Жанры</a>
                     </li>
                     <li class="menu-item" th:class="${recent}">
-                        <a class="menu-link" th:href="@{/books/recent}">Новинки</a>
+                        <a class="menu-link" th:href="@{/books/recent}" th:text="#{topbar.news}">Новинки</a>
                     </li>
                     <li class="menu-item" th:class="${popular}">
-                        <a class="menu-link" th:href="@{/books/popular}">Популярное</a>
+                        <a class="menu-link" th:href="@{/books/popular}" th:text="#{topbar.popular}">Популярное</a>
                     </li>
                     <li class="menu-item" th:class="${authors}">
-                        <a class="menu-link" th:href="@{/authors}">Авторы</a>
+                        <a class="menu-link" th:href="@{/authors}" th:text="#{topbar.authors}">Авторы</a>
                     </li>
                 </ul>
             </nav>

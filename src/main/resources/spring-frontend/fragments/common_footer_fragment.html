@@ -7,29 +7,37 @@
                  th:replace="~{fragments/footer_left_side_info_block_fragment :: block}"></div>
             <div class="row-block">
                 <ul class="menu menu_vt Footer-menu">
-                    <li class="menu-item"><a class="menu-link" th:href="@{/bookshop/main}">Главная</a>
+                    <li class="menu-item"><a class="menu-link" th:href="@{/bookshop/main}" th:text="#{topbar.main}">Главная</a>
                     </li>
-                    <li class="menu-item"><a class="menu-link" th:href="@{/genres}">Жанры</a>
+                    <li class="menu-item"><a class="menu-link" th:href="@{/genres}" th:text="#{topbar.genres}">Жанры</a>
                     </li>
-                    <li class="menu-item"><a class="menu-link" th:href="@{/books/recent}">Новинки</a>
+                    <li class="menu-item"><a class="menu-link" th:href="@{/books/recent}" th:text="#{topbar.news}">Новинки</a>
                     </li>
-                    <li class="menu-item"><a class="menu-link" th:href="@{/books/popular}">Популярное</a>
+                    <li class="menu-item"><a class="menu-link" th:href="@{/books/popular}" th:text="#{topbar.popular}">Популярное</a>
                     </li>
-                    <li class="menu-item"><a class="menu-link" th:href="@{/authors}">Авторы</a>
+                    <li class="menu-item"><a class="menu-link" th:href="@{/authors}" th:text="#{topbar.authors}">Авторы</a>
                     </li>
                 </ul>
             </div>
             <div class="row-block">
                 <ul class="menu menu_vt Footer-menu">
-                    <li class="menu-item"><a class="menu-link" th:href="@{/signin}">Войти</a>
+                    <li class="menu-item"><a class="menu-link" th:href="@{/signin}" th:text="#{footer.signin}">Войти</a>
                     </li>
-                    <li class="menu-item"><a class="menu-link" th:href="@{/bookshop/documents}">Документы</a>
+                    <li class="menu-item"><a class="menu-link" th:href="@{/bookshop/documents}" th:text="#{footer.documents}" >Документы</a>
                     </li>
-                    <li class="menu-item"><a class="menu-link" th:href="@{/bookshop/about}">О компании</a>
+                    <li class="menu-item"><a class="menu-link" th:href="@{/bookshop/about}" th:text="#{footer.about}">О компании</a>
                     </li>
-                    <li class="menu-item"><a class="menu-link" th:href="@{/bookshop/faq}">Помощь</a>
+                    <li class="menu-item"><a class="menu-link" th:href="@{/bookshop/faq}" th:text="#{footer.faq}">Помощь</a>
                     </li>
-                    <li class="menu-item"><a class="menu-link" th:href="@{/bookshop/contacts}">Контакты</a>
+                    <li class="menu-item"><a class="menu-link" th:href="@{/bookshop/contacts}" th:text="#{footer.contacts}">Контакты</a>
+                    </li>
+                    <li class="menu-item">
+                        <span>Выбор языка</span>
+                        <select id="locales">
+                            <option value=" "></option>
+                            <option value="en">English</option>
+                            <option value="ru">Русский</option>
+                        </select>
                     </li>
                 </ul>
             </div>
