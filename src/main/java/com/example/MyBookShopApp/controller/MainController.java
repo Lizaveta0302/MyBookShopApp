@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import java.util.List;
 
 @Controller
-@RequestMapping("/bookshop")
+@RequestMapping
 public class MainController {
 
     private final BookService bookService;
@@ -28,28 +28,32 @@ public class MainController {
         return bookService.getBooksData();
     }
 
-    @GetMapping("/main")
-    public String mainPage(Model model) {
-        model.addAttribute("book", new Book());
+    @GetMapping("/")
+    public String indexPage() {
+        return "redirect:/bookshop/main";
+    }
+
+    @GetMapping("/bookshop/main")
+    public String mainPage() {
         return "index";
     }
 
-    @GetMapping("/documents")
+    @GetMapping("/bookshop/documents")
     public String documents() {
         return "/documents/index";
     }
 
-    @GetMapping("/about")
+    @GetMapping("/bookshop/about")
     public String about() {
         return "/about";
     }
 
-    @GetMapping("/faq")
+    @GetMapping("/bookshop/faq")
     public String faq() {
         return "/faq";
     }
 
-    @GetMapping("/contacts")
+    @GetMapping("/bookshop/contacts")
     public String contacts() {
         return "/contacts";
     }
