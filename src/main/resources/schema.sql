@@ -5,7 +5,8 @@ DROP TABLE IF EXISTS shop.books;
 CREATE TABLE shop.authors
 (
     author_id INT AUTO_INCREMENT PRIMARY KEY,
-    name      VARCHAR(250) NOT NULL
+    first_name VARCHAR(50),
+    last_name  VARCHAR(50)
 );
 
 CREATE TABLE shop.books
