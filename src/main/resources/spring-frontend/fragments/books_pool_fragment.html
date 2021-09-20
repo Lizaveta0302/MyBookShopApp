@@ -4,7 +4,7 @@
 
     <div class="Card" th:each="book : ${category}">
         <div class="Card-picture">
-            <a href="#">
+            <a th:href="@{'/books/' + ${book.id}}">
                 <img src="/assets/img/content/main/card.jpg" alt="card.jpg"/>
             </a>
             <!--a class="Card-status" title="Отложена">
@@ -13,19 +13,19 @@
             <!--a class="Card-status" title="В корзине">
                 <img src="/assets/img/icons/shopping-basket.svg" alt="shopping-basket.svg"/>
             </a-->
-                <div class="Card-sale">
-                     <!--th:if="${#numbers.formatDecimal(book.priceOld,2,2) == #numbers.formatDecimal(book.price, 2,2)}">-->
-                    30% скидка
-                </div>
+            <div class="Card-sale">
+                <!--th:if="${#numbers.formatDecimal(book.priceOld,2,2) == #numbers.formatDecimal(book.price, 2,2)}">-->
+                30% скидка
+            </div>
             <div class="Card-ribbon">
-                <span  class="Card-ribbonText">Бестселлер</span>
+                <span class="Card-ribbonText">Бестселлер</span>
             </div>
             <a class="Card-status" title="Куплена">
                 <img src="/assets/img/icons/check.svg" alt="check.svg"/>
             </a>
         </div>
         <div class="Card-content">
-            <strong class="Card-title"><a  th:href="@{'/books/' + ${book.id}}" th:text="${book.title}"></a></strong>
+            <strong class="Card-title"><a th:href="@{'/books/' + ${book.id}}" th:text="${book.title}"></a></strong>
             <div class="Card-description" th:text="${book.author.firstName+' '+book.author.lastName}"></div>
             <div class="Card-cost"><span class="Card-price" th:text="'$' + ${book.price}">₽</span></div>
             <div class="Card-cost"><span class="Card-priceOld" th:text="'$' + ${book.priceOld}">₽</span></div>
