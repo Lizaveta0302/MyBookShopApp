@@ -1,4 +1,6 @@
-package com.example.MyBookShopApp.entity;
+package com.example.MyBookShopApp.entity.book;
+
+import com.example.MyBookShopApp.entity.Author;
 
 import javax.persistence.*;
 

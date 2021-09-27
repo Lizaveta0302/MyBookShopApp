@@ -1,5 +1,7 @@
 package com.example.MyBookShopApp.entity;
 
+import com.example.MyBookShopApp.entity.book.Book;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
