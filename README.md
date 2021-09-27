@@ -1,5 +1,5 @@
 <h1 align="center">BookShop</h1>
-<h2 align="center">module 4 Home work</h2>
+<h2 align="center">module 5 Home work</h2>
 <p align="center">
   
 <img src="https://img.shields.io/badge/Java-8-red.svg">
@@ -16,7 +16,7 @@
 
 ## Description
 <div>
-<h4>In module 5 was done:</h4>
+<h4>In module 5 were done:</h4>
 <ul>
 <li>Rewritten AuthorService using JPA 🦾</li>
 <li>Designed project data structure (added all needed entities with needed annotations for correctly display in the db) 🦾🦾</li>
