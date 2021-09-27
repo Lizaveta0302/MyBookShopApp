@@ -16,10 +16,11 @@
 
 ## Description
 <div>
-<h4>In module 4 was done:</h4>
+<h4>In module 5 was done:</h4>
 <ul>
-<li>Added all needed sections of the bookshop</li>
-<li>Added localization of content</li>
+<li>Rewritten AuthorService using JPA 🦾</li>
+<li>Designed project data structure (added all needed entities with needed annotations for correctly display in the db) 🦾🦾</li>
+<li>Connected Flyway to store project (added three migration files, the first one with drop/create tables scripts, the second and thirst - with data insertion into the authors and books tables) 🦾🦾🦾</li>
 </ul>
 </div>
 
@@ -29,9 +30,8 @@ http://localhost:8080/bookshop/main
 you can see the main page of the web app, then you can click on the any tab
 and you will see the corresponding pages with all needed information, it's not a static content, 
 this is the content that is returned by the controller.
-Also you can change the language(English/Russian) at the bottom(footer section), then 
-the content on the main page will be displayed in the appropriate language.
-
+There are no boreplote code (create, open/close connection to the database) in the project, because of using jpa (hibernate realization),
+now it's all happening under the hood and it did not affect the application in any way.
 ## Project setup
 <h4>To build the app you should copy this links into your .bat file and run it</h4>
 <p>replace JAVA_HOME with your path</p>
