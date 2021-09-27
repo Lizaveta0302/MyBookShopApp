@@ -1,11 +1,19 @@
 package com.example.MyBookShopApp.entity;
 
+import javax.persistence.*;
+
+@Entity
+@Table(schema = "shop", name = "books")
 public class Book {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String title;
     private String priceOld;
     private String price;
+    @ManyToOne
+    @JoinColumn(name = "author_id", referencedColumnName = "id")
     private Author author;
 
     public Integer getId() {
@@ -47,16 +55,4 @@ public class Book {
     public void setAuthor(Author author) {
         this.author = author;
     }
-
-    @Override
-    public String toString() {
-        return "Book{" +
-                "id=" + id +
-                ", title='" + title + '\'' +
-                ", priceOld='" + priceOld + '\'' +
-                ", price='" + price + '\'' +
-                ", author=" + author +
-                '}';
-    }
-
 }

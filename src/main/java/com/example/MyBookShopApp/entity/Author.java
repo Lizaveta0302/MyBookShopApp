@@ -1,10 +1,19 @@
 package com.example.MyBookShopApp.entity;
 
-public class Author {
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
+@Entity
+@Table(schema = "shop", name = "authors")
+public class Author {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String firstName;
     private String lastName;
+    @OneToMany(mappedBy = "author")
+    private List<Book> books = new ArrayList<>();
 
     public Integer getId() {
         return id;
@@ -32,10 +41,6 @@ public class Author {
 
     @Override
     public String toString() {
-        return "Author{" +
-                "id=" + id +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                '}';
+        return firstName + ' ' + lastName;
     }
 }
