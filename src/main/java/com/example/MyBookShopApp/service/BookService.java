@@ -5,7 +5,6 @@ import com.example.MyBookShopApp.repo.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -23,7 +22,7 @@ public class BookService {
     }
 
     public List<Book> getBooksByAuthorId(String id) {
-        return bookRepository.findBooksByAuthorId(Integer.valueOf(id)).orElse(Collections.emptyList());
+        return bookRepository.findBooksByAuthorId(Integer.valueOf(id));
     }
 
     public Book getBookById(String id) {
@@ -31,6 +30,6 @@ public class BookService {
     }
 
     public List<Book> getBooksByTitle(String title) {
-        return bookRepository.findBooksByTitle(title).orElse(Collections.emptyList());
+        return bookRepository.findBooksByTitle(title);
     }
 }
