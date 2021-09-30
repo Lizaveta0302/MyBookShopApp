@@ -31,7 +31,6 @@ public class AuthorController {
     @GetMapping("/{id}")
     public String countOfBooksByAuthorId(@PathVariable String id, Model model) {
         model.addAttribute("author", authorService.getAuthorById(id));
-        model.addAttribute("amountOfBooks", bookService.getBooksByAuthorId(id).size());
         return "/authors/biography";
     }
 

@@ -12,7 +12,7 @@ public interface BookRepository extends JpaRepository<Book, Integer> {
     List<Book> findBooksByTitle(String title);
 
     //query with join because of Spring Data ignores annotation @Fetch(FetchMode.JOIN)
-    @Query(value = "SELECT b from Book b LEFT JOIN FETCH b.author")
+    @Query(value = "SELECT b FROM Book b LEFT JOIN FETCH b.author")
     @Override
     List<Book> findAll();
 }
