@@ -1,6 +1,8 @@
 package com.example.MyBookShopApp.entity.book;
 
 import com.example.MyBookShopApp.entity.Author;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
 
@@ -14,7 +16,7 @@ public class Book {
     private String title;
     private String priceOld;
     private String price;
-    @ManyToOne
+    @ManyToOne(optional = false)
     @JoinColumn(name = "author_id", referencedColumnName = "id")
     private Author author;
 
