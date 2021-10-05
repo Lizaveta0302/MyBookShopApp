@@ -30,7 +30,7 @@ public class BookController {
 
     @ModelAttribute("recentBooks")
     public List<Book> recentBooks() {
-        return bookService.getBooksData();
+        return bookService.getPageOfRecommendedBooks(0, 6).getContent();
     }
 
     @GetMapping("/recent")

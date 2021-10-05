@@ -1,12 +1,11 @@
 package com.example.MyBookShopApp.controller;
 
+import com.example.MyBookShopApp.dto.RecommendedBooksPageDto;
 import com.example.MyBookShopApp.entity.book.Book;
 import com.example.MyBookShopApp.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -30,6 +29,12 @@ public class MainController {
     @GetMapping("/")
     public String indexPage() {
         return "redirect:/bookshop/main";
+    }
+
+    @GetMapping("/books/recommended")
+    @ResponseBody
+    public RecommendedBooksPageDto getBooksPage(@RequestParam("offset") Integer offset, @RequestParam("limit") Integer limit) {
+        return new RecommendedBooksPageDto(bookService.getPageOfRecommendedBooks(offset, limit).getContent());
     }
 
     @GetMapping("/bookshop/main")
