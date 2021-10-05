@@ -16,6 +16,8 @@ drop table if exists shop.message cascade;
 drop table if exists shop.user_contact cascade;
 drop table if exists shop.users cascade;
 
+create schema IF NOT EXISTS shop;
+
 create table shop.authors
 (
     id         serial not null,
@@ -100,11 +102,16 @@ create table shop.book_review_like
 
 create table shop.books
 (
-    id        serial not null,
-    price     varchar(255),
-    price_old varchar(255),
-    title     varchar(255),
-    author_id int4,
+    id            serial not null,
+    description   text,
+    image         varchar(255),
+    is_bestseller INT,
+    discount      float8,
+    price         INT,
+    pub_date      timestamp,
+    slug          varchar(255),
+    title         varchar(255),
+    author_id     INT   not null,
     primary key (id)
 );
 
