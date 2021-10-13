@@ -22,14 +22,11 @@
                     </div>
                     <div class="Header-search">
                         <div class="search">
-                            <!--th:object="${book}"-->
-                            <form class="form form_search" th:action="@{'/search'}" method="post"
-                                  data-searchlimit="20">
-                                <!--th:field="*{title}"-->
-                                <input class="search-input" id="search-input" name="search-input" type="text"
-                                       placeholder="Search over 30 million book titles" value=""/>
-                                <button class="search-button" type="submit" name="search" id="search">
-                                   <a th:href="@{/search}">Поиск</a>
+                            <form class="form form_search" action="#" method="post" data-searchlimit="20"
+                                  th:object="${searchWordDto}">
+                                <input class="search-input" id="query" name="query" type="text"
+                                       placeholder="Search over 30 million book titles" th:field="*{example}" value=""/>
+                                <button class="search-button" type="submit" name="search" id="search">Поиск
                                 </button>
                             </form>
                         </div>
@@ -37,7 +34,8 @@
                 </div>
                 <div class="row-block Header-cart" th:replace="~{fragments/cart_block_fragment :: ${status}}"></div>
                 <div class="row-block Header-trigger"><a class="menuTrigger" href="#navigate">
-                    <div class="menuTrigger-content">Показать навигацию</div>
+                    <div class="menuTrigger-content">Показать навигацию
+                    </div>
                     <span></span><span></span><span></span></a>
                 </div>
             </div>

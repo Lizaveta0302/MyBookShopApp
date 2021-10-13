@@ -4,12 +4,12 @@ import com.example.MyBookShopApp.entity.book.Book;
 
 import java.util.List;
 
-public class RecommendedBooksPageDto {
+public class BooksPageDto {
 
     private Integer count;
     private List<Book> books;
 
-    public RecommendedBooksPageDto(List<Book> content) {
+    public BooksPageDto(List<Book> content) {
         this.books = content;
         this.count = content.size();
     }

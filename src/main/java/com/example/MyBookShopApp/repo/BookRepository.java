@@ -1,6 +1,8 @@
 package com.example.MyBookShopApp.repo;
 
 import com.example.MyBookShopApp.entity.book.Book;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -18,7 +20,7 @@ public interface BookRepository extends JpaRepository<Book, Integer> {
 
     List<Book> findBooksByAuthorFirstNameContaining(String authorFirstName);
 
-    List<Book> findBooksByTitleContaining(String bookTitle);
+    Page<Book> findBooksByTitleContaining(String bookTitle, Pageable nextPage);
 
     List<Book> findBooksByPriceOldBetween(Integer min, Integer max);
 
