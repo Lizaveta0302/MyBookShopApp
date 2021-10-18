@@ -26,7 +26,7 @@ public class Book {
     @Column(name = "is_bestseller")
     @ApiModelProperty("if isBestseller = 1 so the book is considered to be bestseller and  if 0 the book is not a " +
             "bestseller")
-    private Integer isBestseller;
+    private Boolean isBestseller;
 
     @ApiModelProperty("mnemonical identity sequence of characters")
     private String slug;
@@ -72,11 +72,11 @@ public class Book {
         this.pubDate = pubDate;
     }
 
-    public Integer getIsBestseller() {
+    public Boolean getIsBestseller() {
         return isBestseller;
     }
 
-    public void setIsBestseller(Integer isBestseller) {
+    public void setIsBestseller(Boolean isBestseller) {
         this.isBestseller = isBestseller;
     }
 

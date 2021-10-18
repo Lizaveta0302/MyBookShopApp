@@ -14,9 +14,9 @@ public interface BookRepository extends JpaRepository<Book, Integer> {
     List<Book> findBooksByTitle(String title);
 
     //query with join because of Spring Data ignores annotation @Fetch(FetchMode.JOIN)
-    @Query(value = "SELECT b FROM Book b LEFT JOIN FETCH b.author")
+    //@Query(value = "SELECT * FROM shop.books b LEFT JOIN shop.authors a on b.author_id = a.id", nativeQuery = true)
     @Override
-    List<Book> findAll();
+    Page<Book> findAll(Pageable pageable);
 
     List<Book> findBooksByAuthorFirstNameContaining(String authorFirstName);
 
@@ -26,9 +26,14 @@ public interface BookRepository extends JpaRepository<Book, Integer> {
 
     List<Book> findBooksByPriceOldIs(Integer price);
 
-    @Query("from Book where isBestseller=1")
+    @Query("from Book where isBestseller=true")
     List<Book> getBestsellers();
 
     @Query(value = "SELECT * FROM shop.books WHERE discount = (SELECT MAX(discount) FROM shop.books)", nativeQuery = true)
     List<Book> getBooksWithMaxDiscount();
+
+    Page<Book> findAllByIsBestsellerTrue(Pageable pageable);
+
+    Page<Book> findAllByOrderByPubDateDesc(Pageable pageable);
+
 }

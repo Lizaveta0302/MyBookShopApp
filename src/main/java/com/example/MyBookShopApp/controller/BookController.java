@@ -1,14 +1,13 @@
 package com.example.MyBookShopApp.controller;
 
+import com.example.MyBookShopApp.dto.BooksPageDto;
+import com.example.MyBookShopApp.dto.SearchWordDto;
 import com.example.MyBookShopApp.entity.book.Book;
 import com.example.MyBookShopApp.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -23,19 +22,20 @@ public class BookController {
         this.bookService = bookService;
     }
 
-    @ModelAttribute("popularBooks")
-    public List<Book> popularBooks() {
-        return bookService.getBooksData();
+    @ModelAttribute("searchWordDto")
+    public SearchWordDto searchWordDto() {
+        return new SearchWordDto();
     }
 
-    @ModelAttribute("recentBooks")
-    public List<Book> recentBooks() {
-        return bookService.getPageOfRecommendedBooks(0, 6).getContent();
+    @GetMapping("/recommended")
+    @ResponseBody
+    public BooksPageDto getRecommendedBooksPage(@RequestParam("offset") Integer offset, @RequestParam("limit") Integer limit) {
+        return new BooksPageDto(bookService.getPageOfRecommendedBooks(offset, limit).getContent());
     }
 
     @GetMapping("/recent")
-    public String recentBooksPage() {
-        return "/books/recent";
+    public BooksPageDto getRecentBooksPage(@RequestParam("offset") Integer offset, @RequestParam("limit") Integer limit) {
+        return new BooksPageDto(bookService.getPageOfRecentBooks(offset, limit).getContent());
     }
 
     @GetMapping("/popular")

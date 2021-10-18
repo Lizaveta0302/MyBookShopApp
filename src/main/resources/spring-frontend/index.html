@@ -9,9 +9,9 @@
     <div class="wrap">
         <main class="Middle-main">
             <div class="Section">
-                <div th:replace="~{fragments/book_slider_fragment :: bookSlider(title=#{topbar.recommended})}"></div>
-                <div th:replace="~{fragments/book_slider_fragment :: bookSlider(title=#{topbar.news})}"></div>
-                <div th:replace="~{fragments/book_slider_fragment :: bookSlider(title=#{topbar.popular})}"></div>
+                <div th:replace="~{fragments/book_slider_fragment :: bookSlider(title=#{topbar.recommended}, bookList=${recommendedBooks})}"></div>
+                <div th:replace="~{fragments/book_slider_fragment :: bookSlider(title=#{topbar.news}, bookList=${recentBooks})}"></div>
+                <div th:replace="~{fragments/book_slider_fragment :: bookSlider(title=#{topbar.popular}, bookList=${popularBooks})}"></div>
             </div>
             <h2 class="Middle-title">Книги по тегам
             </h2>

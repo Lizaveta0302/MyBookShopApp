@@ -23,10 +23,19 @@ public class MainController {
         this.bookService = bookService;
     }
 
-
     @ModelAttribute("recommendedBooks")
     public List<Book> recommendedBooks() {
-        return bookService.getBooksData();
+        return bookService.getPageOfRecommendedBooks(0, 6).getContent();
+    }
+
+    @ModelAttribute("popularBooks")
+    public List<Book> popularBooks() {
+        return bookService.getPageOfRecommendedBooks(0, 6).getContent();
+    }
+
+    @ModelAttribute("recentBooks")
+    public List<Book> recentBooks() {
+        return bookService.getPageOfRecentBooks(0, 6).getContent();
     }
 
     @ModelAttribute("searchWordDto")
@@ -42,12 +51,6 @@ public class MainController {
     @GetMapping("/")
     public String indexPage() {
         return "redirect:/bookshop/main";
-    }
-
-    @GetMapping("/books/recommended")
-    @ResponseBody
-    public BooksPageDto getBooksPage(@RequestParam("offset") Integer offset, @RequestParam("limit") Integer limit) {
-        return new BooksPageDto(bookService.getPageOfRecommendedBooks(offset, limit).getContent());
     }
 
     @GetMapping("/bookshop/main")
