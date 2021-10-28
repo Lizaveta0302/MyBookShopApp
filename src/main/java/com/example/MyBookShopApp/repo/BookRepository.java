@@ -11,6 +11,8 @@ import java.util.List;
 public interface BookRepository extends JpaRepository<Book, Integer> {
     List<Book> findBooksByAuthorId(Integer id);
 
+    Page<Book> findBooksByAuthorId(Pageable nextPage, Integer id);
+
     List<Book> findBooksByTitle(String title);
 
     //query with join because of Spring Data ignores annotation @Fetch(FetchMode.JOIN)

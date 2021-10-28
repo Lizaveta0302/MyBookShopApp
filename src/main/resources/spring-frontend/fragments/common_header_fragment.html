@@ -52,10 +52,10 @@
                         <a class="menu-link" th:href="@{/genres}" th:text="#{topbar.genres}">Жанры</a>
                     </li>
                     <li class="menu-item" th:class="${recent}">
-                        <a class="menu-link" th:href="@{/books/recent}" th:text="#{topbar.news}">Новинки</a>
+                        <a class="menu-link" th:href="@{/books/recent/page}" th:text="#{topbar.news}">Новинки</a>
                     </li>
                     <li class="menu-item" th:class="${popular}">
-                        <a class="menu-link" th:href="@{/books/popular}" th:text="#{topbar.popular}">Популярное</a>
+                        <a class="menu-link" th:href="@{/books/popular/page}" th:text="#{topbar.popular}">Популярное</a>
                     </li>
                     <li class="menu-item" th:class="${authors}">
                         <a class="menu-link" th:href="@{/authors}" th:text="#{topbar.authors}">Авторы</a>

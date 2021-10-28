@@ -8,7 +8,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.net.URLConnection;
 import java.util.List;
 
 @Service
@@ -23,10 +22,6 @@ public class BookService {
 
     public List<Book> getBooksData() {
         return bookRepository.findAll();
-    }
-
-    public List<Book> getBooksByAuthorId(String id) {
-        return bookRepository.findBooksByAuthorId(Integer.valueOf(id));
     }
 
     public Book getBookById(String id) {
@@ -57,18 +52,28 @@ public class BookService {
         return bookRepository.getBestsellers();
     }
 
-    public Page<Book> getPageOfRecommendedBooks(Integer offset, Integer limit) {
-        Pageable nextPage = PageRequest.of(offset, limit);
-        return bookRepository.findAllByIsBestsellerTrue(nextPage);
-    }
-
     public Page<Book> getPageOfSearchResultBooks(String searchWord, Integer offset, Integer limit) {
         Pageable nextPage = PageRequest.of(offset, limit);
         return bookRepository.findBooksByTitleContaining(searchWord, nextPage);
     }
 
+    public Page<Book> getPageOfRecommendedBooks(Integer offset, Integer limit) {
+        Pageable nextPage = PageRequest.of(offset, limit);
+        return bookRepository.findAllByIsBestsellerTrue(nextPage);
+    }
+
     public Page<Book> getPageOfRecentBooks(Integer offset, Integer limit) {
         Pageable nextPage = PageRequest.of(offset, limit);
         return bookRepository.findAllByOrderByPubDateDesc(nextPage);
+    }
+
+    public Page<Book> getPageOfPopularBooks(Integer offset, Integer limit) {
+        Pageable nextPage = PageRequest.of(offset, limit);
+        return bookRepository.findAllByIsBestsellerTrue(nextPage);
+    }
+
+    public Page<Book> getBooksByAuthorId(Integer offset, Integer limit, String authorId) {
+        Pageable nextPage = PageRequest.of(offset, limit);
+        return bookRepository.findBooksByAuthorId(nextPage, Integer.valueOf(authorId));
     }
 }

@@ -30,7 +30,7 @@ public class MainController {
 
     @ModelAttribute("popularBooks")
     public List<Book> popularBooks() {
-        return bookService.getPageOfRecommendedBooks(0, 6).getContent();
+        return bookService.getPageOfPopularBooks(0, 6).getContent();
     }
 
     @ModelAttribute("recentBooks")

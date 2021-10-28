@@ -25,14 +25,14 @@ public class Author {
 
     @OneToMany(mappedBy = "author")
     @JsonIgnore
-    private List<Book> bookList = new ArrayList<>();
+    private List<Book> books = new ArrayList<>();
 
-    public List<Book> getBookList() {
-        return bookList;
+    public List<Book> getBooks() {
+        return books;
     }
 
-    public void setBookList(List<Book> bookList) {
-        this.bookList = bookList;
+    public void setBooks(List<Book> books) {
+        this.books = books;
     }
 
     @Override

@@ -31,7 +31,7 @@
                     </form>
                 </div>
                 <div class="Cards Cards_refresh"
-                     th:replace="~{fragments/books_pool_fragment :: pool(category=${recentBooks})}"></div>
+                     th:replace="~{fragments/books_pool_fragment :: pool(category=${recentBooks}, refreshId=${recentBooks.get(0).id}, refreshShow='recent')}"></div>
             </div>
         </main>
     </div>
