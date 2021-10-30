@@ -8,7 +8,11 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.sql.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.Locale;
 
 @Service
 public class BookService {
@@ -67,6 +71,15 @@ public class BookService {
         return bookRepository.findAllByOrderByPubDateDesc(nextPage);
     }
 
+    public Page<Book> getPageOfRecentBooksWithPeriod(Integer offset, Integer limit, String from, String to) throws ParseException, IllegalArgumentException {
+        Pageable nextPage = PageRequest.of(offset, limit);
+        SimpleDateFormat oldDateFormat = new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault());
+        SimpleDateFormat newDateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+        Date startDate = Date.valueOf(newDateFormat.format(oldDateFormat.parse(from)));
+        Date endDate = Date.valueOf(newDateFormat.format(oldDateFormat.parse(to)));
+        return bookRepository.findAllByPubDateBetweenOrderByPubDateDesc(nextPage, startDate, endDate);
+    }
+
     public Page<Book> getPageOfPopularBooks(Integer offset, Integer limit) {
         Pageable nextPage = PageRequest.of(offset, limit);
         return bookRepository.findAllByIsBestsellerTrue(nextPage);
@@ -76,4 +89,5 @@ public class BookService {
         Pageable nextPage = PageRequest.of(offset, limit);
         return bookRepository.findBooksByAuthorId(nextPage, Integer.valueOf(authorId));
     }
+
 }

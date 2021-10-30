@@ -8,6 +8,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.ParseException;
+
 @Controller
 @RequestMapping("/books")
 public class BookController {
@@ -46,8 +48,9 @@ public class BookController {
 
     @GetMapping("/recent")
     @ResponseBody
-    public BooksPageDto getRecentBooksPage(@RequestParam("offset") Integer offset, @RequestParam("limit") Integer limit) {
-        return new BooksPageDto(bookService.getPageOfRecentBooks(offset, limit).getContent());
+    public BooksPageDto getRecentBooksPageWithPeriod(@RequestParam("offset") Integer offset, @RequestParam("limit") Integer limit,
+                                                     @RequestParam("from") String from, @RequestParam("to") String to) throws ParseException {
+        return new BooksPageDto(bookService.getPageOfRecentBooksWithPeriod(offset, limit, from, to).getContent());
     }
 
     @GetMapping("/popular")
