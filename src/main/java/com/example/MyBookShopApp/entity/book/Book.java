@@ -56,6 +56,15 @@ public class Book {
     @JsonIgnore
     private Author author;
 
+    @Column(name = "number_of_purchased")
+    private Integer numberOfPurchased;
+
+    @Column(name = "number_of_postponed")
+    private Integer numberOfPostponed;
+
+    @Column(name = "quantity_in_basket")
+    private Integer quantityInBasket;
+
     public Integer getId() {
         return id;
     }
@@ -136,15 +145,54 @@ public class Book {
         this.author = author;
     }
 
+    public Boolean getBestseller() {
+        return isBestseller;
+    }
+
+    public void setBestseller(Boolean bestseller) {
+        isBestseller = bestseller;
+    }
+
+    public Integer getNumberOfPurchased() {
+        return numberOfPurchased;
+    }
+
+    public void setNumberOfPurchased(Integer numberOfPurchased) {
+        this.numberOfPurchased = numberOfPurchased;
+    }
+
+    public Integer getNumberOfPostponed() {
+        return numberOfPostponed;
+    }
+
+    public void setNumberOfPostponed(Integer numberOfPostponed) {
+        this.numberOfPostponed = numberOfPostponed;
+    }
+
+    public Integer getQuantityInBasket() {
+        return quantityInBasket;
+    }
+
+    public void setQuantityInBasket(Integer quantityInBasket) {
+        this.quantityInBasket = quantityInBasket;
+    }
+
     @Override
     public String toString() {
         return "Book{" +
                 "id=" + id +
-                ", author=" + author +
+                ", pubDate=" + pubDate +
+                ", isBestseller=" + isBestseller +
+                ", slug='" + slug + '\'' +
                 ", title='" + title + '\'' +
-                ", priceOld='" + priceOld + '\'' +
-                ", price='" + price + '\'' +
+                ", image='" + image + '\'' +
+                ", description='" + description + '\'' +
+                ", priceOld=" + priceOld +
+                ", price=" + price +
+                ", author=" + author +
+                ", numberOfPurchased=" + numberOfPurchased +
+                ", numberOfPostponed=" + numberOfPostponed +
+                ", quantityInBasket=" + quantityInBasket +
                 '}';
     }
-
 }

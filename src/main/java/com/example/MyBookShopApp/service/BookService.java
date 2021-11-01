@@ -24,10 +24,6 @@ public class BookService {
         this.bookRepository = bookRepository;
     }
 
-    public List<Book> getBooksData() {
-        return bookRepository.findAll();
-    }
-
     public Book getBookById(String id) {
         return bookRepository.findById(Integer.valueOf(id)).orElse(new Book());
     }
@@ -82,7 +78,7 @@ public class BookService {
 
     public Page<Book> getPageOfPopularBooks(Integer offset, Integer limit) {
         Pageable nextPage = PageRequest.of(offset, limit);
-        return bookRepository.findAllByIsBestsellerTrue(nextPage);
+        return bookRepository.findPopularBooks(nextPage);
     }
 
     public Page<Book> getBooksByAuthorId(Integer offset, Integer limit, String authorId) {

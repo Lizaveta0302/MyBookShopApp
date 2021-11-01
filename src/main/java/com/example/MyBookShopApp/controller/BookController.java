@@ -3,6 +3,7 @@ package com.example.MyBookShopApp.controller;
 import com.example.MyBookShopApp.dto.BooksPageDto;
 import com.example.MyBookShopApp.dto.SearchWordDto;
 import com.example.MyBookShopApp.service.BookService;
+import com.example.MyBookShopApp.service.BooksRatingAndPopularityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,10 +16,12 @@ import java.text.ParseException;
 public class BookController {
 
     private final BookService bookService;
+    private final BooksRatingAndPopularityService popularityService;
 
     @Autowired
-    public BookController(BookService bookService) {
+    public BookController(BookService bookService, BooksRatingAndPopularityService popularityService) {
         this.bookService = bookService;
+        this.popularityService = popularityService;
     }
 
     @ModelAttribute("searchWordDto")

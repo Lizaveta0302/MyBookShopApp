@@ -7,8 +7,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import java.sql.Date;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 
 public interface BookRepository extends JpaRepository<Book, Integer> {
@@ -43,4 +41,8 @@ public interface BookRepository extends JpaRepository<Book, Integer> {
 
     Page<Book> findAllByPubDateBetweenOrderByPubDateDesc(Pageable pageable, Date from, Date to);
 
+    @Query(value = "select *, (b.number_of_purchased + (b.quantity_in_basket * 0.7) + (b.number_of_postponed * 0.4) ) as popularity " +
+                    "from shop.books b LEFT JOIN shop.authors a on b.author_id = a.id " +
+                    "order by popularity desc", nativeQuery = true)
+    Page<Book> findPopularBooks(Pageable pageable);
 }
