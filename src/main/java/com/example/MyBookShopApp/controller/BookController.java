@@ -2,9 +2,11 @@ package com.example.MyBookShopApp.controller;
 
 import com.example.MyBookShopApp.dto.BooksPageDto;
 import com.example.MyBookShopApp.dto.SearchWordDto;
+import com.example.MyBookShopApp.entity.Genre;
 import com.example.MyBookShopApp.entity.Tag;
 import com.example.MyBookShopApp.service.BookService;
 import com.example.MyBookShopApp.service.BooksRatingAndPopularityService;
+import com.example.MyBookShopApp.service.GenreService;
 import com.example.MyBookShopApp.service.TagService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -19,6 +21,8 @@ public class BookController {
 
     @Autowired
     private TagService tagService;
+    @Autowired
+    private GenreService genreService;
     @Autowired
     private BooksRatingAndPopularityService popularityService;
 
@@ -91,5 +95,13 @@ public class BookController {
         model.addAttribute("tag", tag);
         model.addAttribute("booksByTag", bookService.getBooksByTag(0, 6, tag).getContent());
         return "/tags/index";
+    }
+
+    @GetMapping("/genres/{genreId}")
+    public String getBooksByGenre(@PathVariable String genreId, Model model) {
+        Genre genre = genreService.getGenreById(genreId);
+        model.addAttribute("genre", genre);
+        model.addAttribute("booksByGenre", bookService.getBooksByGenre(0, 6, genre).getContent());
+        return "/genres/slug";
     }
 }

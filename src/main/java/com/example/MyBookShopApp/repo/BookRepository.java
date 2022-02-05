@@ -1,5 +1,6 @@
 package com.example.MyBookShopApp.repo;
 
+import com.example.MyBookShopApp.entity.Genre;
 import com.example.MyBookShopApp.entity.Tag;
 import com.example.MyBookShopApp.entity.book.Book;
 import org.springframework.data.domain.Page;
@@ -43,11 +44,11 @@ public interface BookRepository extends JpaRepository<Book, Integer> {
     Page<Book> findAllByPubDateBetweenOrderByPubDateDesc(Pageable pageable, Date from, Date to);
 
     @Query(value = "select *, (b.number_of_purchased + (b.quantity_in_basket * 0.7) + (b.number_of_postponed * 0.4) ) as popularity " +
-                    "from shop.books b LEFT JOIN shop.authors a on b.author_id = a.id " +
-                    "order by popularity desc", nativeQuery = true)
+            "from shop.books b LEFT JOIN shop.authors a on b.author_id = a.id " +
+            "order by popularity desc", nativeQuery = true)
     Page<Book> getAllBooksByPopularity(Pageable pageable);
 
     Page<Book> findBooksByTagsIsContaining(Pageable pageable, Tag tag);
 
-    List<Book> findBooksByTagsIsContaining(Tag tag);
+    Page<Book> findBooksByGenresIsContaining(Pageable nextPage, Genre genre);
 }

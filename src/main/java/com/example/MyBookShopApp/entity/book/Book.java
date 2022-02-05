@@ -1,6 +1,7 @@
 package com.example.MyBookShopApp.entity.book;
 
 import com.example.MyBookShopApp.entity.Author;
+import com.example.MyBookShopApp.entity.Genre;
 import com.example.MyBookShopApp.entity.Tag;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -76,6 +77,15 @@ public class Book {
             inverseJoinColumns = {@JoinColumn(name = "tag_id")}
     )
     private Set<Tag> tags = new HashSet<>();
+
+    @ManyToMany
+    @JoinTable(
+            schema = "shop",
+            name = "book2genre",
+            joinColumns = {@JoinColumn(name = "book_id")},
+            inverseJoinColumns = {@JoinColumn(name = "genre_id")}
+    )
+    private Set<Genre> genres = new HashSet<>();
 
     public Integer getId() {
         return id;
