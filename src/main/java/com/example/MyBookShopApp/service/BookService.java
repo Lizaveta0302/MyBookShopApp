@@ -1,13 +1,16 @@
 package com.example.MyBookShopApp.service;
 
+import com.example.MyBookShopApp.entity.Tag;
 import com.example.MyBookShopApp.entity.book.Book;
 import com.example.MyBookShopApp.repo.BookRepository;
+import com.example.MyBookShopApp.repo.TagRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.net.URLConnection;
 import java.sql.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -78,7 +81,7 @@ public class BookService {
 
     public Page<Book> getPageOfPopularBooks(Integer offset, Integer limit) {
         Pageable nextPage = PageRequest.of(offset, limit);
-        return bookRepository.findPopularBooks(nextPage);
+        return bookRepository.getAllBooksByPopularity(nextPage);
     }
 
     public Page<Book> getBooksByAuthorId(Integer offset, Integer limit, String authorId) {
@@ -86,4 +89,8 @@ public class BookService {
         return bookRepository.findBooksByAuthorId(nextPage, Integer.valueOf(authorId));
     }
 
+    public Page<Book> getBooksByTag(int offset, int limit, Tag tag) {
+        Pageable nextPage = PageRequest.of(offset, limit);
+        return bookRepository.findBooksByTagsIsContaining(nextPage, tag);
+    }
 }

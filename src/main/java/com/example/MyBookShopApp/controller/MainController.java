@@ -2,8 +2,10 @@ package com.example.MyBookShopApp.controller;
 
 import com.example.MyBookShopApp.dto.BooksPageDto;
 import com.example.MyBookShopApp.dto.SearchWordDto;
+import com.example.MyBookShopApp.entity.Tag;
 import com.example.MyBookShopApp.entity.book.Book;
 import com.example.MyBookShopApp.service.BookService;
+import com.example.MyBookShopApp.service.TagService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,16 +13,19 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Controller
 @RequestMapping
 public class MainController {
 
     private final BookService bookService;
+    private final TagService tagService;
 
     @Autowired
-    public MainController(BookService bookService) {
+    public MainController(BookService bookService, TagService tagService) {
         this.bookService = bookService;
+        this.tagService = tagService;
     }
 
     @ModelAttribute("recommendedBooks")
@@ -48,8 +53,16 @@ public class MainController {
         return new ArrayList<>();
     }
 
-    @GetMapping("/")
-    public String indexPage() {
+    @ModelAttribute("allTags")
+    public List<Tag> allTags() {
+        return tagService.getAllTags();
+    }
+
+    @GetMapping(value = {"/", "/main/{partOfPage}"})
+    public String indexPage(@PathVariable(value = "partOfPage", required = false) String partOfPage) {
+        if (Objects.nonNull(partOfPage)) {
+            return "redirect:/bookshop/main#".concat(partOfPage);
+        }
         return "redirect:/bookshop/main";
     }
 

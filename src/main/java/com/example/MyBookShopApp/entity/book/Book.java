@@ -1,6 +1,7 @@
 package com.example.MyBookShopApp.entity.book;
 
 import com.example.MyBookShopApp.entity.Author;
+import com.example.MyBookShopApp.entity.Tag;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModel;
@@ -8,6 +9,8 @@ import io.swagger.annotations.ApiModelProperty;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(schema = "shop", name = "books")
@@ -65,28 +68,21 @@ public class Book {
     @Column(name = "quantity_in_basket")
     private Integer quantityInBasket;
 
+    @ManyToMany
+    @JoinTable(
+            schema = "shop",
+            name = "book2tag",
+            joinColumns = {@JoinColumn(name = "book_id")},
+            inverseJoinColumns = {@JoinColumn(name = "tag_id")}
+    )
+    private Set<Tag> tags = new HashSet<>();
+
     public Integer getId() {
         return id;
     }
 
     public void setId(Integer id) {
         this.id = id;
-    }
-
-    public Date getPubDate() {
-        return pubDate;
-    }
-
-    public void setPubDate(Date pubDate) {
-        this.pubDate = pubDate;
-    }
-
-    public Boolean getIsBestseller() {
-        return isBestseller;
-    }
-
-    public void setIsBestseller(Boolean isBestseller) {
-        this.isBestseller = isBestseller;
     }
 
     public String getSlug() {
@@ -145,36 +141,16 @@ public class Book {
         this.author = author;
     }
 
-    public Boolean getBestseller() {
-        return isBestseller;
-    }
-
-    public void setBestseller(Boolean bestseller) {
-        isBestseller = bestseller;
-    }
-
     public Integer getNumberOfPurchased() {
         return numberOfPurchased;
-    }
-
-    public void setNumberOfPurchased(Integer numberOfPurchased) {
-        this.numberOfPurchased = numberOfPurchased;
     }
 
     public Integer getNumberOfPostponed() {
         return numberOfPostponed;
     }
 
-    public void setNumberOfPostponed(Integer numberOfPostponed) {
-        this.numberOfPostponed = numberOfPostponed;
-    }
-
     public Integer getQuantityInBasket() {
         return quantityInBasket;
-    }
-
-    public void setQuantityInBasket(Integer quantityInBasket) {
-        this.quantityInBasket = quantityInBasket;
     }
 
     @Override

@@ -2,8 +2,10 @@ package com.example.MyBookShopApp.controller;
 
 import com.example.MyBookShopApp.dto.BooksPageDto;
 import com.example.MyBookShopApp.dto.SearchWordDto;
+import com.example.MyBookShopApp.entity.Tag;
 import com.example.MyBookShopApp.service.BookService;
 import com.example.MyBookShopApp.service.BooksRatingAndPopularityService;
+import com.example.MyBookShopApp.service.TagService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,13 +17,16 @@ import java.text.ParseException;
 @RequestMapping("/books")
 public class BookController {
 
+    @Autowired
+    private TagService tagService;
+    @Autowired
+    private BooksRatingAndPopularityService popularityService;
+
     private final BookService bookService;
-    private final BooksRatingAndPopularityService popularityService;
 
     @Autowired
-    public BookController(BookService bookService, BooksRatingAndPopularityService popularityService) {
+    public BookController(BookService bookService) {
         this.bookService = bookService;
-        this.popularityService = popularityService;
     }
 
     @ModelAttribute("searchWordDto")
@@ -78,5 +83,13 @@ public class BookController {
     public String getBookById(@PathVariable String id, Model model) {
         model.addAttribute("book", bookService.getBookById(id));
         return "/books/slug";
+    }
+
+    @GetMapping("/tags/{tagId}")
+    public String getBooksByTag(@PathVariable String tagId, Model model) {
+        Tag tag = tagService.getTagById(tagId);
+        model.addAttribute("tag", tag);
+        model.addAttribute("booksByTag", bookService.getBooksByTag(0, 6, tag).getContent());
+        return "/tags/index";
     }
 }
