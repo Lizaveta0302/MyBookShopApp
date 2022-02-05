@@ -1,5 +1,5 @@
 <h1 align="center">BookShop</h1>
-<h2 align="center">module 5 Home work</h2>
+<h2 align="center">module 6 Home work</h2>
 <p align="center">
   
 <img src="https://img.shields.io/badge/Java-8-red.svg">
