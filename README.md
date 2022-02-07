@@ -1,5 +1,5 @@
 <h1 align="center">BookShop</h1>
-<h2 align="center">module 5 Home work</h2>
+<h2 align="center">module 6 Home work</h2>
 <p align="center">
   
 <img src="https://img.shields.io/badge/Java-8-red.svg">
@@ -16,11 +16,15 @@
 
 ## Description
 <div>
-<h4>In module 5 were done:</h4>
+<h4>In module 6 were done:</h4>
 <ul>
-<li>Rewritten AuthorService using JPA 🦾</li>
-<li>Designed project data structure (added all needed entities with needed annotations for correctly display in the db) 🦾🦾</li>
-<li>Connected Flyway to store project (added three migration files, the first one with drop/create tables scripts, the second and thirst - with data insertion into the authors and books tables) 🦾🦾🦾</li>
+<li>Enable pagination for "New" and "Popular" feeds on the main page 🦾</li>
+<li>Implement a list of books:</li>
+<li>new 🦾🦾</li>
+<li>by popular 🦾🦾</li>
+<li>by tags 🦾🦾🦾</li>
+<li>by genre 🦾🦾🦾</li>
+<li>Implement author page</li>
 </ul>
 </div>
 

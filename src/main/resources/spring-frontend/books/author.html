@@ -4,7 +4,7 @@
 </head>
 <body class="Site">
 <header class="Header"
-        th:replace="~{fragments/common_header_fragment :: head(main='menu-item menu-item_ACTIVE', status='unauthorized')}"></header>
+        th:replace="~{fragments/common_header_fragment :: head(authors='menu-item menu-item_ACTIVE', status='unauthorized')}"></header>
 <div class="Middle">
     <div class="wrap">
         <main class="Middle-main">
@@ -14,7 +14,7 @@
                 th:text="${authorBooks.get(0).author.firstName+' '+authorBooks.get(0).author.lastName}"></h1>
             <div class="Section">
                 <div class="Cards Cards_refresh"
-                     th:replace="~{fragments/books_pool_fragment :: pool(category=${authorBooks})}"></div>
+                     th:replace="~{fragments/books_pool_fragment :: pool(category=${authorBooks}, refreshId=${authorBooks.get(0).author.id}, refreshShow='author')}"></div>
             </div>
         </main>
     </div>

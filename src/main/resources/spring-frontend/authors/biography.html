@@ -14,8 +14,8 @@
             <div class="Section"
                  th:replace="~{fragments/book_slider_fragment :: bookSlider(title='Книги автора')}"></div>
             <footer class="Section-footer">
-                <a class="Author-books" th:href="@{'/books/author/' + ${author.id}}">
-                    Все книги автора <span class="Author-amount" th:text="${amountOfBooks}"></span></a>
+                <a class="Author-books" th:href="@{'/books/authors/' + ${author.id}}">
+                    Все книги автора <span class="Author-amount" th:text="${author.books.size()}"></span></a>
             </footer>
         </main>
     </div>
