@@ -2,11 +2,11 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <div class="ProductCard-desc" th:fragment="bookDesc">
     <div class="ProductCard-header">
-        <h1 class="ProductCard-title">Мара и морок</h1>
+        <h1 class="ProductCard-title" th:text="${book.title}">Мара и морок</h1>
         <div class="ProductCard-author">
             <span class="ProductCard-titleProp">Автор:</span>&#32;
             <a th:href="@{'/authors/' + ${book.author.id}}"
-               th:text="${book.author.lastName} + ' ' + ${book.author.firstName}">Лия Арден</a>
+               th:text="${book.author.toString()}">Лия Арден</a>
         </div>
         <div class="ProductCard-rating"><span class="ProductCard-titleProp">Рейтинг:</span>
             <button class="trigger trigger_dropdown" type="button">
@@ -332,11 +332,11 @@
         <div class="ProductCard-cost">
             <span class="ProductCard-titleProp">Цена:</span>
             <span class="ProductCard-priceOld" th:text="'₽' + ${book.priceOld}">₽300</span>
-            <span class="ProductCard-price" th:text="'₽' + ${book.price}">₽180</span>
+            <span class="ProductCard-price" th:text="'₽' + ${book.discountPrice()}">₽180</span>
         </div>
     </div>
     <div class="ProductCard-text">
-        <p>Таких, как я, называют Марами - отмеченными самой богиней смерти Мораной. Когда-то у меня
+        <p th:text="${book.description}">Таких, как я, называют Марами - отмеченными самой богиней смерти Мораной. Когда-то у меня
             и моих шести сестер был свой путь. Тогда люди нас уважали и просили о милосердии. Они
             приносили нам подношения и молились нам. Но 200 лет назад все изменилось, когда принц
             Серата осмелился поднять руку на одну из нас. Я пыталась отомстить, но погибли мы все.
