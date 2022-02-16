@@ -29,7 +29,7 @@ public class ResourceStorage {
 
             String fileName = slug + "." + FilenameUtils.getExtension(file.getOriginalFilename());
             Path path = Paths.get(uploadPath, fileName);
-            resourceURI = "/bookCovers/" + fileName;
+            resourceURI = "/book_covers/" + fileName;
             file.transferTo(path);
             Logger.getLogger(this.getClass().getSimpleName()).info(fileName + " uploaded successfully.");
         }
