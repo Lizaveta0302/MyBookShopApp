@@ -3,6 +3,7 @@ package com.example.bookshop_app.entity.book;
 import com.example.bookshop_app.entity.Author;
 import com.example.bookshop_app.entity.Genre;
 import com.example.bookshop_app.entity.Tag;
+import com.example.bookshop_app.entity.book.file.BookFile;
 import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -10,9 +11,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
 import javax.persistence.*;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @Table(schema = "shop", name = "books")
@@ -92,6 +91,19 @@ public class Book {
             inverseJoinColumns = {@JoinColumn(name = "genre_id")}
     )
     private Set<Genre> genres = new HashSet<>();
+
+
+    @OneToMany(mappedBy = "book")
+    private List<BookFile> bookFileList = new ArrayList<>();
+
+
+    public List<BookFile> getBookFileList() {
+        return bookFileList;
+    }
+
+    public void setBookFileList(List<BookFile> bookFileList) {
+        this.bookFileList = bookFileList;
+    }
 
     @JsonProperty
     public Integer discountPrice() {

@@ -1,42 +1,25 @@
 package com.example.bookshop_app.entity.book.file;
 
-import javax.persistence.*;
+public enum BookFileType {
 
-@Entity
-@Table(schema = "shop", name = "book_file_type")
-public class BookFileType {
+    PDF(".pdf"), EPUB(".epub"), FB2("fb2");
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private final String fileExtensionString;
 
-    @Column(columnDefinition = "VARCHAR(255) NOT NULL")
-    private String name;
-
-    @Column(columnDefinition = "TEXT")
-    private String description;
-
-    public int getId() {
-        return id;
+    BookFileType(String fileExtensionString) {
+        this.fileExtensionString = fileExtensionString;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
+    public static String getExtensionStringByTypeID(Integer typeId) {
+        switch (typeId) {
+            case 1:
+                return BookFileType.PDF.fileExtensionString;
+            case 2:
+                return BookFileType.EPUB.fileExtensionString;
+            case 3:
+                return BookFileType.FB2.fileExtensionString;
+            default:
+                return "";
+        }
     }
 }
