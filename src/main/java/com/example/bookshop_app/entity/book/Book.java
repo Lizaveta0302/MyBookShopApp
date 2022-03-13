@@ -6,6 +6,7 @@ import com.example.bookshop_app.entity.Tag;
 import com.example.bookshop_app.entity.book.file.BookFile;
 import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -92,7 +93,7 @@ public class Book {
     )
     private Set<Genre> genres = new HashSet<>();
 
-
+    @JsonManagedReference
     @OneToMany(mappedBy = "book")
     private List<BookFile> bookFileList = new ArrayList<>();
 

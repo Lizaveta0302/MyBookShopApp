@@ -5,9 +5,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.text.ParseException;
 import java.time.format.DateTimeParseException;
+import java.util.logging.Logger;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
@@ -28,5 +30,12 @@ public class GlobalExceptionHandler {
     public ResponseEntity<Response> handleFileSizeLimitExceededException(FileSizeLimitExceededException e) {
         Response response = new Response(e.getMessage());
         return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @ExceptionHandler(EmptySearchException.class)
+    public String handleEmptySearchException(EmptySearchException e, RedirectAttributes redirectAttributes) {
+        Logger.getLogger(this.getClass().getSimpleName()).warning(e.getLocalizedMessage());
+        redirectAttributes.addFlashAttribute("searchError", e);
+        return "redirect:/bookshop/main";
     }
 }

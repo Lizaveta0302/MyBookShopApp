@@ -1,6 +1,7 @@
 package com.example.bookshop_app.entity.book.file;
 
 import com.example.bookshop_app.entity.book.Book;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import javax.persistence.*;
 
@@ -20,6 +21,7 @@ public class BookFile {
     private String path;
 
     @ManyToOne
+    @JsonBackReference
     @JoinColumn(name = "book_id", referencedColumnName = "id")
     private Book book;
 
