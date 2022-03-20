@@ -8,22 +8,21 @@
 <div class="Middle">
     <div class="wrap">
         <main class="Middle-main">
-            <h1 class="Middle-title">Корзина
-            </h1>
+            <h1 class="Middle-title">Корзина</h1>
             <h3 th:if="${isCartEmpty}">Корзина пуста:(</h3>
             <form class="form Cart" action="#" method="post">
-
                 <div class="Cart-product" th:each="book : ${bookCart}">
                     <div class="Cart-block Cart-block_row">
-                        <div class="Cart-block Cart-block_pict"><a class="Cart-pict" href="#"><img class="Cart-img"
-                                                                                                   th:src="${book.image}"
-                                                                                                   src="/assets/img/content/main/card.jpg"
-                                                                                                   alt="card.jpg"/></a>
+                        <div class="Cart-block Cart-block_pict">
+                            <a class="Cart-pict" href="#">
+                                <img class="Cart-img" th:src="${book.image}"
+                                     src="/assets/img/content/main/card.jpg" alt="card.jpg"/>
+                            </a>
                         </div>
                         <div class="Cart-block Cart-block_row">
                             <div class="Cart-block Cart-block_info">
-                                <div class="Cart-author"><a href="#" th:text="${book.author.toString()}">Борис
-                                    Васильевич Маяковский</a>
+                                <div class="Cart-author">
+                                    <a href="#" th:text="${book.author.toString()}">Борис Васильевич Маяковский</a>
                                 </div>
                                 <div class="Cart-title"><a href="#" th:text="${book.title}">Трубы</a>
                                 </div>
@@ -89,8 +88,7 @@
                                 </div>
                             </div>
                             <div class="Cart-block Cart-block_price">
-                                <div class="Cart-priceTitle">Цена:
-                                </div>
+                                <div class="Cart-priceTitle">Цена:</div>
                                 <div class="Cart-price Cart-price_old" th:text="${book.priceOld}">150 р.
                                 </div>
                                 <div class="Cart-price" th:text="${book.discountPrice()}">100 р.
