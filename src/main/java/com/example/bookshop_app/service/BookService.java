@@ -105,4 +105,8 @@ public class BookService {
     public void save(Book bookToUpdate) {
         bookRepository.save(bookToUpdate);
     }
+
+    public Book findBookBySlug(String slug) {
+        return bookRepository.findBookBySlug(slug);
+    }
 }

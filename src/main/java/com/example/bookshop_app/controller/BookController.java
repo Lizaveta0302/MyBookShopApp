@@ -126,6 +126,13 @@ public class BookController {
         return ("redirect:/books/" + bookToUpdate.getId());
     }
 
+    @GetMapping("/slug/{slug}")
+    public String bookPage(@PathVariable("slug") String slug, Model model) {
+        Book book = bookService.findBookBySlug(slug);
+        model.addAttribute("slugBook", book);
+        return "/books/slug";
+    }
+
     @GetMapping("/download/{hash}")
     public ResponseEntity<ByteArrayResource> bookFile(@PathVariable("hash") String hash) throws IOException {
         Path path = storage.getBookFilePath(hash);

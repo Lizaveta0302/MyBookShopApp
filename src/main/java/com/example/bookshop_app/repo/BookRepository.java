@@ -53,4 +53,6 @@ public interface BookRepository extends JpaRepository<Book, Integer> {
     Page<Book> findBooksByGenresIsContaining(Pageable nextPage, Genre genre);
 
     Book findBookBySlug(String slug);
+
+    List<Book> findBooksBySlugIn(String[] cookieSlugs);
 }
