@@ -9,6 +9,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Date;
 import java.text.ParseException;
@@ -108,5 +110,25 @@ public class BookService {
 
     public Book findBookBySlug(String slug) {
         return bookRepository.findBookBySlug(slug);
+    }
+
+    public List<Book> findBooksBySlugIn(String[] cookieSlugs) {
+        return bookRepository.findBooksBySlugIn(cookieSlugs);
+    }
+
+    @Transactional
+    public void updateNumberOfPostponed(String slug, int numberOfPostponed) {
+        bookRepository.updateNumberOfPostponed(slug, numberOfPostponed);
+    }
+
+    @Transactional
+    public void updateQuantityInBasket(String slug, int quantityInBasket) {
+        bookRepository.updateQuantityInBasket(slug, quantityInBasket);
+    }
+
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    public void updateQuantityInBasketAndNumberOfPostponed(String slug, Integer numberOfPostponed, Integer quantityInBasket) {
+        updateNumberOfPostponed(slug, numberOfPostponed);
+        updateQuantityInBasket(slug, quantityInBasket);
     }
 }

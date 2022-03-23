@@ -6,7 +6,9 @@ import com.example.bookshop_app.entity.book.Book;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import java.sql.Date;
 import java.util.List;
@@ -55,4 +57,13 @@ public interface BookRepository extends JpaRepository<Book, Integer> {
     Book findBookBySlug(String slug);
 
     List<Book> findBooksBySlugIn(String[] cookieSlugs);
+
+    @Modifying
+    @Query(value = "UPDATE shop.books b SET number_of_postponed=:numberOfPostponed WHERE b.slug = :slug", nativeQuery = true)
+    void updateNumberOfPostponed(@Param("slug") String slug, @Param("numberOfPostponed") Integer numberOfPostponed);
+
+    @Modifying
+    @Query(value = "UPDATE shop.books b SET quantity_in_basket=:newQuantity WHERE b.slug = :slug", nativeQuery = true)
+    void updateQuantityInBasket(@Param("slug") String slug, @Param("newQuantity") Integer newQuantity);
+
 }

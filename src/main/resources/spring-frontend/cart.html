@@ -72,6 +72,7 @@
                                 <div class="Cart-buttons">
                                     <div class="Cart-btn">
                                         <button class="btn btn_primary btn_outline" data-sendstatus="KEPT"
+                                                th:attr="data-bookid = ${'cart/moveToPostponed/'+book.slug}"
                                                 data-bookid="[1133]"><span class="btn-icon"><img
                                                 src="/assets/img/icons/heart.svg" alt="heart.svg"/></span><span
                                                 class="btn-content">Отложить</span>
