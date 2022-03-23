@@ -101,6 +101,12 @@ public class BookController {
         return "/books/slug";
     }
 
+    @GetMapping("/slug/{slug}")
+    public String bookPage(@PathVariable("slug") String slug, Model model) {
+        model.addAttribute("book", bookService.findBookBySlug(slug));
+        return "/books/slug";
+    }
+
     @GetMapping("/tags/{tagId}")
     public String getBooksByTag(@PathVariable String tagId, Model model) {
         Tag tag = tagService.getTagById(tagId);
@@ -124,13 +130,6 @@ public class BookController {
         bookToUpdate.setImage(savePath);
         bookService.save(bookToUpdate);
         return ("redirect:/books/" + bookToUpdate.getId());
-    }
-
-    @GetMapping("/slug/{slug}")
-    public String bookPage(@PathVariable("slug") String slug, Model model) {
-        Book book = bookService.findBookBySlug(slug);
-        model.addAttribute("slugBook", book);
-        return "/books/slug";
     }
 
     @GetMapping("/download/{hash}")
