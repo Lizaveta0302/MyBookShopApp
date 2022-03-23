@@ -326,8 +326,13 @@
                         </svg></span>
                       <input name="rating" type="radio" value="5"/></span></span>
         </div>
-        <div class="ProductCard-tags"><span class="ProductCard-titleProp">Тэги:</span><a
-                href="/books/tags/">Современные</a>,&#32;<a href="/books/tags/">Психологическая проза</a>
+        <div class="ProductCard-tags">
+            <span class="ProductCard-titleProp">Тэги:</span>
+                <span th:each="tag:${book.tags}">
+                    <a th:href="@{'/books/tags/' + ${tag.id}}"
+                       th:with="lastTag=${book.tags[#lists.size(book.tags)-1]}"
+                       th:text="tag eq lastTag ? ${tag.tagName} : ${tag.tagName} + ',' + '&#32;'">Современные</a>
+               </span>
         </div>
         <div class="ProductCard-cost">
             <span class="ProductCard-titleProp">Цена:</span>
@@ -336,14 +341,7 @@
         </div>
     </div>
     <div class="ProductCard-text">
-        <p th:text="${book.description}">Таких, как я, называют Марами - отмеченными самой богиней смерти Мораной. Когда-то у меня
-            и моих шести сестер был свой путь. Тогда люди нас уважали и просили о милосердии. Они
-            приносили нам подношения и молились нам. Но 200 лет назад все изменилось, когда принц
-            Серата осмелился поднять руку на одну из нас. Я пыталась отомстить, но погибли мы все.
-            Теперь правители Аракена, погрязшие в длительной войне со своим соседом Сератом, решили
-            вернуть меня к жизни. Дать второй шанс на месть и свободу, привязав меня к тому, против
-            кого я никогда не пойду. Таких, как он, называют Морок, и их боятся абсолютно все.
-        </p>
+        <p th:text="${book.description}">Таких, как я, называют Марами</p>
     </div>
     <div th:replace="~{fragments/book_slug_buttons_fragment :: panel}"></div>
 </div>

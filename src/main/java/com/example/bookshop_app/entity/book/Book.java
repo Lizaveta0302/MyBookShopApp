@@ -187,6 +187,22 @@ public class Book {
         return quantityInBasket;
     }
 
+    public Set<Tag> getTags() {
+        return tags;
+    }
+
+    public void setTags(Set<Tag> tags) {
+        this.tags = tags;
+    }
+
+    public Set<Genre> getGenres() {
+        return genres;
+    }
+
+    public void setGenres(Set<Genre> genres) {
+        this.genres = genres;
+    }
+
     @Override
     public String toString() {
         return "Book{" +
