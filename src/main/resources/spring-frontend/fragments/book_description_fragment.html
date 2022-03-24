@@ -12,7 +12,7 @@
             <button class="trigger trigger_dropdown" type="button">
                 <div class="Rating Rating_noStyleLink">
                     <span class="Rating-stars">
-                        <span class="Rating-star Rating-star_view">
+                        <span th:classappend="${bookAverageRating>0} ? 'Rating-star Rating-star_view' : 'Rating-star'">
                           <svg xmlns="http://www.w3.org/2000/svg" width="19" height="18" viewBox="0 0 19 18">
                             <g>
                               <g>
@@ -22,7 +22,7 @@
                             </g>
                           </svg>
                         </span>
-                        <span class="Rating-star Rating-star_view">
+                        <span th:classappend="${bookAverageRating>1} ? 'Rating-star Rating-star_view' : 'Rating-star'">
                           <svg xmlns="http://www.w3.org/2000/svg" width="19" height="18" viewBox="0 0 19 18">
                             <g>
                               <g>
@@ -32,7 +32,7 @@
                             </g>
                           </svg>
                         </span>
-                        <span class="Rating-star">
+                        <span th:classappend="${bookAverageRating>2} ? 'Rating-star Rating-star_view' : 'Rating-star'">
                           <svg xmlns="http://www.w3.org/2000/svg" width="19" height="18" viewBox="0 0 19 18">
                             <g>
                               <g>
@@ -42,7 +42,7 @@
                             </g>
                           </svg>
                         </span>
-                        <span class="Rating-star">
+                        <span th:classappend="${bookAverageRating>3} ? 'Rating-star Rating-star_view' : 'Rating-star'">
                           <svg xmlns="http://www.w3.org/2000/svg" width="19" height="18" viewBox="0 0 19 18">
                             <g>
                               <g>
@@ -52,7 +52,7 @@
                             </g>
                           </svg>
                         </span>
-                        <span class="Rating-star">
+                        <span th:classappend="${bookAverageRating>4} ? 'Rating-star Rating-star_view' : 'Rating-star'">
                           <svg xmlns="http://www.w3.org/2000/svg" width="19" height="18" viewBox="0 0 19 18">
                             <g>
                               <g>
@@ -63,7 +63,7 @@
                           </svg>
                         </span>
                     </span>
-                    <span class="Rating-title">(567)</span>
+                    <span class="Rating-title" th:text="'('+${bookAverageRating}+')'">(567)</span>
                 </div>
                 <div class="modal modal_compression modal_dropdown">
                     <div class="modal-window">
@@ -125,7 +125,7 @@
                                     </svg>
                                 </span>
                             </span>
-                            <span class="Rating-title">1</span>
+                            <span class="Rating-title" th:text="${bookRatingMap.get(5)}">1</span>
                         </span><br>
                             <span class="Rating">
                                 <span class="Rating-stars">
@@ -180,7 +180,7 @@
                                         </svg>
                                     </span>
                                 </span>
-                                <span class="Rating-title">4</span>
+                                <span class="Rating-title" th:text="${bookRatingMap.get(4)}">4</span>
                             </span><br>
                             <span class="Rating">
                                 <span class="Rating-stars">
@@ -235,7 +235,7 @@
                                         </svg>
                                     </span>
                                 </span>
-                                <span class="Rating-title">0</span>
+                                <span class="Rating-title" th:text="${bookRatingMap.get(3)}">0</span>
                             </span><br>
                             <span class="Rating">
                                 <span class="Rating-stars">
@@ -290,7 +290,7 @@
                                         </svg>
                                     </span>
                                 </span>
-                                <span class="Rating-title">10</span>
+                                <span class="Rating-title" th:text="${bookRatingMap.get(2)}">10</span>
                             </span><br>
                             <span class="Rating">
                                 <span class="Rating-stars">
@@ -345,7 +345,7 @@
                                         </svg>
                                     </span>
                                 </span>
-                                <span class="Rating-title">3</span></span>
+                                <span class="Rating-title" th:text="${bookRatingMap.get(1)}">3</span></span>
                         </div>
                     </div>
                 </div>
