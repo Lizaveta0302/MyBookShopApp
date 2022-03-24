@@ -353,7 +353,8 @@
         </div>
         <div class="ProductCard-assessment">
             <span class="ProductCard-titleProp">Оцените книгу:</span>
-                <span class="Rating Rating_input" data-bookid="2121">
+                <span class="Rating Rating_input"
+                      th:attr="data-bookid = ${book.id}" data-bookid="2121">
                         <span class="Rating-stars">
                                 <span class="Rating-star">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="19" height="18" viewBox="0 0 19 18">
@@ -366,8 +367,8 @@
                                     </svg>
                                 </span>
                               <input name="rating" type="radio" value="1"/>
-                                    <span class="Rating-star">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="19" height="18" viewBox="0 0 19 18">
+                                <span class="Rating-star">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="19" height="18" viewBox="0 0 19 18">
                                           <g>
                                             <g>
                                               <path fill="#ffc000"
@@ -375,10 +376,10 @@
                                             </g>
                                           </g>
                                         </svg>
-                                    </span>
+                                </span>
                               <input name="rating" type="radio" value="2"/>
-                                    <span class="Rating-star">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="19" height="18" viewBox="0 0 19 18">
+                                <span class="Rating-star">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="19" height="18" viewBox="0 0 19 18">
                                           <g>
                                             <g>
                                               <path fill="#ffc000"
@@ -386,10 +387,10 @@
                                             </g>
                                           </g>
                                         </svg>
-                                    </span>
+                                </span>
                               <input name="rating" type="radio" value="3"/>
-                                    <span class="Rating-star">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="19" height="18" viewBox="0 0 19 18">
+                                <span class="Rating-star">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="19" height="18" viewBox="0 0 19 18">
                                           <g>
                                             <g>
                                               <path fill="#ffc000"
@@ -397,10 +398,10 @@
                                             </g>
                                           </g>
                                         </svg>
-                                    </span>
+                                </span>
                               <input name="rating" type="radio" value="4"/>
-                                    <span class="Rating-star">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="19" height="18" viewBox="0 0 19 18">
+                                <span class="Rating-star">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="19" height="18" viewBox="0 0 19 18">
                                           <g>
                                             <g>
                                               <path fill="#ffc000"
@@ -408,7 +409,7 @@
                                             </g>
                                           </g>
                                         </svg>
-                                    </span>
+                                </span>
                               <input name="rating" type="radio" value="5"/>
                         </span>
                 </span>

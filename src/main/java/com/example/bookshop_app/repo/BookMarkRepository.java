@@ -21,4 +21,7 @@ public interface BookMarkRepository extends JpaRepository<BookMark, Integer> {
             "union all\n" +
             "select  ROUND(AVG(mark)) from shop.book_mark where book_id = :bookId", nativeQuery = true)
     List<Integer> getBookRating(@Param("bookId") Integer bookId);
+
+    @Override
+    BookMark saveAndFlush(BookMark bookMark);
 }

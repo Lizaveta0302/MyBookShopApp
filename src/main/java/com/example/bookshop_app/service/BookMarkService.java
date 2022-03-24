@@ -1,5 +1,6 @@
 package com.example.bookshop_app.service;
 
+import com.example.bookshop_app.entity.book.BookMark;
 import com.example.bookshop_app.repo.BookMarkRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -30,5 +31,9 @@ public class BookMarkService {
             }
         }
         return ratingMap;
+    }
+
+    public void insertBookRate(BookMark bookMark) {
+        bookMarkRepository.saveAndFlush(bookMark);
     }
 }

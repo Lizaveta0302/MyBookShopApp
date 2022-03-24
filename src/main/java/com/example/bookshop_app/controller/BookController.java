@@ -6,6 +6,7 @@ import com.example.bookshop_app.dto.SearchWordDto;
 import com.example.bookshop_app.entity.Genre;
 import com.example.bookshop_app.entity.Tag;
 import com.example.bookshop_app.entity.book.Book;
+import com.example.bookshop_app.entity.book.BookMark;
 import com.example.bookshop_app.service.BookMarkService;
 import com.example.bookshop_app.service.BookService;
 import com.example.bookshop_app.service.GenreService;
@@ -158,5 +159,12 @@ public class BookController {
                 .body(new ByteArrayResource(data));
     }
 
-
+    @PostMapping("/changeBookStatus/rate")
+    public String handleMovingBookToPostponedFromCart(@RequestParam("bookId") Integer bookId, @RequestParam("value") Integer mark, Model model) {
+        BookMark rate = new BookMark();
+        rate.setBook(bookService.getBookById(bookId.toString()));
+        rate.setMark(mark.shortValue());
+        bookMarkService.insertBookRate(rate);
+        return "redirect:/books/" + bookId;
+    }
 }
