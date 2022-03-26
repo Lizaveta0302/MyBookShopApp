@@ -1,6 +1,11 @@
 package com.example.bookshop_app.entity.book.review;
 
+import com.example.bookshop_app.entity.User;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import java.time.LocalDateTime;
 
 @Entity
@@ -9,42 +14,48 @@ public class BookReviewLike {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
 
-    @Column(columnDefinition = "INT NOT NULL")
-    private int reviewId;
+    @ManyToOne
+    @JsonBackReference
+    @JoinColumn(name = "review_id", referencedColumnName = "id")
+    private BookReview review;
 
-    @Column(columnDefinition = "INT NOT NULL")
-    private int userId;
+    @ManyToOne
+    @JsonBackReference
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    private User user;
 
     @Column(columnDefinition = "TIMESTAMP NOT NULL")
     private LocalDateTime time;
 
     @Column(columnDefinition = "SMALLINT NOT NULL")
-    private short value;
+    @Min(0)
+    @Max(1)
+    private int value;
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public int getReviewId() {
-        return reviewId;
+    public BookReview getReview() {
+        return review;
     }
 
-    public void setReviewId(int reviewId) {
-        this.reviewId = reviewId;
+    public void setReview(BookReview review) {
+        this.review = review;
     }
 
-    public int getUserId() {
-        return userId;
+    public User getUser() {
+        return user;
     }
 
-    public void setUserId(int userId) {
-        this.userId = userId;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public LocalDateTime getTime() {
@@ -55,11 +66,11 @@ public class BookReviewLike {
         this.time = time;
     }
 
-    public short getValue() {
+    public int getValue() {
         return value;
     }
 
-    public void setValue(short value) {
+    public void setValue(int value) {
         this.value = value;
     }
 }

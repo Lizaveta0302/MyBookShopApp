@@ -7,10 +7,9 @@ import com.example.bookshop_app.entity.Genre;
 import com.example.bookshop_app.entity.Tag;
 import com.example.bookshop_app.entity.book.Book;
 import com.example.bookshop_app.entity.book.BookMark;
-import com.example.bookshop_app.service.BookMarkService;
-import com.example.bookshop_app.service.BookService;
-import com.example.bookshop_app.service.GenreService;
-import com.example.bookshop_app.service.TagService;
+import com.example.bookshop_app.entity.book.review.BookReview;
+import com.example.bookshop_app.entity.book.review.BookReviewLike;
+import com.example.bookshop_app.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.HttpHeaders;
@@ -24,6 +23,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.text.ParseException;
+import java.time.LocalDateTime;
 import java.util.Map;
 import java.util.logging.Logger;
 
@@ -37,6 +37,8 @@ public class BookController {
     private GenreService genreService;
     @Autowired
     private BookMarkService bookMarkService;
+    @Autowired
+    private BookReviewService bookReviewService;
 
     private final BookService bookService;
     private final ResourceStorage storage;
@@ -99,20 +101,15 @@ public class BookController {
 
     @GetMapping("/{id}")
     public String getBookById(@PathVariable String id, Model model) {
-        model.addAttribute("book", bookService.getBookById(id));
-        Map<Integer, Integer> bookRatingMap = bookMarkService.getBookRating(Integer.parseInt(id));
-        model.addAttribute("bookRatingMap", bookRatingMap);
-        model.addAttribute("bookAverageRating", bookRatingMap.get(6));
+        Book book = bookService.getBookById(id);
+        fillModel(model, book);
         return "/books/slug";
     }
 
     @GetMapping("/slug/{slug}")
     public String bookPage(@PathVariable("slug") String slug, Model model) {
         Book book = bookService.findBookBySlug(slug);
-        model.addAttribute("book", book);
-        Map<Integer, Integer> bookRatingMap = bookMarkService.getBookRating(book.getId());
-        model.addAttribute("bookRatingMap", bookRatingMap);
-        model.addAttribute("bookAverageRating", bookRatingMap.get(6));
+        fillModel(model, book);
         return "/books/slug";
     }
 
@@ -160,11 +157,37 @@ public class BookController {
     }
 
     @PostMapping("/changeBookStatus/rate")
-    public String handleMovingBookToPostponedFromCart(@RequestParam("bookId") Integer bookId, @RequestParam("value") Integer mark, Model model) {
+    public String handleMovingBookToPostponedFromCart(@RequestParam("bookId") Integer bookId, @RequestParam("value") Integer mark) {
         BookMark rate = new BookMark();
         rate.setBook(bookService.getBookById(bookId.toString()));
         rate.setMark(mark.shortValue());
         bookMarkService.insertBookRate(rate);
         return "redirect:/books/" + bookId;
+    }
+
+    @PostMapping("/rateBookReview")
+    public String handleRatingBookReview(@RequestParam("reviewid") Long reviewId, @RequestParam("value") Short likeValue) {
+        BookReview bookReview = bookReviewService.getBookReviewById(reviewId);
+        BookReviewLike like = new BookReviewLike();
+        like.setReview(bookReview);
+        like.setTime(LocalDateTime.now());
+        like.setValue(likeValue);
+        if (likeValue == 1) {
+            bookReviewService.insertBookReviewLike(like);
+        } else if (likeValue == 0) {
+            bookReviewService.deleteBookReviewLike(bookReview.getId(), null);
+        } else if (likeValue == -1) {
+            like.setValue(0);
+            bookReviewService.insertBookReviewLike(like);
+        }
+        return "redirect:/books/" + bookReview.getBook().getId();
+    }
+
+    private void fillModel(Model model, Book book) {
+        model.addAttribute("book", book);
+        Map<Integer, Integer> bookRatingMap = bookMarkService.getBookRating(book.getId());
+        model.addAttribute("bookRatingMap", bookRatingMap);
+        model.addAttribute("bookAverageRating", bookRatingMap.get(6));
+        model.addAttribute("bookReviews", bookReviewService.getAllBookReviews(book));
     }
 }
