@@ -1,5 +1,5 @@
 <h1 align="center">BookShop</h1>
-<h2 align="center">module 6 Home work</h2>
+<h2 align="center">module 7 Home work</h2>
 <p align="center">
   
 <img src="https://img.shields.io/badge/Java-8-red.svg">
@@ -16,15 +16,11 @@
 
 ## Description
 <div>
-<h4>In module 6 were done:</h4>
+<h4>In module 7 were done:</h4>
 <ul>
-<li>Enable pagination for "New" and "Popular" feeds on the main page 🦾</li>
-<li>Implement a list of books:</li>
-<li>new 🦾🦾</li>
-<li>by popular 🦾🦾</li>
-<li>by tags 🦾🦾🦾</li>
-<li>by genre 🦾🦾🦾</li>
-<li>Implement author page</li>
+<li>Implement adding books to the "Pending" category 🦾</li>
+<li>Implement a mechanism for evaluating and rating books 🦾🦾🦾</li>
+<li>Implement book reviews functionality 🦾🦾🦾🦾</li>
 </ul>
 </div>
 
