@@ -10,6 +10,8 @@ import com.example.bookshop_app.entity.book.BookMark;
 import com.example.bookshop_app.entity.book.review.BookReview;
 import com.example.bookshop_app.entity.book.review.BookReviewLike;
 import com.example.bookshop_app.service.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.HttpHeaders;
@@ -25,11 +27,12 @@ import java.nio.file.Path;
 import java.text.ParseException;
 import java.time.LocalDateTime;
 import java.util.Map;
-import java.util.logging.Logger;
 
 @Controller
 @RequestMapping("/books")
 public class BookController {
+
+    private static final Logger logger = LoggerFactory.getLogger(BookController.class);
 
     @Autowired
     private TagService tagService;
@@ -141,13 +144,13 @@ public class BookController {
     @GetMapping("/download/{hash}")
     public ResponseEntity<ByteArrayResource> bookFile(@PathVariable("hash") String hash) throws IOException {
         Path path = storage.getBookFilePath(hash);
-        Logger.getLogger(this.getClass().getSimpleName()).info("book file path: " + path);
+        logger.info("book file path: " + path);
 
         MediaType mediaType = storage.getBookFileMime(hash);
-        Logger.getLogger(this.getClass().getSimpleName()).info("book file mime type: " + mediaType);
+        logger.info("book file mime type: " + mediaType);
 
         byte[] data = storage.getBookFileByteArray(hash);
-        Logger.getLogger(this.getClass().getSimpleName()).info("book file data len: " + data.length);
+        logger.info("book file data len: " + data.length);
 
         return ResponseEntity.ok()
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment;filename=" + path.getFileName().toString())
