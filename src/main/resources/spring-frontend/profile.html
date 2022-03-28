@@ -4,22 +4,21 @@
 </head>
 <body class="Site">
 <header class="Header"
-        th:replace="~{fragments/common_header_fragment :: head(status='authorized')}"></header>
+        th:replace="~{fragments/common_header_fragment :: head(main='menu-item menu-item_ACTIVE', status='authorized')}"></header>
 <div class="Middle">
     <div class="Middle-top">
         <div class="wrap">
-            <h1 class="Middle-title">Личный кабинет
-            </h1>
+            <h1 class="Middle-title">Личный кабинет</h1>
         </div>
     </div>
     <div class="wrap">
         <main class="Middle-main">
-            <h2 class="Middle-title">Мой профиль
-            </h2>
+            <h2 class="Middle-title">Мой профиль</h2>
             <div class="Tabs Tabs_default">
-                <div class="Tabs-links"><a class="Tabs-link Tabs-link_ACTIVE" href="#basic">Основные сведения</a><a
-                        class="Tabs-link" href="#transactions">История транзакций</a><a class="Tabs-link" href="#topup">Пополнить
-                    счет</a>
+                <div class="Tabs-links">
+                    <a class="Tabs-link Tabs-link_ACTIVE" href="#basic">Основные сведения</a>
+                    <a class="Tabs-link" href="#transactions">История транзакций</a>
+                    <a class="Tabs-link" href="#topup">Пополнить счет</a>
                 </div>
                 <div class="Tabs-wrap">
                     <div class="Tabs-block" id="basic">
@@ -28,54 +27,44 @@
                                 <div class="row">
                                     <div class="row-block">
                                         <div class="form-group">
-                                            <label class="form-label" for="name">Имя
-                                            </label>
-                                            <input class="form-input" id="name" name="name" type="text" value="Михаил"/>
+                                            <label class="form-label" for="name">Имя</label>
+                                            <input class="form-input" id="name" name="name" type="text" th:value="${curUsr.name}" value="Михаил"/>
                                         </div>
                                         <div class="form-group">
-                                            <label class="form-label" for="mail">E-mail
-                                            </label>
+                                            <label class="form-label" for="mail">E-mail</label>
                                             <input class="form-input" id="mail" name="mail" type="text"
-                                                   value="addr@sait.com" data-validate="require mail"/>
+                                                   th:value="${curUsr.email}" value="addr@sait.com" data-validate="require mail"/>
                                             <div class="Profile-btn Profile-btn_confirm">
-                                                <button class="btn btn_primary" type="button">Подтвердить
-                                                </button>
+                                                <button class="btn btn_primary" type="button">Подтвердить</button>
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <label class="form-label" for="phone">Телефон
-                                            </label>
+                                            <label class="form-label" for="phone">Телефон</label>
                                             <input class="form-input" id="phone" name="phone" type="text"
-                                                   value="+70000000000" data-mask="+7 (999) 999-99-99"
+                                                   th:value="${curUsr.phone}" value="+70000000000" data-mask="+7 (999) 999-99-99"
                                                    data-validate="require"/>
                                             <div class="Profile-btn Profile-btn_confirm">
-                                                <button class="btn btn_primary" type="button">Подтвердить
-                                                </button>
+                                                <button class="btn btn_primary" type="button">Подтвердить</button>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="row-block">
                                         <div class="form-group">
-                                            <label class="form-label" for="password">Пароль
-                                            </label>
+                                            <label class="form-label" for="password">Пароль</label>
                                             <input class="form-input" id="password" name="password" type="password"
                                                    placeholder="Тут можно изменить пароль"/>
                                         </div>
                                         <div class="form-group">
-                                            <label class="form-label" for="passwordReply">Подтверждение пароля
-                                            </label>
+                                            <label class="form-label" for="passwordReply">Подтверждение пароля</label>
                                             <input class="form-input" id="passwordReply" name="passwordReply"
                                                    type="password" placeholder="Введите пароль повторно"/>
                                         </div>
                                         <div class="form-group">
                                             <div class="Profile-btn">
-                                                <button class="btn btn_danger" type="button">Отменить
-                                                </button>
-                                                <button class="btn btn_primary" type="submit">Сохранить
-                                                </button>
+                                                <button class="btn btn_danger" type="button">Отменить</button>
+                                                <button class="btn btn_primary" type="submit">Сохранить</button>
                                             </div>
-                                            <div class="Profile-success">Профиль успешно сохранен
-                                            </div>
+                                            <div class="Profile-success">Профиль успешно сохранен</div>
                                         </div>
                                     </div>
                                 </div>

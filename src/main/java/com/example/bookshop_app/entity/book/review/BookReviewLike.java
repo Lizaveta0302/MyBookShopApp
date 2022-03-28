@@ -1,6 +1,6 @@
 package com.example.bookshop_app.entity.book.review;
 
-import com.example.bookshop_app.entity.User;
+import com.example.bookshop_app.security.BookstoreUser;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import javax.persistence.*;
@@ -24,7 +24,7 @@ public class BookReviewLike {
     @ManyToOne
     @JsonBackReference
     @JoinColumn(name = "user_id", referencedColumnName = "id")
-    private User user;
+    private BookstoreUser user;
 
     @Column(columnDefinition = "TIMESTAMP NOT NULL")
     private LocalDateTime time;
@@ -50,11 +50,11 @@ public class BookReviewLike {
         this.review = review;
     }
 
-    public User getUser() {
+    public BookstoreUser getUser() {
         return user;
     }
 
-    public void setUser(User user) {
+    public void setUser(BookstoreUser user) {
         this.user = user;
     }
 

@@ -1,6 +1,6 @@
 package com.example.bookshop_app.entity.book;
 
-import com.example.bookshop_app.entity.User;
+import com.example.bookshop_app.security.BookstoreUser;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import javax.persistence.*;
@@ -28,7 +28,7 @@ public class BookMark {
     @ManyToOne
     @JsonBackReference
     @JoinColumn(name = "user_id", referencedColumnName = "id")
-    private User user;
+    private BookstoreUser user;
 
     public Long getId() {
         return id;
@@ -54,11 +54,11 @@ public class BookMark {
         this.book = book;
     }
 
-    public User getUser() {
+    public BookstoreUser getUser() {
         return user;
     }
 
-    public void setUser(User user) {
+    public void setUser(BookstoreUser user) {
         this.user = user;
     }
 }
