@@ -31,7 +31,7 @@ public class BookstoreUserDetails implements UserDetails {
 
     @Override
     public String getUsername() {
-        return bookstoreUser.getName();
+        return bookstoreUser.getEmail();
     }
 
     @Override
