@@ -63,8 +63,6 @@ public class BookstoreUserRegister {
     }
 
     public Object getCurrentUser() {
-        BookstoreUserDetails userDetails =
-                (BookstoreUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        return userDetails.getBookstoreUser();
+        return SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     }
 }

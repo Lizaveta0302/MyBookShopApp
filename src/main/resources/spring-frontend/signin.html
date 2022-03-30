@@ -79,7 +79,7 @@
                         </div>
                         <div class="form-group form-group_key">
                             <input class="form-input" id="mailcode" name="mailcode" type="text"
-                                   placeholder="Код" data-validate="key require" />
+                                   placeholder="Код" data-validate="key require"/>
                         </div>
                         <div class="form-group form-group_center">
                             <button class="btn btn_primary form-btn" type="button" name="toComeInMail"
@@ -89,6 +89,9 @@
                     </div>
                     <div class="form-group form-group_center">
                         <a class="Login-reg" th:href="@{/signup}">Зарегистрироваться</a>
+                    </div>
+                    <div class="form-group form-group_center">
+                        <a class="Login-reg" th:href="@{/oauth2/authorization/facebook}">Войти с Facebook</a>
                     </div>
                 </div>
             </form>

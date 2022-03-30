@@ -2,15 +2,14 @@ package com.example.bookshop_app.security;
 
 import com.example.bookshop_app.dto.SearchWordDto;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
+import java.util.Optional;
 
 @Controller
 public class AuthUserController {
@@ -77,7 +76,23 @@ public class AuthUserController {
 
     @GetMapping("/profile")
     public String handleProfile(Model model) {
-        model.addAttribute("curUsr", userRegister.getCurrentUser());
+        Object curUser = userRegister.getCurrentUser();
+        String curUsrName = null;
+        String curUsrEmail = null;
+        String curUsrPhone = null;
+        if (curUser instanceof BookstoreUserDetails) {
+            curUsrName = ((BookstoreUserDetails) curUser).getBookstoreUser().getName();
+            curUsrEmail = ((BookstoreUserDetails) curUser).getBookstoreUser().getName();
+            curUsrPhone = ((BookstoreUserDetails) curUser).getBookstoreUser().getName();
+        } else if (curUser instanceof DefaultOAuth2User) {
+            curUsrName = ((DefaultOAuth2User) curUser).getAttributes().get("name").toString();
+            curUsrEmail = ((DefaultOAuth2User) curUser).getAttributes().get("email").toString();
+            curUsrPhone = Optional.ofNullable(((DefaultOAuth2User) curUser).getAttributes().get("phone"))
+                    .map(Object::toString).orElse(null);
+        }
+        model.addAttribute("curUsrName", curUsrName);
+        model.addAttribute("curUsrEmail", curUsrEmail);
+        model.addAttribute("curUsrPhone", curUsrPhone);
         return "profile";
     }
 }
