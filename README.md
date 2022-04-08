@@ -1,5 +1,5 @@
 <h1 align="center">BookShop</h1>
-<h2 align="center">module 7 Home work</h2>
+<h2 align="center">module 8 Home work</h2>
 <p align="center">
   
 <img src="https://img.shields.io/badge/Java-8-red.svg">
@@ -16,11 +16,12 @@
 
 ## Description
 <div>
-<h4>In module 7 were done:</h4>
-<ul>
-<li>Implement adding books to the "Pending" category 🦾</li>
-<li>Implement a mechanism for evaluating and rating books 🦾🦾🦾</li>
-<li>Implement book reviews functionality 🦾🦾🦾🦾</li>
+<h4>In module 8 were done:</h4>
+<ul> 
+<li>Implement security-specific exception handling 🦾</li>
+<li>Implement blacklist mechanism for invalid JWT tokens 🦾🦾</li>
+<li>Finalize OAuth authorization 🦾🦾🦾</li>
+<li>Restrict access to the book reviews functionality 🦾🦾🦾🦾</li>
 </ul>
 </div>
 
