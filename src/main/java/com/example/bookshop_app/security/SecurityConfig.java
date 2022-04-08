@@ -61,7 +61,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         return fsi;
                     }
                 })
-                .antMatchers("/my", "/profile").authenticated()//.hasRole("USER")
+                .antMatchers("/my", "/profile", "/books/rateBookReview", "/cart/**").authenticated()//.hasRole("USER")
                 .antMatchers("/**").permitAll()
                 .and().formLogin()
                 .loginPage("/signin").failureUrl("/signin")
