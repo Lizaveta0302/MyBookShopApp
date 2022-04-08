@@ -1,5 +1,6 @@
 package com.example.bookshop_app.security;
 
+import com.example.bookshop_app.entity.BookstoreUser;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;

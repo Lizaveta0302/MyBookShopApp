@@ -1,7 +1,7 @@
 package com.example.bookshop_app.entity.book.review;
 
 import com.example.bookshop_app.entity.book.Book;
-import com.example.bookshop_app.security.BookstoreUser;
+import com.example.bookshop_app.entity.BookstoreUser;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 

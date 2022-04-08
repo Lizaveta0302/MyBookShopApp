@@ -1,4 +1,4 @@
-package com.example.bookshop_app.security;
+package com.example.bookshop_app.entity;
 
 import javax.persistence.*;
 

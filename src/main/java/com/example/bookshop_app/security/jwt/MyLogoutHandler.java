@@ -21,7 +21,9 @@ public class MyLogoutHandler implements LogoutHandler {
     public void logout(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Authentication authentication) {
         JwtBlacklist jwtBlacklist = new JwtBlacklist();
         jwtBlacklist.setToken(Arrays.stream(httpServletRequest.getCookies()).filter(c -> c.getName().equals("token")).findFirst().map(Cookie::getValue).orElse(null));
-        jwtBlacklistRepository.save(jwtBlacklist);
+        if (jwtBlacklist.getToken() != null) {
+            jwtBlacklistRepository.save(jwtBlacklist);
+        }
     }
 
     public void setJwtBlacklistRepository(JwtBlacklistRepository jwtBlacklistRepository) {

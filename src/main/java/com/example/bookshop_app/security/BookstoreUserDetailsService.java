@@ -1,5 +1,7 @@
 package com.example.bookshop_app.security;
 
+import com.example.bookshop_app.entity.BookstoreUser;
+import com.example.bookshop_app.repo.BookstoreUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

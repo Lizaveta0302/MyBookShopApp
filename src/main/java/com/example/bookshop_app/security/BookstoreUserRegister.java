@@ -1,5 +1,7 @@
 package com.example.bookshop_app.security;
 
+import com.example.bookshop_app.entity.BookstoreUser;
+import com.example.bookshop_app.repo.BookstoreUserRepository;
 import com.example.bookshop_app.security.jwt.JWTUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -28,7 +30,6 @@ public class BookstoreUserRegister {
     }
 
     public void registerNewUser(RegistrationForm registrationForm) {
-
         if (bookstoreUserRepository.findBookstoreUserByEmail(registrationForm.getEmail()) == null) {
             BookstoreUser user = new BookstoreUser();
             user.setName(registrationForm.getName());
