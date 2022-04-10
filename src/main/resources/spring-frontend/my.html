@@ -4,7 +4,7 @@
 </head>
 <body class="Site">
 <header class="Header"
-        th:replace="~{fragments/common_header_fragment :: head(status='authorized')}"></header>
+        th:replace="~{fragments/common_header_fragment :: head(main='menu-item menu-item_ACTIVE', status='authorized')}"></header>
 <div class="Middle">
     <div class="wrap">
         <main class="Middle-main">
@@ -12,35 +12,34 @@
                 th:replace="~{fragments/breadcrumb_fragment :: breadcrumps(category='Мои книги')}"></ul>
             <div class="Section">
                 <div class="Section-header">
-                    <h1 class="Section-title">Мои книги
-                    </h1>
-                    <div class="Section-header-links"><span class="Section-header-link Section-header-link_ACTIVE">Непрочитанные</span><a
-                            class="Section-header-link" th:href="@{/myarchive}" href="/myarchive.html">Архив</a>
+                    <h1 class="Section-title">Мои книги</h1>
+                    <div class="Section-header-links">
+                        <span class="Section-header-link Section-header-link_ACTIVE">Непрочитанные</span>
+                        <a class="Section-header-link" th:href="@{/myarchive}" href="/myarchive.html">Архив</a>
                     </div>
                 </div>
                 <div class="Cards">
                     <div class="Card">
-                        <div class="Card-picture"><a href="#"><img src="/assets/img/content/main/card.jpg"
-                                                                   alt="card.jpg"/></a>
+                        <div class="Card-picture"><a href="#">
+                            <img src="/assets/img/content/main/card.jpg" alt="card.jpg"/></a>
                         </div>
                         <div class="Card-content">
-                            <strong class="Card-title"><a href="#">Техника</a>
-                            </strong>
-                            <div class="Card-description">Кондратенко Александр Петрович
-                            </div>
-                            <div class="Card-cost"><span class="Card-priceOld">₽300.00</span><span class="Card-price">₽190.00</span>
+                            <strong class="Card-title"><a href="#">Техника</a></strong>
+                            <div class="Card-description">Кондратенко Александр Петрович</div>
+                            <div class="Card-cost">
+                                <span class="Card-priceOld">₽300.00</span>
+                                <span class="Card-price">₽190.00</span>
                             </div>
                         </div>
                     </div>
                     <div class="Card">
-                        <div class="Card-picture"><a href="#"><img src="/assets/img/content/main/card.jpg"
-                                                                   alt="card.jpg"/></a>
-                            <div class="Card-sale">30% скидка
-                            </div>
+                        <div class="Card-picture"><a href="#">
+                            <img src="/assets/img/content/main/card.jpg" alt="card.jpg"/></a>
+                            <div class="Card-sale">30% скидка</div>
                         </div>
                         <div class="Card-content">
-                            <strong class="Card-title"><a href="#">Английский язык. 5 класс. Английский в фокусе.
-                                Рабочая тетрадь. ФГОС</a>
+                            <strong class="Card-title">
+                                <a href="#">Английский язык. 5 класс. Английский в фокусе. Рабочая тетрадь. ФГОС</a>
                             </strong>
                             <div class="Card-description">Ваулина, Дули, Подоляко
                             </div>

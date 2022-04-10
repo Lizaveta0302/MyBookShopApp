@@ -1,7 +1,7 @@
 package com.example.bookshop_app.entity.book.review;
 
-import com.example.bookshop_app.entity.User;
 import com.example.bookshop_app.entity.book.Book;
+import com.example.bookshop_app.entity.BookstoreUser;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -26,7 +26,7 @@ public class BookReview {
     @ManyToOne
     @JsonBackReference
     @JoinColumn(name = "user_id", referencedColumnName = "id")
-    private User user;
+    private BookstoreUser user;
 
     @Column(columnDefinition = "TIMESTAMP NOT NULL")
     private LocalDateTime time;
@@ -54,11 +54,11 @@ public class BookReview {
         this.book = book;
     }
 
-    public User getUser() {
+    public BookstoreUser getUser() {
         return user;
     }
 
-    public void setUser(User user) {
+    public void setUser(BookstoreUser user) {
         this.user = user;
     }
 

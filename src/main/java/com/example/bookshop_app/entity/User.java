@@ -3,7 +3,7 @@ package com.example.bookshop_app.entity;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
-@Entity
+//@Entity
 @Table(schema = "shop", name = "users")
 public class User {
 

@@ -5,6 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -19,20 +20,23 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(ParseException.class)
     public ResponseEntity<Response> handleParseException(DateTimeParseException e) {
-        Response response = new Response(e.getMessage());
-        return new ResponseEntity<>(response, HttpStatus.OK);
+        return new ResponseEntity<>(new Response(e.getMessage()), HttpStatus.OK);
     }
 
     @ExceptionHandler(IllegalArgumentException.class)
     public ResponseEntity<Response> handleIllegalArgumentException(IllegalArgumentException e) {
-        Response response = new Response(e.getMessage());
-        return new ResponseEntity<>(response, HttpStatus.OK);
+        return new ResponseEntity<>(new Response(e.getMessage()), HttpStatus.OK);
     }
 
     @ExceptionHandler(FileSizeLimitExceededException.class)
     public ResponseEntity<Response> handleFileSizeLimitExceededException(FileSizeLimitExceededException e) {
-        Response response = new Response(e.getMessage());
-        return new ResponseEntity<>(response, HttpStatus.OK);
+        return new ResponseEntity<>(new Response(e.getMessage()), HttpStatus.OK);
+    }
+
+    @ExceptionHandler(AuthenticationException.class)
+    public ResponseEntity<Response> handleSpringSecurityExceptions(AuthenticationException e) {
+        logger.warn("Authentication exception is occurred: {}", e.getLocalizedMessage());
+        return new ResponseEntity<>(new Response(e.getMessage()), HttpStatus.OK);
     }
 
     @ExceptionHandler(EmptySearchException.class)

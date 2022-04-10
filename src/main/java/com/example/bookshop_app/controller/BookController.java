@@ -169,7 +169,7 @@ public class BookController {
     }
 
     @PostMapping("/rateBookReview")
-    public String handleRatingBookReview(@RequestParam("reviewid") Long reviewId, @RequestParam("value") Short likeValue) {
+    public String handleRatingBookReview(@RequestParam(name = "reviewId", required = false) Long reviewId, @RequestParam(name = "value", required = false) Short likeValue) {
         BookReview bookReview = bookReviewService.getBookReviewById(reviewId);
         BookReviewLike like = new BookReviewLike();
         like.setReview(bookReview);
