@@ -4,6 +4,7 @@ import com.example.bookshop_app.dto.SearchWordDto;
 import com.example.bookshop_app.entity.book.Book;
 import com.example.bookshop_app.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -16,6 +17,7 @@ import java.util.List;
 import java.util.StringJoiner;
 
 @Controller
+@Secured("ROLE_USER")
 @RequestMapping("/cart")
 public class CartController {
 

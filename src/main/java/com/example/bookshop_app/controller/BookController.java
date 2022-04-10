@@ -17,6 +17,7 @@ import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -159,6 +160,7 @@ public class BookController {
                 .body(new ByteArrayResource(data));
     }
 
+    @Secured("ROLE_USER")
     @PostMapping("/changeBookStatus/rate")
     public String handleMovingBookToPostponedFromCart(@RequestParam("bookId") Integer bookId, @RequestParam("value") Integer mark) {
         BookMark rate = new BookMark();
@@ -168,8 +170,9 @@ public class BookController {
         return "redirect:/books/" + bookId;
     }
 
+    @Secured("ROLE_USER")
     @PostMapping("/rateBookReview")
-    public String handleRatingBookReview(@RequestParam(name = "reviewId", required = false) Long reviewId, @RequestParam(name = "value", required = false) Short likeValue) {
+    public String handleRatingBookReview(@RequestParam(name = "reviewId") Long reviewId, @RequestParam(name = "value") Short likeValue) {
         BookReview bookReview = bookReviewService.getBookReviewById(reviewId);
         BookReviewLike like = new BookReviewLike();
         like.setReview(bookReview);
