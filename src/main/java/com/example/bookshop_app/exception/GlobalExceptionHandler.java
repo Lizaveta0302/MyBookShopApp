@@ -1,5 +1,6 @@
 package com.example.bookshop_app.exception;
 
+import io.jsonwebtoken.JwtException;
 import org.apache.tomcat.util.http.fileupload.impl.FileSizeLimitExceededException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -44,5 +45,11 @@ public class GlobalExceptionHandler {
         logger.error(e.getLocalizedMessage());
         redirectAttributes.addFlashAttribute("searchError", e);
         return "redirect:/bookshop/main";
+    }
+
+    @ExceptionHandler(JwtException.class)
+    public String handleJwtException(JwtException e) {
+        logger.warn("Jwt exception is occurred: {}", e.getLocalizedMessage());
+        return "redirect:/signin";
     }
 }
