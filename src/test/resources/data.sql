@@ -1460,3 +1460,6 @@ insert into shop.book2genre (id, book_id, genre_id) values (97, 36, 56);
 insert into shop.book2genre (id, book_id, genre_id) values (98, 41, 14);
 insert into shop.book2genre (id, book_id, genre_id) values (99, 33, 7);
 insert into shop.book2genre (id, book_id, genre_id) values (100, 71, 10);
+
+insert into shop.users (email, name, password, phone)
+values ('liza.shpinkovaa@mail.ru', 'Liza', '$2a$10$xVbI2G/9.rmNVFzBYOnAGenP8SddzOV8QZ0JUDxBNdx7vq5L88M86', '+7 (918) 467-77-24');
