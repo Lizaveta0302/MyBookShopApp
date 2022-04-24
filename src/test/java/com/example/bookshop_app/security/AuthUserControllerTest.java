@@ -10,8 +10,13 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 
+import java.util.Objects;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doReturn;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 
 @SpringBootTest
@@ -41,12 +46,18 @@ class AuthUserControllerTest {
 
     @Test
     void handleLogin() throws Exception {
-        mockMvc.perform(post("/login")
+        ContactConfirmationResponse response = new ContactConfirmationResponse();
+        response.setResult("");
+        doReturn(response)
+                .when(userRegister)
+                .jwtLogin(any());
+        MvcResult mvcResult = mockMvc.perform(post("/login")
                 .content(asJsonString(new ContactConfirmationPayload()))
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
                 .andReturn();
         Mockito.verify(userRegister, Mockito.times(1)).jwtLogin(any());
+        assertEquals(response.getResult(), Objects.requireNonNull(mvcResult.getResponse().getCookie("token")).getValue());
     }
 
     public static String asJsonString(final Object obj) {
