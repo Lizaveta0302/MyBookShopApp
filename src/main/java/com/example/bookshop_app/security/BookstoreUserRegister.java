@@ -30,7 +30,7 @@ public class BookstoreUserRegister {
     }
 
     public BookstoreUser registerNewUser(RegistrationForm registrationForm) {
-        BookstoreUser newUser = new BookstoreUser();
+        BookstoreUser newUser = null;
         if (bookstoreUserRepository.findBookstoreUserByEmail(registrationForm.getEmail()) == null) {
             BookstoreUser user = new BookstoreUser();
             user.setName(registrationForm.getName());
