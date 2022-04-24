@@ -12,12 +12,17 @@ import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
+import javax.servlet.http.Cookie;
 import java.util.Objects;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doReturn;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -40,6 +45,7 @@ class AuthUserControllerTest {
                 .content(asJsonString(new RegistrationForm()))
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().is2xxSuccessful())
                 .andReturn();
         Mockito.verify(userRegister, Mockito.times(1)).registerNewUser(any());
     }
@@ -55,9 +61,22 @@ class AuthUserControllerTest {
                 .content(asJsonString(new ContactConfirmationPayload()))
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().is2xxSuccessful())
                 .andReturn();
         Mockito.verify(userRegister, Mockito.times(1)).jwtLogin(any());
         assertEquals(response.getResult(), Objects.requireNonNull(mvcResult.getResponse().getCookie("token")).getValue());
+    }
+
+    @Test
+    void handleLogout() throws Exception {
+        MvcResult mvcResult = mockMvc.perform(get("/logout"))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/signin"))
+                .andReturn();
+        Cookie cookie = mvcResult.getResponse().getCookie("token");
+        if (Objects.nonNull(cookie)) {
+            assertNull(cookie.getValue());
+        }
     }
 
     public static String asJsonString(final Object obj) {
