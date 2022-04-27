@@ -11,10 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.StringJoiner;
+import java.util.*;
 
 @Controller
 @Secured("ROLE_USER")
@@ -187,14 +184,18 @@ public class CartController {
             response.addCookie(cookie);
             model.addAttribute("isCartEmpty", false);
         }
-        bookService.updateQuantityInBasket(slug, bookService.findBookBySlug(slug).getQuantityInBasket() + 1);
+        Book book = bookService.findBookBySlug(slug);
+        if (Objects.nonNull(book)) {
+            int quantityInBasket = book.getQuantityInBasket() == null ? 0 : book.getQuantityInBasket();
+            bookService.updateQuantityInBasket(slug, quantityInBasket + 1);
+        }
         return "redirect:/books/slug/" + slug;
     }
 
     @PostMapping("/changeBookStatus/cart/remove/{slug}")
     public String handleRemoveBookFromCartRequest(@PathVariable("slug") String slug, @CookieValue(name = "cartContents",
             required = false) String cartContents, HttpServletResponse response, Model model) {
-        if (cartContents != null || !cartContents.equals("")) {
+        if (cartContents != null && !cartContents.isEmpty()) {
             List<String> cookieBooks = new ArrayList<>(Arrays.asList(cartContents.split("/")));
             cookieBooks.remove(slug);
             Cookie cookie = new Cookie("cartContents", String.join("/", cookieBooks));
@@ -204,7 +205,11 @@ public class CartController {
         } else {
             model.addAttribute("isCartEmpty", true);
         }
-        bookService.updateQuantityInBasket(slug, bookService.findBookBySlug(slug).getQuantityInBasket() - 1);
+        Book book = bookService.findBookBySlug(slug);
+        if (Objects.nonNull(book)) {
+            int quantityInBasket = book.getQuantityInBasket() == null ? 0 : book.getQuantityInBasket();
+            bookService.updateQuantityInBasket(slug, quantityInBasket - 1);
+        }
         return "redirect:/cart";
     }
 }

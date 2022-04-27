@@ -145,13 +145,13 @@ public class BookController {
     @GetMapping("/download/{hash}")
     public ResponseEntity<ByteArrayResource> bookFile(@PathVariable("hash") String hash) throws IOException {
         Path path = storage.getBookFilePath(hash);
-        logger.info("book file path: " + path);
+        logger.info("book file path: {}", path);
 
         MediaType mediaType = storage.getBookFileMime(hash);
-        logger.info("book file mime type: " + mediaType);
+        logger.info("book file mime type: {}", mediaType);
 
         byte[] data = storage.getBookFileByteArray(hash);
-        logger.info("book file data len: " + data.length);
+        logger.info("book file data len: {}", data.length);
 
         return ResponseEntity.ok()
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment;filename=" + path.getFileName().toString())
@@ -172,11 +172,12 @@ public class BookController {
 
     @Secured("ROLE_USER")
     @PostMapping("/rateBookReview")
-    public String handleRatingBookReview(@RequestParam(name = "reviewId") Long reviewId, @RequestParam(name = "value") Short likeValue) {
-        BookReview bookReview = bookReviewService.getBookReviewById(reviewId);
+    public String handleRatingBookReview(@RequestBody Map<String, String> payload) {
+        BookReview bookReview = bookReviewService.getBookReviewById(Long.parseLong(payload.get("reviewId")));
         BookReviewLike like = new BookReviewLike();
         like.setReview(bookReview);
         like.setTime(LocalDateTime.now());
+        int likeValue = Integer.parseInt(payload.get("value"));
         like.setValue(likeValue);
         if (likeValue == 1) {
             bookReviewService.insertBookReviewLike(like);

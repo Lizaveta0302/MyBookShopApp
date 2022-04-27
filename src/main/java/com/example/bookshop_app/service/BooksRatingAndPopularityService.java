@@ -11,10 +11,6 @@ import java.util.stream.Collectors;
 public class BooksRatingAndPopularityService {
 
     public List<Book> sortBooksAccordingItsPopularity(List<Book> books) {
-        /*Comparator<Book> popularityComparator = (b1, b2) -> (int) (b1.getNumberOfPurchased() +
-                b1.getQuantityInBasket() * 0.7 + b1.getNumberOfPostponed() * 0.4) >
-                (int) (b2.getNumberOfPurchased() + b2.getQuantityInBasket() * 0.7 +
-                        b2.getNumberOfPostponed() * 0.4) ? 1 : 0;*/
         return books.stream().sorted(new PopularityComparator()).collect(Collectors.toList());
     }
 

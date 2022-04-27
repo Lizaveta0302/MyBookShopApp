@@ -10,6 +10,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Arrays;
+import java.util.Objects;
 
 @Service
 public class MyLogoutHandler implements LogoutHandler {
@@ -19,10 +20,13 @@ public class MyLogoutHandler implements LogoutHandler {
 
     @Override
     public void logout(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Authentication authentication) {
-        JwtBlacklist jwtBlacklist = new JwtBlacklist();
-        jwtBlacklist.setToken(Arrays.stream(httpServletRequest.getCookies()).filter(c -> c.getName().equals("token")).findFirst().map(Cookie::getValue).orElse(null));
-        if (jwtBlacklist.getToken() != null) {
-            jwtBlacklistRepository.save(jwtBlacklist);
+        if (Objects.nonNull(httpServletRequest.getCookies())) {
+            JwtBlacklist jwtBlacklist = new JwtBlacklist();
+            jwtBlacklist.setToken(Arrays.stream(httpServletRequest.getCookies()).filter(c -> c.getName().equals("token"))
+                    .findFirst().map(Cookie::getValue).orElse(null));
+            if (jwtBlacklist.getToken() != null) {
+                jwtBlacklistRepository.save(jwtBlacklist);
+            }
         }
     }
 
