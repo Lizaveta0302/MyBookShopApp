@@ -4,6 +4,7 @@ import com.example.bookshop_app.entity.BookstoreUser;
 import com.example.bookshop_app.entity.book.Book;
 import com.example.bookshop_app.entity.book.review.BookReviewLike;
 import io.jsonwebtoken.JwtException;
+import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -46,5 +47,23 @@ public class LoggingAspect {
     @AfterThrowing(pointcut = "loggablePointcut()", throwing = "ex")
     public void afterThrowingAdvice(Exception ex) {
         logger.warn("Exception has occurred: {}", ex.getLocalizedMessage());
+    }
+
+    @Pointcut(value = "execution(* *Login*(..))")
+    public void allLoginMethodsPointcut() {
+    }
+
+    @After("allLoginMethodsPointcut()")
+    public void execAdviceForAllLoginMethods(JoinPoint joinPoint) {
+        logger.info("Attempt to login. {} was involved", joinPoint.getTarget().getClass().getSimpleName());
+    }
+
+    @Pointcut(value = "within(com.example.bookshop_app.controller.BooksRestApiController)")
+    public void allMethodsOfBooksRestApiControllerPointcut() {
+    }
+
+    @After("allMethodsOfBooksRestApiControllerPointcut()")
+    public void allMethodsOfBooksRestApiControllerAdvice(JoinPoint joinPoint) {
+        logger.info("{} method of books rest api controller invoked", joinPoint);
     }
 }
