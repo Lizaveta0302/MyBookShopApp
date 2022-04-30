@@ -1,5 +1,6 @@
 package com.example.bookshop_app.service;
 
+import com.example.bookshop_app.aop.annotation.Loggable;
 import com.example.bookshop_app.entity.book.Book;
 import com.example.bookshop_app.entity.book.review.BookReview;
 import com.example.bookshop_app.entity.book.review.BookReviewLike;
@@ -31,8 +32,10 @@ public class BookReviewService {
         return bookReviewRepository.getById(reviewId);
     }
 
-    public void insertBookReviewLike(BookReviewLike bookReviewLike) {
-        bookReviewLikeRepository.saveAndFlush(bookReviewLike);
+    @Loggable
+    public BookReviewLike insertBookReviewLike(BookReviewLike bookReviewLike) {
+        BookReviewLike like = bookReviewLikeRepository.saveAndFlush(bookReviewLike);
+        return like;
     }
 
     @Transactional

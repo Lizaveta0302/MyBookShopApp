@@ -1,5 +1,6 @@
 package com.example.bookshop_app.service;
 
+import com.example.bookshop_app.aop.annotation.Loggable;
 import com.example.bookshop_app.entity.Genre;
 import com.example.bookshop_app.entity.Tag;
 import com.example.bookshop_app.entity.book.Book;
@@ -104,8 +105,10 @@ public class BookService {
         return bookRepository.findBooksByGenresIsContaining(nextPage, genre);
     }
 
-    public void save(Book bookToUpdate) {
-        bookRepository.save(bookToUpdate);
+    @Loggable
+    public Book save(Book bookToUpdate) {
+        Book savedBook = bookRepository.save(bookToUpdate);
+        return savedBook;
     }
 
     public Book findBookBySlug(String slug) {
