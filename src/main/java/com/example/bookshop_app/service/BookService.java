@@ -1,31 +1,46 @@
 package com.example.bookshop_app.service;
 
 import com.example.bookshop_app.aop.annotation.Loggable;
+import com.example.bookshop_app.data.google.api.books.Item;
+import com.example.bookshop_app.data.google.api.books.ListPrice;
+import com.example.bookshop_app.data.google.api.books.RetailPrice;
+import com.example.bookshop_app.data.google.api.books.Root;
+import com.example.bookshop_app.entity.Author;
 import com.example.bookshop_app.entity.Genre;
 import com.example.bookshop_app.entity.Tag;
 import com.example.bookshop_app.entity.book.Book;
 import com.example.bookshop_app.repo.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.client.RestTemplate;
 
 import java.sql.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.Optional;
 
 @Service
 public class BookService {
 
+    @Value("${google.books.api.key}")
+    private String apiKey;
+
+    private RestTemplate restTemplate;
+
     private BookRepository bookRepository;
 
     @Autowired
-    public BookService(BookRepository bookRepository) {
+    public BookService(RestTemplate restTemplate, BookRepository bookRepository) {
+        this.restTemplate = restTemplate;
         this.bookRepository = bookRepository;
     }
 
@@ -133,5 +148,33 @@ public class BookService {
     public void updateQuantityInBasketAndNumberOfPostponed(String slug, Integer numberOfPostponed, Integer quantityInBasket) {
         updateNumberOfPostponed(slug, numberOfPostponed);
         updateQuantityInBasket(slug, quantityInBasket);
+    }
+
+    public List<Book> getPageOfGoogleBooksApiSearchResult(String searchWord, Integer offset, Integer limit) {
+        String REQUEST_URL = "https://www.googleapis.com/books/v1/volumes" +
+                "?q=" + searchWord +
+                "&key=" + apiKey +
+                "&filter=paid-ebooks" +
+                "&startIndex=" + offset +
+                "&maxResult=" + limit;
+
+        Root root = restTemplate.getForEntity(REQUEST_URL, Root.class).getBody();
+        List<Book> list = new ArrayList<>();
+        if (root != null) {
+            for (Item item : root.getItems()) {
+                Book book = new Book();
+                if (item.getVolumeInfo() != null) {
+                    book.setAuthor(new Author(item.getVolumeInfo().getAuthors()));
+                    book.setTitle(item.getVolumeInfo().getTitle());
+                    book.setImage(item.getVolumeInfo().getImageLinks().getThumbnail());
+                }
+                if (item.getSaleInfo() != null) {
+                    book.setPrice(Optional.ofNullable(item.getSaleInfo().getRetailPrice()).map(RetailPrice::getAmount).orElse(null));
+                    Optional.ofNullable(item.getSaleInfo().getListPrice()).map(ListPrice::getAmount).ifPresent(oldPrice -> book.setPriceOld(oldPrice.intValue()));
+                }
+                list.add(book);
+            }
+        }
+        return list;
     }
 }
