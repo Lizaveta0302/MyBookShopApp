@@ -1,5 +1,5 @@
 <h1 align="center">BookShop</h1>
-<h2 align="center">module 9 Home work</h2>
+<h2 align="center">module 10 Home work</h2>
 <p align="center">
   
 <img src="https://img.shields.io/badge/Java-8-red.svg">
@@ -16,11 +16,11 @@
 
 ## Description
 <div>
-<h4>In module 9 were done:</h4>
+<h4>In module 10 were done:</h4>
 <ul> 
-<li>Analyze and refactor the code 🦾</li>
-<li>Implement business logic coverage with unit tests 🦾🦾</li>
-<li>Implement API coverage with integration tests 🦾🦾🦾</li>
+<li>Analyze the code to highlight the tasks of end-to-end functionality in the project 🦾</li>
+<li>Implement the solution of the selected task using pointcut annotations 🦾🦾</li>
+<li>Implement the solution of the selected task using pointcut expressions 🦾🦾🦾</li>
 </ul>
 </div>
 

@@ -1,5 +1,6 @@
 package com.example.bookshop_app.service;
 
+import com.example.bookshop_app.aop.annotation.DurationTrackable;
 import com.example.bookshop_app.entity.book.BookMark;
 import com.example.bookshop_app.repo.BookMarkRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,7 @@ public class BookMarkService {
         this.bookMarkRepository = bookMarkRepository;
     }
 
+    @DurationTrackable
     public Map<Integer, Integer> getBookRating(Integer id) {
         Map<Integer, Integer> ratingMap = new HashMap<>();
         List<Integer> ratings = bookMarkRepository.getBookRating(id);

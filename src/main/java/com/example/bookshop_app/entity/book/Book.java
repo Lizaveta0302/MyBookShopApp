@@ -75,6 +75,7 @@ public class Book {
     @Column(name = "quantity_in_basket")
     private Integer quantityInBasket;
 
+    @JsonIgnore
     @ManyToMany
     @JoinTable(
             schema = "shop",
