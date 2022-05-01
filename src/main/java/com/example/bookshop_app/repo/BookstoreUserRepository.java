@@ -10,6 +10,8 @@ public interface BookstoreUserRepository extends JpaRepository<BookstoreUser, In
 
     BookstoreUser findBookstoreUserByEmail(String email);
 
+    BookstoreUser findBookstoreUserByPhone(String phone);
+
     @Modifying
     @Query(value = "UPDATE shop.users SET name=:name, email=:email, phone=:phone, password=:password" +
             " WHERE id=:userId", nativeQuery = true)

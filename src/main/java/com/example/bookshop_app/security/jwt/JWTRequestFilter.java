@@ -2,7 +2,6 @@ package com.example.bookshop_app.security.jwt;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.interfaces.DecodedJWT;
-import com.example.bookshop_app.security.BookstoreUserDetails;
 import com.example.bookshop_app.security.BookstoreUserDetailsService;
 import com.example.bookshop_app.security.jwt.repo.JwtBlacklistRepository;
 import org.slf4j.Logger;
@@ -11,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -92,7 +92,7 @@ public class JWTRequestFilter extends OncePerRequestFilter {
     }
 
     private void validateToken(HttpServletRequest httpServletRequest, String token, String username) {
-        BookstoreUserDetails userDetails = (BookstoreUserDetails) bookstoreUserDetailsService.loadUserByUsername(username);
+        UserDetails userDetails = bookstoreUserDetailsService.loadUserByUsername(username);
         if (jwtUtil.validateToken(token, userDetails)) {
             UsernamePasswordAuthenticationToken authenticationToken =
                     new UsernamePasswordAuthenticationToken(
