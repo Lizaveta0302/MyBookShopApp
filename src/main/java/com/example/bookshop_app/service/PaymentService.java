@@ -1,5 +1,6 @@
 package com.example.bookshop_app.service;
 
+import com.example.bookshop_app.entity.BalanceTransaction;
 import com.example.bookshop_app.entity.book.Book;
 import com.example.bookshop_app.repo.PaymentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,5 +37,9 @@ public class PaymentService {
                 "&OutSum=" + Double.toString(paymentSumTotal) +
                 "&SignatureValue=" + DatatypeConverter.printHexBinary(md.digest()).toUpperCase() +
                 "&IsTest=1";
+    }
+
+    public List<BalanceTransaction> getTransactionHistoryByUserId(Integer id) {
+        return paymentRepository.findAllByUserId(id);
     }
 }

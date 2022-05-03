@@ -35,9 +35,13 @@ public class UserService {
         return userRepository.findBookstoreUserById(id);
     }
 
+    public BookstoreUser getUserByEmail(String email) {
+        return userRepository.findBookstoreUserByEmail(email);
+    }
+
     @Transactional
     public void saveNewUser(UserProfileForm profileForm) {
-        BookstoreUser user = userRepository.findBookstoreUserByEmail(profileForm.getMail());
+        BookstoreUser user = getUserByEmail(profileForm.getMail());
         if (Objects.isNull(user)) {
             BookstoreUser newUser = new BookstoreUser();
             newUser.setName(profileForm.getName());
