@@ -3,17 +3,14 @@ package com.example.bookshop_app.controller;
 import com.example.bookshop_app.dto.SearchWordDto;
 import com.example.bookshop_app.entity.book.Book;
 import com.example.bookshop_app.service.BookService;
-import com.example.bookshop_app.service.PaymentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.view.RedirectView;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
-import java.security.NoSuchAlgorithmException;
 import java.util.*;
 
 @Controller
@@ -23,8 +20,6 @@ public class CartController {
 
     @Autowired
     private BookService bookService;
-    @Autowired
-    private PaymentService paymentService;
 
     @ModelAttribute(name = "bookCart")
     public List<Book> bookCart() {
@@ -97,7 +92,7 @@ public class CartController {
             List<String> cookieCartBooks = new ArrayList<>(Arrays.asList(cartContents.split("/")));
             cookieCartBooks.remove(slug);
             Cookie cartCookie = new Cookie("cartContents", String.join("/", cookieCartBooks));
-            cartCookie.setPath("/cart");
+            cartCookie.setPath("/");
             response.addCookie(cartCookie);
             List<String> cookiePostponedBooks = new ArrayList<>(Arrays.asList(postponeContents.split("/")));
             cookiePostponedBooks.add(slug);
@@ -127,7 +122,7 @@ public class CartController {
             List<String> cookieCartBooks = new ArrayList<>(Arrays.asList(cartContents.split("/")));
             cookieCartBooks.add(slug);
             Cookie cartCookie = new Cookie("cartContents", String.join("/", cookieCartBooks));
-            cartCookie.setPath("/cart");
+            cartCookie.setPath("/");
             response.addCookie(cartCookie);
             model.addAttribute("isCartEmpty", false);
         } else {
@@ -150,7 +145,7 @@ public class CartController {
             postponedCookie.setPath("/cart");
             response.addCookie(postponedCookie);
             Cookie cartCookie = new Cookie("cartContents", String.join("/", cookieCartBooks));
-            cartCookie.setPath("/cart");
+            cartCookie.setPath("/");
             response.addCookie(cartCookie);
             model.addAttribute("isCartEmpty", false);
         }
@@ -178,14 +173,14 @@ public class CartController {
             required = false) String cartContents, HttpServletResponse response, Model model) {
         if (cartContents == null || cartContents.equals("")) {
             Cookie cookie = new Cookie("cartContents", slug);
-            cookie.setPath("/cart");
+            cookie.setPath("/");
             response.addCookie(cookie);
             model.addAttribute("isCartEmpty", false);
         } else if (!cartContents.contains(slug)) {
             StringJoiner stringJoiner = new StringJoiner("/");
             stringJoiner.add(cartContents).add(slug);
             Cookie cookie = new Cookie("cartContents", stringJoiner.toString());
-            cookie.setPath("/cart");
+            cookie.setPath("/");
             response.addCookie(cookie);
             model.addAttribute("isCartEmpty", false);
         }
@@ -204,7 +199,7 @@ public class CartController {
             List<String> cookieBooks = new ArrayList<>(Arrays.asList(cartContents.split("/")));
             cookieBooks.remove(slug);
             Cookie cookie = new Cookie("cartContents", String.join("/", cookieBooks));
-            cookie.setPath("/cart");
+            cookie.setPath("/");
             response.addCookie(cookie);
             model.addAttribute("isCartEmpty", false);
         } else {
@@ -216,15 +211,5 @@ public class CartController {
             bookService.updateQuantityInBasket(slug, quantityInBasket - 1);
         }
         return "redirect:/cart";
-    }
-
-    @GetMapping("/pay")
-    public RedirectView handlePay(@CookieValue(value = "cartContents", required = false) String cartContents) throws NoSuchAlgorithmException {
-        cartContents = cartContents.startsWith("/") ? cartContents.substring(1) : cartContents;
-        cartContents = cartContents.endsWith("/") ? cartContents.substring(0, cartContents.length() - 1) : cartContents;
-        String[] cookieSlugs = cartContents.split("/");
-        List<Book> booksFromCookieSlugs = bookService.findBooksBySlugIn(cookieSlugs);
-        String paymentUrl = paymentService.getPaymentUrl(booksFromCookieSlugs);
-        return new RedirectView(paymentUrl);
     }
 }

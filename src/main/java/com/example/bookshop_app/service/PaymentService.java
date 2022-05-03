@@ -1,6 +1,8 @@
 package com.example.bookshop_app.service;
 
 import com.example.bookshop_app.entity.book.Book;
+import com.example.bookshop_app.repo.PaymentRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -11,6 +13,9 @@ import java.util.List;
 
 @Service
 public class PaymentService {
+
+    @Autowired
+    private PaymentRepository paymentRepository;
 
     @Value("${robokassa.merchant.login}")
     private String merchantLogin;
