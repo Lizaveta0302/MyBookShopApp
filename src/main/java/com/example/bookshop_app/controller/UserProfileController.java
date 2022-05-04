@@ -1,20 +1,19 @@
 package com.example.bookshop_app.controller;
 
 import com.example.bookshop_app.dto.SearchWordDto;
+import com.example.bookshop_app.dto.TransactionsPageDto;
 import com.example.bookshop_app.dto.form.UserProfileForm;
 import com.example.bookshop_app.entity.BalanceTransaction;
 import com.example.bookshop_app.entity.BookstoreUser;
 import com.example.bookshop_app.security.BookstoreUserDetails;
 import com.example.bookshop_app.security.BookstoreUserRegister;
-import com.example.bookshop_app.service.PaymentService;
+import com.example.bookshop_app.service.BalanceTransactionService;
 import com.example.bookshop_app.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,7 +26,7 @@ public class UserProfileController {
     @Autowired
     private UserService userService;
     @Autowired
-    private PaymentService paymentService;
+    private BalanceTransactionService balanceTransactionService;
     @Autowired
     private BookstoreUserRegister userRegister;
 
@@ -73,11 +72,17 @@ public class UserProfileController {
         }
         List<BalanceTransaction> transactionHistory = new ArrayList<>();
         if (Optional.ofNullable(currentUser).map(BookstoreUser::getId).isPresent()) {
-            transactionHistory = paymentService.getTransactionHistoryByUserId(currentUser.getId());
+            transactionHistory = balanceTransactionService.getTransactionHistoryByUserId(currentUser.getId());
         }
         model.addAttribute("currentUser", currentUser);
         model.addAttribute("profileForm", new UserProfileForm());
         model.addAttribute("transactionHistory", transactionHistory);
         return "profile";
+    }
+
+    @GetMapping("/profile/transactions")
+    @ResponseBody
+    public TransactionsPageDto getTransactionsHistory(@RequestParam("sort") String sort, @RequestParam("offset") Integer offset, @RequestParam("limit") Integer limit) {
+        return new TransactionsPageDto(balanceTransactionService.getTransactionHistory(offset, limit).getContent());
     }
 }

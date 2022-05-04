@@ -74,7 +74,7 @@ public class BookController {
 
     @GetMapping("/recommended")
     @ResponseBody
-    public BooksPageDto getRecommendedBooksPage(@RequestParam("offset") Integer offset, @RequestParam("limit") Integer limit, Model model) {
+    public BooksPageDto getRecommendedBooksPage(@RequestParam("offset") Integer offset, @RequestParam("limit") Integer limit) {
         return new BooksPageDto(bookService.getPageOfRecommendedBooks(offset, limit).getContent());
     }
 
