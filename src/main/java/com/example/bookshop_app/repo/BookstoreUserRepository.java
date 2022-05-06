@@ -19,4 +19,10 @@ public interface BookstoreUserRepository extends JpaRepository<BookstoreUser, In
                            @Param("password") String password, @Param("userId") Integer userId);
 
     BookstoreUser findBookstoreUserById(Integer userId);
+
+    @Modifying
+    @Query(value = "UPDATE shop.users SET balance=:balance" +
+            " WHERE id=:userId", nativeQuery = true)
+    void updateUserBalance(@Param("balance") Double balance, @Param("userId") Integer userId);
+
 }

@@ -1,0 +1,1 @@
+alter table shop.users add balance double precision default 0.0;

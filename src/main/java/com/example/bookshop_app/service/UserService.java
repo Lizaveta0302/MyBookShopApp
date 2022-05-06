@@ -64,4 +64,8 @@ public class UserService {
             logger.info("User with id {} was not found", userId);
         }
     }
+
+    public void updateUserBalance(Double userBalance, Integer userId) {
+        userRepository.updateUserBalance(userBalance, userId);
+    }
 }

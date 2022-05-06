@@ -5,9 +5,12 @@ import com.example.bookshop_app.dto.TransactionsPageDto;
 import com.example.bookshop_app.dto.form.UserProfileForm;
 import com.example.bookshop_app.entity.BalanceTransaction;
 import com.example.bookshop_app.entity.BookstoreUser;
+import com.example.bookshop_app.entity.book.Book;
+import com.example.bookshop_app.exception.OutOfBalanceException;
 import com.example.bookshop_app.security.BookstoreUserDetails;
 import com.example.bookshop_app.security.BookstoreUserRegister;
 import com.example.bookshop_app.service.BalanceTransactionService;
+import com.example.bookshop_app.service.BookService;
 import com.example.bookshop_app.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
@@ -15,6 +18,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -24,11 +29,13 @@ import java.util.Optional;
 public class UserProfileController {
 
     @Autowired
+    private BookService bookService;
+    @Autowired
     private UserService userService;
     @Autowired
-    private BalanceTransactionService balanceTransactionService;
-    @Autowired
     private BookstoreUserRegister userRegister;
+    @Autowired
+    private BalanceTransactionService balanceTransactionService;
 
 
     @ModelAttribute("searchWordDto")
@@ -84,5 +91,17 @@ public class UserProfileController {
     @ResponseBody
     public TransactionsPageDto getTransactionsHistory(@RequestParam("sort") String sort, @RequestParam("offset") Integer offset, @RequestParam("limit") Integer limit) {
         return new TransactionsPageDto(balanceTransactionService.getTransactionHistory(offset, limit).getContent());
+    }
+
+    @GetMapping("/payment")
+    public String handlePay(@CookieValue(value = "cartContents", required = false) String cartContents, HttpServletResponse response) throws OutOfBalanceException {
+        cartContents = cartContents.startsWith("/") ? cartContents.substring(1) : cartContents;
+        cartContents = cartContents.endsWith("/") ? cartContents.substring(0, cartContents.length() - 1) : cartContents;
+        String[] cookieSlugs = cartContents.split("/");
+        List<Book> booksFromCookieSlugs = bookService.findBooksBySlugIn(cookieSlugs);
+        balanceTransactionService.buyAllBooksInCart(booksFromCookieSlugs);
+        Cookie cookie = new Cookie("cartContents", "");
+        response.addCookie(cookie);
+        return "redirect:/cart";
     }
 }

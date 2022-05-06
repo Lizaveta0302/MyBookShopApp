@@ -59,4 +59,10 @@ public class GlobalExceptionHandler {
     public String handleUsernameNotFoundException() {
         return "redirect:/signin";
     }
+
+    @ExceptionHandlerLoggable
+    @ExceptionHandler(OutOfBalanceException.class)
+    public ResponseEntity<Response> handleOutOfBalanceException(OutOfBalanceException e) {
+        return new ResponseEntity<>(new Response(e.getMessage()), HttpStatus.NOT_ACCEPTABLE);
+    }
 }
