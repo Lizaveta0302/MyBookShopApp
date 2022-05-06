@@ -35,7 +35,7 @@ public class BalanceTransactionService {
         return balanceTransactionRepository.findAllByOrderByTimeDesc(nextPage);
     }
 
-    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    @Transactional(propagation = Propagation.REQUIRES_NEW, rollbackFor = OutOfBalanceException.class)
     public void buyAllBooksInCart(List<Book> booksFromCookieSlugs) throws OutOfBalanceException {
         BookstoreUserDetails principal = (BookstoreUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         BookstoreUser user = principal.getBookstoreUser();

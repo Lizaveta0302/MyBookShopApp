@@ -12,6 +12,7 @@ import com.example.bookshop_app.security.BookstoreUserRegister;
 import com.example.bookshop_app.service.BalanceTransactionService;
 import com.example.bookshop_app.service.BookService;
 import com.example.bookshop_app.service.UserService;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 import org.springframework.stereotype.Controller;
@@ -49,15 +50,14 @@ public class UserProfileController {
     }
 
     @PostMapping("/profile/save")
-    public String updateProfile(UserProfileForm profileForm) {
-        Integer userId;
-        Object curUser = userRegister.getCurrentUser();
-        if (curUser instanceof BookstoreUserDetails) {
-            userId = ((BookstoreUserDetails) curUser).getBookstoreUser().getId();
-            userService.updateUserProfile(profileForm, userId);
-        } else {
-            userService.saveNewUser(profileForm);
-        }
+    public String updateProfile(UserProfileForm profileForm) throws JsonProcessingException {
+        userService.confirmChangingUserProfile(profileForm);
+        return "redirect:/profile";
+    }
+
+    @GetMapping("/profile/verify/{token}")
+    public String handleProfileVerification(@PathVariable String token) throws JsonProcessingException {
+        userService.changeUserProfile(token);
         return "redirect:/profile";
     }
 
