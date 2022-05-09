@@ -164,7 +164,12 @@ public class BookService {
             for (Item item : root.getItems()) {
                 Book book = new Book();
                 if (item.getVolumeInfo() != null) {
-                    book.setAuthor(new Author(item.getVolumeInfo().getAuthors()));
+                    if (Optional.ofNullable(item.getVolumeInfo().getAuthors()).isPresent()
+                            && item.getVolumeInfo().getAuthors().stream().findFirst().isPresent()) {
+                        Author author = new Author();
+                        author.setFirstName(item.getVolumeInfo().getAuthors().stream().findFirst().get());
+                        book.setAuthor(author);
+                    }
                     book.setTitle(item.getVolumeInfo().getTitle());
                     book.setImage(item.getVolumeInfo().getImageLinks().getThumbnail());
                 }
