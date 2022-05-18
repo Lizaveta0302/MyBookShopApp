@@ -92,7 +92,7 @@ public class CartController {
             List<String> cookieCartBooks = new ArrayList<>(Arrays.asList(cartContents.split("/")));
             cookieCartBooks.remove(slug);
             Cookie cartCookie = new Cookie("cartContents", String.join("/", cookieCartBooks));
-            cartCookie.setPath("/cart");
+            cartCookie.setPath("/");
             response.addCookie(cartCookie);
             List<String> cookiePostponedBooks = new ArrayList<>(Arrays.asList(postponeContents.split("/")));
             cookiePostponedBooks.add(slug);
@@ -122,7 +122,7 @@ public class CartController {
             List<String> cookieCartBooks = new ArrayList<>(Arrays.asList(cartContents.split("/")));
             cookieCartBooks.add(slug);
             Cookie cartCookie = new Cookie("cartContents", String.join("/", cookieCartBooks));
-            cartCookie.setPath("/cart");
+            cartCookie.setPath("/");
             response.addCookie(cartCookie);
             model.addAttribute("isCartEmpty", false);
         } else {
@@ -145,7 +145,7 @@ public class CartController {
             postponedCookie.setPath("/cart");
             response.addCookie(postponedCookie);
             Cookie cartCookie = new Cookie("cartContents", String.join("/", cookieCartBooks));
-            cartCookie.setPath("/cart");
+            cartCookie.setPath("/");
             response.addCookie(cartCookie);
             model.addAttribute("isCartEmpty", false);
         }
@@ -173,14 +173,14 @@ public class CartController {
             required = false) String cartContents, HttpServletResponse response, Model model) {
         if (cartContents == null || cartContents.equals("")) {
             Cookie cookie = new Cookie("cartContents", slug);
-            cookie.setPath("/cart");
+            cookie.setPath("/");
             response.addCookie(cookie);
             model.addAttribute("isCartEmpty", false);
         } else if (!cartContents.contains(slug)) {
             StringJoiner stringJoiner = new StringJoiner("/");
             stringJoiner.add(cartContents).add(slug);
             Cookie cookie = new Cookie("cartContents", stringJoiner.toString());
-            cookie.setPath("/cart");
+            cookie.setPath("/");
             response.addCookie(cookie);
             model.addAttribute("isCartEmpty", false);
         }
@@ -199,7 +199,7 @@ public class CartController {
             List<String> cookieBooks = new ArrayList<>(Arrays.asList(cartContents.split("/")));
             cookieBooks.remove(slug);
             Cookie cookie = new Cookie("cartContents", String.join("/", cookieBooks));
-            cookie.setPath("/cart");
+            cookie.setPath("/");
             response.addCookie(cookie);
             model.addAttribute("isCartEmpty", false);
         } else {

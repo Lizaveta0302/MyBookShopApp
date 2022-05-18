@@ -1,5 +1,5 @@
 <h1 align="center">BookShop</h1>
-<h2 align="center">module 10 Home work</h2>
+<h2 align="center">module 11 Home work</h2>
 <p align="center">
   
 <img src="https://img.shields.io/badge/Java-8-red.svg">
@@ -16,11 +16,13 @@
 
 ## Description
 <div>
-<h4>In module 10 were done:</h4>
+<h4>In module 11 were done:</h4>
 <ul> 
-<li>Analyze the code to highlight the tasks of end-to-end functionality in the project 🦾</li>
-<li>Implement the solution of the selected task using pointcut annotations 🦾🦾</li>
-<li>Implement the solution of the selected task using pointcut expressions 🦾🦾🦾</li>
+<li>Implement a mechanism for changing the account password 🦾</li>
+<li>To refactor the book payment procedure 🦾</li>
+<li>Implement transaction history 🦾🦾</li>
+<li>Implement the logic of adding funds to the user's account 🦾🦾🦾</li>
+<li>Implement a mechanism for confirming account changes 🦾🦾🦾🦾</li>
 </ul>
 </div>
 

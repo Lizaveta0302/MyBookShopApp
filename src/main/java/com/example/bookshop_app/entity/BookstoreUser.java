@@ -13,6 +13,7 @@ public class BookstoreUser {
     private String email;
     private String phone;
     private String password;
+    private Double balance;
 
     public Integer getId() {
         return id;
@@ -52,5 +53,13 @@ public class BookstoreUser {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public Double getBalance() {
+        return balance;
+    }
+
+    public void setBalance(Double balance) {
+        this.balance = balance;
     }
 }

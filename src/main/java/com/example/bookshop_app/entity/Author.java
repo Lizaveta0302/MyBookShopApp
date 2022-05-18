@@ -27,6 +27,9 @@ public class Author {
     @JsonIgnore
     private List<Book> books = new ArrayList<>();
 
+    public Author() {
+    }
+
     public List<Book> getBooks() {
         return books;
     }

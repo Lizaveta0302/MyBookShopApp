@@ -10,6 +10,8 @@ public interface BookstoreUserRepository extends JpaRepository<BookstoreUser, In
 
     BookstoreUser findBookstoreUserByEmail(String email);
 
+    BookstoreUser findBookstoreUserByPhone(String phone);
+
     @Modifying
     @Query(value = "UPDATE shop.users SET name=:name, email=:email, phone=:phone, password=:password" +
             " WHERE id=:userId", nativeQuery = true)
@@ -17,4 +19,10 @@ public interface BookstoreUserRepository extends JpaRepository<BookstoreUser, In
                            @Param("password") String password, @Param("userId") Integer userId);
 
     BookstoreUser findBookstoreUserById(Integer userId);
+
+    @Modifying
+    @Query(value = "UPDATE shop.users SET balance=:balance" +
+            " WHERE id=:userId", nativeQuery = true)
+    void updateUserBalance(@Param("balance") Double balance, @Param("userId") Integer userId);
+
 }

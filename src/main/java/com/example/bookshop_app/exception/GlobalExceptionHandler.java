@@ -6,6 +6,7 @@ import org.apache.tomcat.util.http.fileupload.impl.FileSizeLimitExceededExceptio
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -51,5 +52,17 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(JwtException.class)
     public String handleJwtException() {
         return "redirect:/signin";
+    }
+
+    @ExceptionHandlerLoggable
+    @ExceptionHandler(UsernameNotFoundException.class)
+    public String handleUsernameNotFoundException() {
+        return "redirect:/signin";
+    }
+
+    @ExceptionHandlerLoggable
+    @ExceptionHandler(OutOfBalanceException.class)
+    public ResponseEntity<Response> handleOutOfBalanceException(OutOfBalanceException e) {
+        return new ResponseEntity<>(new Response(e.getMessage()), HttpStatus.NOT_ACCEPTABLE);
     }
 }

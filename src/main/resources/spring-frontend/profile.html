@@ -23,17 +23,20 @@
                 <div class="Tabs-wrap">
                     <div class="Tabs-block" id="basic">
                         <div class="Profile">
-                            <form class="form Profile-form"  th:object="${profileForm}" th:action="${'/profile/save'}" method="post">
+                            <form class="form Profile-form" th:object="${profileForm}" th:action="${'/profile/save'}"
+                                  method="post">
                                 <div class="row">
                                     <div class="row-block">
                                         <div class="form-group">
                                             <label class="form-label" for="name">Имя</label>
-                                            <input class="form-input" id="name" name="name" type="text" th:value="${currentUser.name}" value="Михаил"/>
+                                            <input class="form-input" id="name" name="name" type="text"
+                                                   th:value="${currentUser.name}" value="Михаил"/>
                                         </div>
                                         <div class="form-group">
                                             <label class="form-label" for="mail">E-mail</label>
                                             <input class="form-input" id="mail" name="mail" type="text"
-                                                   th:value="${currentUser.email}" value="addr@sait.com" data-validate="require mail"/>
+                                                   th:value="${currentUser.email}" value="addr@sait.com"
+                                                   data-validate="require mail"/>
                                             <div class="Profile-btn Profile-btn_confirm">
                                                 <button class="btn btn_primary" type="button">Подтвердить</button>
                                             </div>
@@ -41,7 +44,8 @@
                                         <div class="form-group">
                                             <label class="form-label" for="phone">Телефон</label>
                                             <input class="form-input" id="phone" name="phone" type="text"
-                                                   th:value="${currentUser.phone}" value="+70000000000" data-mask="+7 (999) 999-99-99"
+                                                   th:value="${currentUser.phone}" value="+70000000000"
+                                                   data-mask="+7 (999) 999-99-99"
                                                    data-validate="require"/>
                                             <div class="Profile-btn Profile-btn_confirm">
                                                 <button class="btn btn_primary" type="button">Подтвердить</button>
@@ -77,61 +81,29 @@
                                 <table class="table table_noMargin">
                                     <thead>
                                     <tr>
-                                        <th>Дата и время
-                                        </th>
-                                        <th>Сумма
-                                        </th>
-                                        <th>Описание
-                                        </th>
+                                        <th>Дата и время</th>
+                                        <th>Сумма</th>
+                                        <th>Описание</th>
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <tr>
-                                        <td>15 мая 2017 10:03
+                                    <tr th:each="transaction : ${transactionHistory}">
+                                        <td th:text="${transaction.time}">15 мая 2017 10:03</td>
+                                        <td>
+                                            <span class="Transactions_textSuccess">
+                                                <strong th:text="(${transaction.getIncome()==true}?'+':'-') + ${transaction.value} + ' р.'">+500 р.</strong>
+                                            </span>
                                         </td>
-                                        <td><span class="Transactions_textSuccess">
-                            <strong>+500 р.
-                            </strong></span>
-                                        </td>
-                                        <td>Пополнение счета
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>5 марта 2017 13:40
-                                        </td>
-                                        <td><span class="Transactions_textSuccess">
-                            <strong>-480 р.
-                            </strong></span>
-                                        </td>
-                                        <td>Покупка книги&#32;<a href="/books/slug.html">История Беларуси</a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>1 февраля 2017 04:10
-                                        </td>
-                                        <td><span class="Transactions_textSuccess">
-                            <strong>+10 000 р.
-                            </strong></span>
-                                        </td>
-                                        <td>Пополнение с помощью WebMoney
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>1 января 2017 09:33
-                                        </td>
-                                        <td><span class="Transactions_textSuccess">
-                            <strong>+7 896 р.
-                            </strong></span>
-                                        </td>
-                                        <td>Пополнение с помощью Яндекс.Деньги
-                                        </td>
+                                        <td th:text="${transaction.description}">Пополнение счета</td>
                                     </tr>
                                     </tbody>
                                 </table>
                             </div>
-                            <div class="Transactions-footer Transactions-footer_center"><a
-                                    class="btn btn_primary Transactions-get" href="#" data-transactionoffset="4"
-                                    data-transactionlimit="10" data-transactionsort="asc">Показать еще</a>
+                            <div class="Transactions-footer Transactions-footer_center">
+                                <a class="btn btn_primary Transactions-get"
+                                   href="#"
+                                   data-transactionoffset="0"
+                                   data-transactionlimit="50" data-transactionsort="desc">Показать еще</a>
                             </div>
                         </div>
                     </div>
@@ -145,8 +117,7 @@
                                 </div>
                                 <div class="form-group">
                                     <div class="Topup-btn">
-                                        <button class="btn btn_primary">Пополнить
-                                        </button>
+                                        <button class="btn btn_primary">Пополнить</button>
                                     </div>
                                 </div>
                             </div>

@@ -9,36 +9,39 @@ public class BalanceTransaction {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Integer id;
 
     @Column(columnDefinition = "INT NOT NULL")
-    private int userId;
+    private Integer userId;
 
     @Column(columnDefinition = "TIMESTAMP NOT NULL")
     private LocalDateTime time;
 
     @Column(columnDefinition = "INT NOT NULL  DEFAULT 0")
-    private int value;
+    private Integer value;
 
-    @Column(columnDefinition = "INT NOT NULL")
-    private int bookId;
+    @Column(columnDefinition = "INT NULL")
+    private Integer bookId;
 
     @Column(columnDefinition = "TEXT NOT NULL")
     private String description;
 
-    public int getId() {
+    @Column(columnDefinition = "BOOL NOT NULL", name = "is_income")
+    private Boolean isIncome;
+
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
-    public int getUserId() {
+    public Integer getUserId() {
         return userId;
     }
 
-    public void setUserId(int userId) {
+    public void setUserId(Integer userId) {
         this.userId = userId;
     }
 
@@ -50,19 +53,19 @@ public class BalanceTransaction {
         this.time = time;
     }
 
-    public int getValue() {
+    public Integer getValue() {
         return value;
     }
 
-    public void setValue(int value) {
+    public void setValue(Integer value) {
         this.value = value;
     }
 
-    public int getBookId() {
+    public Integer getBookId() {
         return bookId;
     }
 
-    public void setBookId(int bookId) {
+    public void setBookId(Integer bookId) {
         this.bookId = bookId;
     }
 
@@ -72,5 +75,13 @@ public class BalanceTransaction {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public Boolean getIncome() {
+        return isIncome;
+    }
+
+    public void setIncome(Boolean income) {
+        isIncome = income;
     }
 }
