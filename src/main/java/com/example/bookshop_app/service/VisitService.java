@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 public class VisitService {
@@ -29,5 +30,9 @@ public class VisitService {
     @Transactional
     public void updateVisitedAt(Long id, LocalDateTime visitedAt) {
         visitRepository.updateVisitedAt(id, visitedAt);
+    }
+
+    public List<Visit> getRecentVisits(LocalDateTime lowLimitDate, Integer userId) {
+        return visitRepository.findAllByVisitedAtAfterAndUserIdOrderByVisitedAt(lowLimitDate, userId);
     }
 }

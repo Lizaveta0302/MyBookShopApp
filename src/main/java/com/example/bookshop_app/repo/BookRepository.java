@@ -72,4 +72,9 @@ public interface BookRepository extends JpaRepository<Book, Integer> {
     @Query(value = "UPDATE shop.books b SET quantity_in_basket=:newQuantity WHERE b.slug = :slug", nativeQuery = true)
     void updateQuantityInBasket(@Param("slug") String slug, @Param("newQuantity") Integer newQuantity);
 
+    @Query(value = "select * " +
+            "from shop.books b LEFT JOIN shop.authors a on b.author_id = a.id " +
+            "where b.id IN (:booksIds)",
+            nativeQuery = true)
+    Page<Book> getAllRecentBooksByIds(Pageable nextPage, @Param("booksIds") List<Integer> booksIds);
 }

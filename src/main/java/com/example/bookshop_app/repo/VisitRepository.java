@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 public interface VisitRepository extends JpaRepository<Visit, Long> {
 
@@ -18,4 +19,6 @@ public interface VisitRepository extends JpaRepository<Visit, Long> {
     @Modifying
     @Query(value = "UPDATE shop.visits v SET visited_at=:visitedAt WHERE v.id =:id", nativeQuery = true)
     void updateVisitedAt(@Param("id") Long id, @Param("visitedAt") LocalDateTime visitedAt);
+
+    List<Visit> findAllByVisitedAtAfterAndUserIdOrderByVisitedAt(LocalDateTime lowLimitDate, Integer userId);
 }
