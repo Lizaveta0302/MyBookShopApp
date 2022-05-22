@@ -48,9 +48,12 @@ public interface BookRepository extends JpaRepository<Book, Integer> {
 
     Page<Book> findAllByPubDateBetweenOrderByPubDateDesc(Pageable pageable, Date from, Date to);
 
-    @Query(value = "select *, (b.number_of_purchased + (b.quantity_in_basket * 0.7) + (b.number_of_postponed * 0.4) ) as popularity " +
+    @Query(value = "select * " +
             "from shop.books b LEFT JOIN shop.authors a on b.author_id = a.id " +
-            "order by popularity desc", nativeQuery = true)
+            "order by (b.number_of_purchased + (b.quantity_in_basket * 0.7) + (b.number_of_postponed * 0.4) + " +
+            "((select count(*) from shop.visits v where v.book_id = b.id and v.visited_at >= NOW() - INTERVAL '7 DAY') * 0.3)) " +
+            "desc",
+            nativeQuery = true)
     Page<Book> getAllBooksByPopularity(Pageable pageable);
 
     Page<Book> findBooksByTagsIsContaining(Pageable pageable, Tag tag);
