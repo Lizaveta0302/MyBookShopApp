@@ -230,9 +230,6 @@ public class Book {
                 ", numberOfPurchased=" + numberOfPurchased +
                 ", numberOfPostponed=" + numberOfPostponed +
                 ", quantityInBasket=" + quantityInBasket +
-                ", tags=" + tags +
-                ", genres=" + genres +
-                ", bookFileList=" + bookFileList +
                 ", status=" + status +
                 '}';
     }
