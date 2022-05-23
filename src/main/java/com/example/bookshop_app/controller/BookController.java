@@ -177,12 +177,13 @@ public class BookController {
 
     @Secured("ROLE_USER")
     @PostMapping("/changeBookStatus/rate")
-    public String handleMovingBookToPostponedFromCart(@RequestParam("bookId") Integer bookId, @RequestParam("value") Integer mark) {
+    public String handleMovingBookToPostponedFromCart(@RequestBody Map<String, String> payload) {
         BookMark rate = new BookMark();
-        rate.setBook(bookService.getBookById(bookId.toString()));
-        rate.setMark(mark.shortValue());
+        String bookId = payload.get("bookId");
+        rate.setBook(bookService.getBookById(bookId));
+        rate.setMark(Short.valueOf(payload.get("value")));
         bookMarkService.insertBookRate(rate);
-        return "redirect:/books/" + bookId;
+        return "redirect:/books/" + Integer.valueOf(bookId);
     }
 
     @Secured("ROLE_USER")
