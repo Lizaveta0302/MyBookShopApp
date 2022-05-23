@@ -10,6 +10,7 @@ import com.example.bookshop_app.entity.Genre;
 import com.example.bookshop_app.entity.Tag;
 import com.example.bookshop_app.entity.Visit;
 import com.example.bookshop_app.entity.book.Book;
+import com.example.bookshop_app.entity.book.Status;
 import com.example.bookshop_app.repo.BookRepository;
 import com.example.bookshop_app.security.BookstoreUserDetails;
 import com.example.bookshop_app.security.BookstoreUserRegister;
@@ -203,5 +204,14 @@ public class BookService {
             }
         }
         return list;
+    }
+
+    public List<Book> getBooksByIds(List<Integer> booksIds) {
+        return bookRepository.getAllBooksByIdIn(booksIds);
+    }
+
+    @Transactional
+    public void updateStatus(Integer id, Status status) {
+        bookRepository.updateStatus(id, status.getCode());
     }
 }

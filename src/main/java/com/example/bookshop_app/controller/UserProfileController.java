@@ -6,6 +6,7 @@ import com.example.bookshop_app.dto.form.UserProfileForm;
 import com.example.bookshop_app.entity.BalanceTransaction;
 import com.example.bookshop_app.entity.BookstoreUser;
 import com.example.bookshop_app.entity.book.Book;
+import com.example.bookshop_app.entity.book.Status;
 import com.example.bookshop_app.exception.OutOfBalanceException;
 import com.example.bookshop_app.security.BookstoreUserDetails;
 import com.example.bookshop_app.security.BookstoreUserRegister;
@@ -25,6 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Controller
 public class UserProfileController {
@@ -45,8 +47,48 @@ public class UserProfileController {
     }
 
     @GetMapping("/my")
-    public String handleMy() {
+    public String handleMy(Model model) {
+        List<Book> purchasedBooks = new ArrayList<>();
+        Object curUser = userRegister.getCurrentUser();
+        BookstoreUser currentUser;
+        if (curUser instanceof BookstoreUserDetails) {
+            currentUser = userService.getUserById(((BookstoreUserDetails) curUser).getBookstoreUser().getId());
+            if (Optional.ofNullable(currentUser).map(BookstoreUser::getId).isPresent()) {
+                List<Integer> purchasedBooksIds = balanceTransactionService.getTransactionHistoryByUserId(currentUser.getId())
+                        .stream()
+                        .map(BalanceTransaction::getBookId)
+                        .collect(Collectors.toList());
+                purchasedBooks = bookService.getBooksByIds(purchasedBooksIds).stream()
+                        .filter(b -> {
+                            Status status = Optional.ofNullable(b.getStatus()).orElse(null);
+                            return !Objects.isNull(status) && status.equals(Status.PAID);
+                        })
+                        .collect(Collectors.toList());
+            }
+        }
+        model.addAttribute("myBooks", purchasedBooks);
         return "my";
+    }
+
+    @GetMapping("/myarchive")
+    public String handleMyArchive(Model model) {
+        List<Book> archiveBooks = new ArrayList<>();
+        Object curUser = userRegister.getCurrentUser();
+        BookstoreUser currentUser;
+        if (curUser instanceof BookstoreUserDetails) {
+            currentUser = userService.getUserById(((BookstoreUserDetails) curUser).getBookstoreUser().getId());
+            if (Optional.ofNullable(currentUser).map(BookstoreUser::getId).isPresent()) {
+                List<Integer> purchasedBooksIds = balanceTransactionService.getTransactionHistoryByUserId(currentUser.getId())
+                        .stream()
+                        .map(BalanceTransaction::getBookId)
+                        .collect(Collectors.toList());
+                archiveBooks = bookService.getBooksByIds(purchasedBooksIds).stream()
+                        .filter(b -> !Objects.isNull(b.getStatus()) && b.getStatus().equals(Status.ARCHIVED))
+                        .collect(Collectors.toList());
+            }
+        }
+        model.addAttribute("archiveBooks", archiveBooks);
+        return "myarchive";
     }
 
     @PostMapping("/profile/save")
