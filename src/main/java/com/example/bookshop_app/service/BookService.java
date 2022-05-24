@@ -8,8 +8,12 @@ import com.example.bookshop_app.data.google.api.books.Root;
 import com.example.bookshop_app.entity.Author;
 import com.example.bookshop_app.entity.Genre;
 import com.example.bookshop_app.entity.Tag;
+import com.example.bookshop_app.entity.Visit;
 import com.example.bookshop_app.entity.book.Book;
+import com.example.bookshop_app.entity.book.Status;
 import com.example.bookshop_app.repo.BookRepository;
+import com.example.bookshop_app.security.BookstoreUserDetails;
+import com.example.bookshop_app.security.BookstoreUserRegister;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
@@ -23,10 +27,9 @@ import org.springframework.web.client.RestTemplate;
 import java.sql.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
-import java.util.Optional;
+import java.time.LocalDateTime;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class BookService {
@@ -37,6 +40,11 @@ public class BookService {
     private RestTemplate restTemplate;
 
     private BookRepository bookRepository;
+    @Autowired
+    private VisitService visitService;
+    @Autowired
+    private BookstoreUserRegister userRegister;
+
 
     @Autowired
     public BookService(RestTemplate restTemplate, BookRepository bookRepository) {
@@ -103,6 +111,21 @@ public class BookService {
     public Page<Book> getPageOfPopularBooks(Integer offset, Integer limit) {
         Pageable nextPage = PageRequest.of(offset, limit);
         return bookRepository.getAllBooksByPopularity(nextPage);
+    }
+
+    public Page<Book> getPageOfRecentVisitsBooks(Integer offset, Integer limit) {
+        Pageable nextPage = PageRequest.of(offset, limit);
+        Object curUser = userRegister.getCurrentUser();
+        Integer userId = null;
+        List<Integer> booksIds = new ArrayList<>();
+        if (curUser instanceof BookstoreUserDetails) {
+            userId = ((BookstoreUserDetails) curUser).getBookstoreUser().getId();
+        }
+        if (Objects.nonNull(userId)) {
+            booksIds = visitService.getRecentVisits(LocalDateTime.now().minusDays(7), userId).stream()
+                    .map(Visit::getBookId).collect(Collectors.toList());
+        }
+        return bookRepository.getAllRecentBooksByIds(nextPage, booksIds);
     }
 
     public Page<Book> getBooksByAuthorId(Integer offset, Integer limit, String authorId) {
@@ -181,5 +204,14 @@ public class BookService {
             }
         }
         return list;
+    }
+
+    public List<Book> getBooksByIds(List<Integer> booksIds) {
+        return bookRepository.getAllBooksByIdIn(booksIds);
+    }
+
+    @Transactional
+    public void updateStatus(Integer id, Status status) {
+        bookRepository.updateStatus(id, status.getCode());
     }
 }

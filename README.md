@@ -1,5 +1,5 @@
 <h1 align="center">BookShop</h1>
-<h2 align="center">module 11 Home work</h2>
+<h2 align="center">Diploma Part 1 task 1</h2>
 <p align="center">
   
 <img src="https://img.shields.io/badge/Java-8-red.svg">
@@ -16,13 +16,12 @@
 
 ## Description
 <div>
-<h4>In module 11 were done:</h4>
+<h4>In Part 1 task 1 of diploma were done:</h4>
 <ul> 
-<li>Implement a mechanism for changing the account password 🦾</li>
-<li>To refactor the book payment procedure 🦾</li>
-<li>Implement transaction history 🦾🦾</li>
-<li>Implement the logic of adding funds to the user's account 🦾🦾🦾</li>
-<li>Implement a mechanism for confirming account changes 🦾🦾🦾🦾</li>
+<li>A mechanism has been designed and developed for storing data on book views by users and this data has been used:
+● for additional sorting of books in the recommended feed on the main page;
+● in the "Popular" section, which required finalizing the algorithm for calculating the popularity of the book;
+● In the "Recently viewed" section, where a list of recently viewed books is displayed, this section has been created and access is restricted only for authorized users</li>
 </ul>
 </div>
 

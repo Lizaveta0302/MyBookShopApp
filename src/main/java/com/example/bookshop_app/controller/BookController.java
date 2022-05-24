@@ -72,6 +72,14 @@ public class BookController {
         return "/books/popular";
     }
 
+    @Secured("ROLE_USER")
+    @GetMapping("/recentVisits/page")
+    public String getRecentVisitsBooksPage(Model model) {
+        BooksPageDto recentVisitsBooksPageDto = new BooksPageDto(bookService.getPageOfRecentVisitsBooks(0, 6).getContent());
+        model.addAttribute("recentVisitsBooks", recentVisitsBooksPageDto.getBooks());
+        return "/books/recentVisits";
+    }
+
     @GetMapping("/recommended")
     @ResponseBody
     public BooksPageDto getRecommendedBooksPage(@RequestParam("offset") Integer offset, @RequestParam("limit") Integer limit) {
@@ -89,6 +97,13 @@ public class BookController {
     @ResponseBody
     public BooksPageDto getPopularBooksPage(@RequestParam("offset") Integer offset, @RequestParam("limit") Integer limit) {
         return new BooksPageDto(bookService.getPageOfPopularBooks(offset, limit).getContent());
+    }
+
+    @Secured("ROLE_USER")
+    @GetMapping("/recentVisits")
+    @ResponseBody
+    public BooksPageDto getRecentVisitsBooksPage(@RequestParam("offset") Integer offset, @RequestParam("limit") Integer limit) {
+        return new BooksPageDto(bookService.getPageOfRecentVisitsBooks(offset, limit).getContent());
     }
 
     @GetMapping("/author/{authorId}")
@@ -162,12 +177,13 @@ public class BookController {
 
     @Secured("ROLE_USER")
     @PostMapping("/changeBookStatus/rate")
-    public String handleMovingBookToPostponedFromCart(@RequestParam("bookId") Integer bookId, @RequestParam("value") Integer mark) {
+    public String handleMovingBookToPostponedFromCart(@RequestBody Map<String, String> payload) {
         BookMark rate = new BookMark();
-        rate.setBook(bookService.getBookById(bookId.toString()));
-        rate.setMark(mark.shortValue());
+        String bookId = payload.get("bookId");
+        rate.setBook(bookService.getBookById(bookId));
+        rate.setMark(Short.valueOf(payload.get("value")));
         bookMarkService.insertBookRate(rate);
-        return "redirect:/books/" + bookId;
+        return "redirect:/books/" + Integer.valueOf(bookId);
     }
 
     @Secured("ROLE_USER")

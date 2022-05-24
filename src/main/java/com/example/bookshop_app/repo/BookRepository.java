@@ -39,15 +39,21 @@ public interface BookRepository extends JpaRepository<Book, Integer> {
     @Query(value = "SELECT * FROM shop.books WHERE discount = (SELECT MAX(discount) FROM shop.books)", nativeQuery = true)
     List<Book> getBooksWithMaxDiscount();
 
+    @Query(value = "select *" +
+            " from shop.books b where is_bestseller = true " +
+            " order by (select count(*) from shop.visits v where v.book_id = b.id and v.visited_at >= NOW() - INTERVAL '7 DAY') desc", nativeQuery = true)
     Page<Book> findAllByIsBestsellerTrue(Pageable pageable);
 
     Page<Book> findAllByOrderByPubDateDesc(Pageable pageable);
 
     Page<Book> findAllByPubDateBetweenOrderByPubDateDesc(Pageable pageable, Date from, Date to);
 
-    @Query(value = "select *, (b.number_of_purchased + (b.quantity_in_basket * 0.7) + (b.number_of_postponed * 0.4) ) as popularity " +
+    @Query(value = "select * " +
             "from shop.books b LEFT JOIN shop.authors a on b.author_id = a.id " +
-            "order by popularity desc", nativeQuery = true)
+            "order by (b.number_of_purchased + (b.quantity_in_basket * 0.7) + (b.number_of_postponed * 0.4) + " +
+            "((select count(*) from shop.visits v where v.book_id = b.id and v.visited_at >= NOW() - INTERVAL '7 DAY') * 0.3)) " +
+            "desc",
+            nativeQuery = true)
     Page<Book> getAllBooksByPopularity(Pageable pageable);
 
     Page<Book> findBooksByTagsIsContaining(Pageable pageable, Tag tag);
@@ -65,5 +71,17 @@ public interface BookRepository extends JpaRepository<Book, Integer> {
     @Modifying
     @Query(value = "UPDATE shop.books b SET quantity_in_basket=:newQuantity WHERE b.slug = :slug", nativeQuery = true)
     void updateQuantityInBasket(@Param("slug") String slug, @Param("newQuantity") Integer newQuantity);
+
+    @Query(value = "select * " +
+            "from shop.books b LEFT JOIN shop.authors a on b.author_id = a.id " +
+            "where b.id IN (:booksIds)",
+            nativeQuery = true)
+    Page<Book> getAllRecentBooksByIds(Pageable nextPage, @Param("booksIds") List<Integer> booksIds);
+
+    List<Book> getAllBooksByIdIn(List<Integer> booksIds);
+
+    @Modifying
+    @Query(value = "UPDATE shop.books b SET status=:status WHERE b.id =:id", nativeQuery = true)
+    void updateStatus(@Param("id") Integer id, @Param("status") Integer status);
 
 }
