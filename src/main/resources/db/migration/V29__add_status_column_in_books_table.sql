@@ -1,0 +1,1 @@
+alter table shop.books add status int4;

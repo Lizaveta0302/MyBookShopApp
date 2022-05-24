@@ -77,4 +77,11 @@ public interface BookRepository extends JpaRepository<Book, Integer> {
             "where b.id IN (:booksIds)",
             nativeQuery = true)
     Page<Book> getAllRecentBooksByIds(Pageable nextPage, @Param("booksIds") List<Integer> booksIds);
+
+    List<Book> getAllBooksByIdIn(List<Integer> booksIds);
+
+    @Modifying
+    @Query(value = "UPDATE shop.books b SET status=:status WHERE b.id =:id", nativeQuery = true)
+    void updateStatus(@Param("id") Integer id, @Param("status") Integer status);
+
 }

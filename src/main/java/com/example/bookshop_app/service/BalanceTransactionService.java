@@ -3,6 +3,7 @@ package com.example.bookshop_app.service;
 import com.example.bookshop_app.entity.BalanceTransaction;
 import com.example.bookshop_app.entity.BookstoreUser;
 import com.example.bookshop_app.entity.book.Book;
+import com.example.bookshop_app.entity.book.Status;
 import com.example.bookshop_app.exception.OutOfBalanceException;
 import com.example.bookshop_app.repo.BalanceTransactionRepository;
 import com.example.bookshop_app.security.BookstoreUserDetails;
@@ -17,12 +18,15 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class BalanceTransactionService {
 
     @Autowired
     private UserService userService;
+    @Autowired
+    private BookService bookService;
     @Autowired
     private BalanceTransactionRepository balanceTransactionRepository;
 
@@ -39,10 +43,11 @@ public class BalanceTransactionService {
     public void buyAllBooksInCart(List<Book> booksFromCookieSlugs) throws OutOfBalanceException {
         BookstoreUserDetails principal = (BookstoreUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         BookstoreUser user = principal.getBookstoreUser();
-        Double userBalance = user.getBalance();
+        Double userBalance = Optional.ofNullable(user.getBalance()).orElse(0.0);
         for (Book book : booksFromCookieSlugs) {
             if (userBalance >= book.getPrice()) {
                 balanceTransactionRepository.save(map(book, user));
+                bookService.updateStatus(book.getId(), Status.PAID);
                 userBalance -= book.getPrice();
             } else {
                 throw new OutOfBalanceException("Insufficient funds. Replenish the balance");

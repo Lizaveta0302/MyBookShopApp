@@ -98,6 +98,8 @@ public class Book {
     @OneToMany(mappedBy = "book")
     private List<BookFile> bookFileList = new ArrayList<>();
 
+    @Column(name = "status")
+    private Status status;
 
     public List<BookFile> getBookFileList() {
         return bookFileList;
@@ -204,6 +206,14 @@ public class Book {
         this.genres = genres;
     }
 
+    public Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
+    }
+
     @Override
     public String toString() {
         return "Book{" +
@@ -220,6 +230,7 @@ public class Book {
                 ", numberOfPurchased=" + numberOfPurchased +
                 ", numberOfPostponed=" + numberOfPostponed +
                 ", quantityInBasket=" + quantityInBasket +
+                ", status=" + status +
                 '}';
     }
 }

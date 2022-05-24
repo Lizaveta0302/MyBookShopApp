@@ -1,8 +1,15 @@
 package com.example.bookshop_app.controller;
 
 import com.example.bookshop_app.dto.SearchWordDto;
+import com.example.bookshop_app.entity.BalanceTransaction;
+import com.example.bookshop_app.entity.BookstoreUser;
 import com.example.bookshop_app.entity.book.Book;
+import com.example.bookshop_app.entity.book.Status;
+import com.example.bookshop_app.security.BookstoreUserDetails;
+import com.example.bookshop_app.security.BookstoreUserRegister;
+import com.example.bookshop_app.service.BalanceTransactionService;
 import com.example.bookshop_app.service.BookService;
+import com.example.bookshop_app.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
@@ -12,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Controller
 @Secured("ROLE_USER")
@@ -20,6 +28,12 @@ public class CartController {
 
     @Autowired
     private BookService bookService;
+    @Autowired
+    private UserService userService;
+    @Autowired
+    private BookstoreUserRegister userRegister;
+    @Autowired
+    private BalanceTransactionService balanceTransactionService;
 
     @ModelAttribute(name = "bookCart")
     public List<Book> bookCart() {
@@ -63,6 +77,23 @@ public class CartController {
             model.addAttribute("isPostponedListEmpty", false);
         }
         bookService.updateNumberOfPostponed(slug, bookService.findBookBySlug(slug).getNumberOfPostponed() + 1);
+        return "redirect:/books/slug/" + slug;
+    }
+
+    @PostMapping("/changeBookStatus/archive/{slug}")
+    public String handleChangeArchivedBookStatus(@PathVariable("slug") String slug) {
+        Book book = bookService.findBookBySlug(slug);
+        Object curUser = userRegister.getCurrentUser();
+        BookstoreUser currentUser;
+        if (curUser instanceof BookstoreUserDetails) {
+            currentUser = userService.getUserById(((BookstoreUserDetails) curUser).getBookstoreUser().getId());
+            if (Objects.nonNull(book) && Objects.nonNull(book.getStatus()) && book.getStatus().equals(Status.PAID)
+                    && Optional.ofNullable(currentUser).map(BookstoreUser::getId).isPresent()
+                    && balanceTransactionService.getTransactionHistoryByUserId(currentUser.getId()).stream()
+                    .map(BalanceTransaction::getBookId).collect(Collectors.toList()).contains(book.getId())) {
+                bookService.updateStatus(book.getId(), Status.ARCHIVED);
+            }
+        }
         return "redirect:/books/slug/" + slug;
     }
 
