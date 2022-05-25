@@ -36,9 +36,10 @@
                     </div>
                     <div class="row-block">
                         <div class="Contacts-form">
-                            <h2>Напишите нам:
-                            </h2>
-                            <form class="form" action="#" method="post">
+                            <h2>Напишите нам:</h2>
+                            <form class="form" action="#"
+                                  th:object="${contactForm}" th:action="${'/contact/send'}"
+                                  method="post">
                                 <div class="form-group">
                                     <input class="form-input" id="name" name="name" type="text"
                                            placeholder="Введите Имя" data-validate="require"/>
