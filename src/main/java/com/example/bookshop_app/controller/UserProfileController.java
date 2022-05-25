@@ -50,7 +50,7 @@ public class UserProfileController {
     public String handleMy(Model model) {
         List<Book> purchasedBooks = new ArrayList<>();
         Object curUser = userRegister.getCurrentUser();
-        BookstoreUser currentUser;
+        BookstoreUser currentUser = null;
         if (curUser instanceof BookstoreUserDetails) {
             currentUser = userService.getUserById(((BookstoreUserDetails) curUser).getBookstoreUser().getId());
             if (Optional.ofNullable(currentUser).map(BookstoreUser::getId).isPresent()) {
@@ -67,6 +67,12 @@ public class UserProfileController {
             }
         }
         model.addAttribute("myBooks", purchasedBooks);
+        if (Objects.isNull(currentUser)) {
+            currentUser = new BookstoreUser();
+            assert curUser instanceof DefaultOAuth2User;
+            currentUser.setName((String) ((DefaultOAuth2User) curUser).getAttributes().get("name"));
+        }
+        model.addAttribute("currentUser", currentUser);
         return "my";
     }
 
