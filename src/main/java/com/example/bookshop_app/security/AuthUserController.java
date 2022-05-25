@@ -51,8 +51,8 @@ public class AuthUserController {
         if (payload.getContact().contains("@")) {
             return response;//for email
         } else {
-            String smsCodeString = smsService.sendSecretCodeSms(payload.getContact());
-            smsService.saveNewCode(new SmsCode(smsCodeString, 60));//expires in 1 min
+            //String smsCodeString = smsService.sendSecretCodeSms(payload.getContact());
+            //smsService.saveNewCode(new SmsCode(smsCodeString, 60));//expires in 1 min
             return response;
         }
     }
