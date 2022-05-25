@@ -80,21 +80,25 @@ public class CartController {
         return "redirect:/books/slug/" + slug;
     }
 
-    @PostMapping("/changeBookStatus/archive/{slug}")
-    public String handleChangeArchivedBookStatus(@PathVariable("slug") String slug) {
-        Book book = bookService.findBookBySlug(slug);
+    @PostMapping("/changeBookStatus/archive")
+    public String handleChangeArchivedBookStatus(@RequestBody Map<String, String> payload) {
+        Book book = bookService.findBookBySlug(payload.get("booksIds"));
         Object curUser = userRegister.getCurrentUser();
         BookstoreUser currentUser;
         if (curUser instanceof BookstoreUserDetails) {
             currentUser = userService.getUserById(((BookstoreUserDetails) curUser).getBookstoreUser().getId());
-            if (Objects.nonNull(book) && Objects.nonNull(book.getStatus()) && book.getStatus().equals(Status.PAID)
+            if (Objects.nonNull(book) && Objects.nonNull(book.getStatus())
                     && Optional.ofNullable(currentUser).map(BookstoreUser::getId).isPresent()
                     && balanceTransactionService.getTransactionHistoryByUserId(currentUser.getId()).stream()
                     .map(BalanceTransaction::getBookId).collect(Collectors.toList()).contains(book.getId())) {
-                bookService.updateStatus(book.getId(), Status.ARCHIVED);
+                if (book.getStatus().equals(Status.PAID)) {
+                    bookService.updateStatus(book.getId(), Status.ARCHIVED);
+                } else {
+                    bookService.updateStatus(book.getId(), Status.PAID);
+                }
             }
         }
-        return "redirect:/books/slug/" + slug;
+        return "redirect:/books/slug/" + payload.get("booksIds");
     }
 
     @PostMapping("/changeBookStatus/postpone/remove/{slug}")
