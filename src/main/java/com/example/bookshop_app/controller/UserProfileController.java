@@ -80,7 +80,7 @@ public class UserProfileController {
     public String handleMyArchive(Model model) {
         List<Book> archiveBooks = new ArrayList<>();
         Object curUser = userRegister.getCurrentUser();
-        BookstoreUser currentUser;
+        BookstoreUser currentUser = null;
         if (curUser instanceof BookstoreUserDetails) {
             currentUser = userService.getUserById(((BookstoreUserDetails) curUser).getBookstoreUser().getId());
             if (Optional.ofNullable(currentUser).map(BookstoreUser::getId).isPresent()) {
@@ -93,6 +93,7 @@ public class UserProfileController {
                         .collect(Collectors.toList());
             }
         }
+        model.addAttribute("currentUser", currentUser);
         model.addAttribute("archiveBooks", archiveBooks);
         return "myarchive";
     }
