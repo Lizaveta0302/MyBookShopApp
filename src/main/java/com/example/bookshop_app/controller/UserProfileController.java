@@ -15,6 +15,7 @@ import com.example.bookshop_app.service.BookService;
 import com.example.bookshop_app.service.UserService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -142,6 +143,7 @@ public class UserProfileController {
         return new TransactionsPageDto(balanceTransactionService.getTransactionHistory(offset, limit).getContent());
     }
 
+    @Secured("ROLE_USER")
     @GetMapping("/payment")
     public String handlePay(@CookieValue(value = "cartContents", required = false) String cartContents, HttpServletResponse response) throws OutOfBalanceException {
         cartContents = cartContents.startsWith("/") ? cartContents.substring(1) : cartContents;

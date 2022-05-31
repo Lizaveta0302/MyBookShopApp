@@ -104,7 +104,8 @@
                 <div class="Cart-total">
                     <div class="Cart-block Cart-block_total">
                         <strong class="Cart-title">Итого:
-                        </strong><span class="Cart-price">534 р.</span><span class="Cart-price_old">658 р.</span>
+                        </strong><span class="Cart-price" th:text="${#numbers.formatDecimal(totalPrice == null ? 0 : totalPrice, 0, 0) + ' р.'}">534 р.</span>
+                        <span class="Cart-price_old" th:text="${#numbers.formatDecimal(totalOldPrice == null ? 0 : totalOldPrice, 0, 0) + ' р.'}">658 р.</span>
                     </div>
                     <div class="Cart-block"><a class="btn btn_success btn_md" th:href="@{/payment}" href="/order.html">Купить</a>
                     </div>

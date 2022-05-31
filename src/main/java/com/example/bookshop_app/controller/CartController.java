@@ -22,7 +22,6 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @Controller
-@Secured("ROLE_USER")
 @RequestMapping("/cart")
 public class CartController {
 
@@ -80,6 +79,7 @@ public class CartController {
         return "redirect:/books/slug/" + slug;
     }
 
+    @Secured("ROLE_USER")
     @PostMapping("/changeBookStatus/archive")
     public String handleChangeArchivedBookStatus(@RequestBody Map<String, String> payload) {
         Book book = bookService.findBookBySlug(payload.get("booksIds"));
@@ -168,6 +168,7 @@ public class CartController {
         return "redirect:/cart";
     }
 
+    @Secured("ROLE_USER")
     @PostMapping("/changeBookStatus/postpone/buyAllPostponed")
     public String handleMovingToCartAllPostponedBooks(@CookieValue(name = "postponeContents", required = false) String postponeContents,
                                                       @CookieValue(value = "cartContents", required = false) String cartContents,
@@ -199,6 +200,8 @@ public class CartController {
             String[] cookieSlugs = cartContents.split("/");
             List<Book> booksFromCookieSlug = bookService.findBooksBySlugIn(cookieSlugs);
             model.addAttribute("bookCart", booksFromCookieSlug);
+            model.addAttribute("totalPrice", booksFromCookieSlug.stream().mapToDouble(Book::getPrice).sum());
+            model.addAttribute("totalOldPrice", booksFromCookieSlug.stream().mapToDouble(Book::getPriceOld).sum());
         }
         return "cart";
     }
