@@ -56,6 +56,12 @@ public class CartController {
             List<Book> booksFromCookieSlug = bookService.findBooksBySlugIn(cookieSlugs);
             model.addAttribute("postponedBooks", booksFromCookieSlug);
         }
+        Object curUser = userRegister.getCurrentUser();
+        BookstoreUser currentUser = null;
+        if (curUser instanceof BookstoreUserDetails) {
+            currentUser = userService.getUserById(((BookstoreUserDetails) curUser).getBookstoreUser().getId());
+        }
+        model.addAttribute("currentUser", currentUser);
         return "/postponed";
     }
 
@@ -203,6 +209,12 @@ public class CartController {
             model.addAttribute("totalPrice", booksFromCookieSlug.stream().mapToDouble(Book::getPrice).sum());
             model.addAttribute("totalOldPrice", booksFromCookieSlug.stream().mapToDouble(Book::getPriceOld).sum());
         }
+        Object curUser = userRegister.getCurrentUser();
+        BookstoreUser currentUser = null;
+        if (curUser instanceof BookstoreUserDetails) {
+            currentUser = userService.getUserById(((BookstoreUserDetails) curUser).getBookstoreUser().getId());
+        }
+        model.addAttribute("currentUser", currentUser);
         return "cart";
     }
 

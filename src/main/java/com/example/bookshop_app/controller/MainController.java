@@ -2,11 +2,15 @@ package com.example.bookshop_app.controller;
 
 import com.example.bookshop_app.dto.BooksPageDto;
 import com.example.bookshop_app.dto.SearchWordDto;
+import com.example.bookshop_app.entity.BookstoreUser;
 import com.example.bookshop_app.entity.Tag;
 import com.example.bookshop_app.entity.book.Book;
 import com.example.bookshop_app.exception.EmptySearchException;
+import com.example.bookshop_app.security.BookstoreUserDetails;
+import com.example.bookshop_app.security.BookstoreUserRegister;
 import com.example.bookshop_app.service.BookService;
 import com.example.bookshop_app.service.TagService;
+import com.example.bookshop_app.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,6 +26,10 @@ public class MainController {
 
     private final BookService bookService;
     private final TagService tagService;
+    @Autowired
+    private UserService userService;
+    @Autowired
+    private BookstoreUserRegister userRegister;
 
     @Autowired
     public MainController(BookService bookService, TagService tagService) {
@@ -68,7 +76,13 @@ public class MainController {
     }
 
     @GetMapping("/bookshop/main")
-    public String mainPage() {
+    public String mainPage(Model model) {
+        Object curUser = userRegister.getCurrentUser();
+        BookstoreUser currentUser = null;
+        if (curUser instanceof BookstoreUserDetails) {
+            currentUser = userService.getUserById(((BookstoreUserDetails) curUser).getBookstoreUser().getId());
+        }
+        model.addAttribute("currentUser", currentUser);
         return "index";
     }
 
