@@ -17,11 +17,9 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import org.springframework.web.servlet.HandlerExceptionResolver;
 
 import javax.servlet.FilterChain;
-import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 import java.util.Date;
 import java.util.Objects;
 
@@ -32,11 +30,11 @@ public class JWTRequestFilter extends OncePerRequestFilter {
     @Qualifier("handlerExceptionResolver")
     private HandlerExceptionResolver resolver;
 
-    private final BookstoreUserDetailsService bookstoreUserDetailsService;
     private final JWTUtil jwtUtil;
-    public JwtBlacklistRepository jwtBlacklistRepository;
+    private final BookstoreUserDetailsService bookstoreUserDetailsService;
+    private final JwtBlacklistRepository jwtBlacklistRepository;
 
-    private static final Logger logger = LoggerFactory.getLogger(JWTRequestFilter.class);
+    private static final Logger log = LoggerFactory.getLogger(JWTRequestFilter.class);
 
     public JWTRequestFilter(BookstoreUserDetailsService bookstoreUserDetailsService,
                             JWTUtil jwtUtil, JwtBlacklistRepository jwtBlacklistRepository) {
@@ -47,21 +45,12 @@ public class JWTRequestFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse,
-                                    FilterChain filterChain) throws ServletException, IOException {
+                                    FilterChain filterChain) {
         try {
-            String token = null;
+            String token;
             Cookie[] cookies = httpServletRequest.getCookies();
             String authHeader = httpServletRequest.getHeader("authorization");
-            if (Objects.nonNull(authHeader) && !authHeader.isEmpty()) {
-                String bearerToken = authHeader.substring(7);
-                JwtBlacklist expiredToken = jwtBlacklistRepository.findByTokenEquals(bearerToken);
-                if (Objects.nonNull(expiredToken)) {
-                    logger.info("token {} expired", expiredToken.getToken());
-                } else {
-                    checkToken(httpServletRequest, bearerToken);
-                }
-            }
-
+            checkHeader(httpServletRequest, authHeader);
             if (cookies != null) {
                 for (Cookie cookie : cookies) {
                     if (cookie.getName().equals("token")) {
@@ -69,7 +58,7 @@ public class JWTRequestFilter extends OncePerRequestFilter {
                         JwtBlacklist expiredToken = jwtBlacklistRepository.findByTokenEquals(token);
                         DecodedJWT jwt = JWT.decode(token);
                         if (Objects.nonNull(expiredToken) || jwt.getExpiresAt().before(new Date())) {
-                            logger.warn("token {} expired", token);
+                            log.warn("token {} expired", token);
                         } else {
                             checkToken(httpServletRequest, token);
                         }
@@ -78,8 +67,20 @@ public class JWTRequestFilter extends OncePerRequestFilter {
             }
             filterChain.doFilter(httpServletRequest, httpServletResponse);
         } catch (Exception ex) {
-            logger.warn("Spring Security Filter Chain Exception:", ex);
+            log.warn("Spring Security Filter Chain Exception:", ex);
             resolver.resolveException(httpServletRequest, httpServletResponse, null, ex);
+        }
+    }
+
+    private void checkHeader(HttpServletRequest httpServletRequest, String authHeader) {
+        if (Objects.nonNull(authHeader) && !authHeader.isEmpty()) {
+            String bearerToken = authHeader.substring(7);
+            JwtBlacklist expiredToken = jwtBlacklistRepository.findByTokenEquals(bearerToken);
+            if (Objects.nonNull(expiredToken)) {
+                log.info("token {} expired", expiredToken.getToken());
+            } else {
+                checkToken(httpServletRequest, bearerToken);
+            }
         }
     }
 
@@ -93,7 +94,7 @@ public class JWTRequestFilter extends OncePerRequestFilter {
 
     private void validateToken(HttpServletRequest httpServletRequest, String token, String username) {
         UserDetails userDetails = bookstoreUserDetailsService.loadUserByUsername(username);
-        if (jwtUtil.validateToken(token, userDetails)) {
+        if (Boolean.TRUE.equals(jwtUtil.validateToken(token, userDetails))) {
             UsernamePasswordAuthenticationToken authenticationToken =
                     new UsernamePasswordAuthenticationToken(
                             userDetails, null, userDetails.getAuthorities());

@@ -25,13 +25,13 @@ class MainControllerTest {
     }
 
     @Test
-    public void mainPageAccessPage() throws Exception {
+    void mainPageAccessPage() throws Exception {
         mockMvc.perform(get("/"))
                 .andExpect(status().is3xxRedirection());
     }
 
     @Test
-    public void accessOnlyAuthorizedPageFailTest() throws Exception {
+    void accessOnlyAuthorizedPageFailTest() throws Exception {
         mockMvc.perform(get("/my"))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("http://localhost/signin"));
@@ -39,7 +39,7 @@ class MainControllerTest {
 
     @Test
     @WithUserDetails("liza.shpinkovaa@mail.ru")
-    public void testAuthenticatedAccessToProfilePage() throws Exception {
+    void testAuthenticatedAccessToProfilePage() throws Exception {
         mockMvc.perform(get("/profile"))
                 .andExpect(authenticated())
                 .andExpect(xpath("/html/body/header/div[1]/div/div/div[3]/div/a[4]/span[1]")
@@ -47,7 +47,7 @@ class MainControllerTest {
     }
 
     @Test
-    public void testSearchQuery() throws Exception {
+    void testSearchQuery() throws Exception {
         mockMvc.perform(get("/search/Sudden"))
                 .andExpect(xpath("/html/body/div/div/main/div[2]/div/div[1]/div[2]/strong/a")
                         .string("Sudden Manhattan"));

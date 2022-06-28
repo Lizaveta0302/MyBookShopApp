@@ -28,6 +28,7 @@ public class Author {
     private List<Book> books = new ArrayList<>();
 
     public Author() {
+        super();
     }
 
     public List<Book> getBooks() {

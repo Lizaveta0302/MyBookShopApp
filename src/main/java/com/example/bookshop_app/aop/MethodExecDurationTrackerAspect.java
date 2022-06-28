@@ -13,13 +13,12 @@ import java.util.Date;
 @Component
 public class MethodExecDurationTrackerAspect {
 
-    private Long durationMills;
     private static final Logger logger = LoggerFactory.getLogger(MethodExecDurationTrackerAspect.class);
 
     @Around(value = "@annotation(com.example.bookshop_app.aop.annotation.DurationTrackable))")
     public Object aroundDurationTrackingAdvice(ProceedingJoinPoint proceedingJoinPoint) {
-        durationMills = new Date().getTime();
-        logger.info("{} duration tracking begins", proceedingJoinPoint.toString());
+        long durationMills = new Date().getTime();
+        logger.info("{} duration tracking begins", proceedingJoinPoint);
         Object returnValue = null;
         try {
             returnValue = proceedingJoinPoint.proceed();

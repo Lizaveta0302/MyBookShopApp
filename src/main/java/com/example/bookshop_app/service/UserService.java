@@ -91,6 +91,7 @@ public class UserService {
         updateUserProfile(profileForm, userId);
     }
 
+    @Transactional
     public void confirmChangingUserProfile(UserProfileForm profileForm) throws JsonProcessingException {
         Object curUser = userRegister.getCurrentUser();
         if (curUser instanceof BookstoreUserDetails) {

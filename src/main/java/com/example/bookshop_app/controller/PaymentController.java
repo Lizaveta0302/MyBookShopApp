@@ -2,7 +2,6 @@ package com.example.bookshop_app.controller;
 
 import com.example.bookshop_app.dto.PayDto;
 import com.example.bookshop_app.service.PaymentService;
-import com.nimbusds.jose.shaded.json.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
@@ -24,7 +23,7 @@ public class PaymentController {
 
     @PostMapping
     @ResponseBody
-    public PayDto handlePay(@RequestBody Map<String, String> payload) throws NoSuchAlgorithmException, ParseException {
+    public PayDto handlePay(@RequestBody Map<String, String> payload) throws NoSuchAlgorithmException {
         String url = paymentService.getPaymentUrl(payload.get("sum"));
         return new PayDto(url);
     }

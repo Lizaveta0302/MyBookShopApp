@@ -48,13 +48,11 @@ public class AuthUserController {
         ContactConfirmationResponse response = new ContactConfirmationResponse();
         response.setResult("true");
 
-        if (payload.getContact().contains("@")) {
-            return response;//for email
-        } else {
-            //String smsCodeString = smsService.sendSecretCodeSms(payload.getContact());
-            //smsService.saveNewCode(new SmsCode(smsCodeString, 60));//expires in 1 min
-            return response;
+        if (!payload.getContact().contains("@")) {
+            String smsCodeString = smsService.sendSecretCodeSms(payload.getContact());
+            smsService.saveNewCode(new SmsCode(smsCodeString, 60));
         }
+        return response;
     }
 
     @PostMapping("/requestEmailConfirmation")
@@ -102,7 +100,7 @@ public class AuthUserController {
     @PostMapping("/login-by-phone-number")
     @ResponseBody
     public ContactConfirmationResponse handleLoginByPhoneNumber(@RequestBody ContactConfirmationPayload payload, HttpServletResponse httpServletResponse) {
-        if (smsService.verifyCode(payload.getCode())) {
+        if (Boolean.TRUE.equals(smsService.verifyCode(payload.getCode()))) {
             ContactConfirmationResponse response = userRegister.jwtLoginByPhoneNumber(payload);
             Cookie cookie = new Cookie("token", response.getResult());
             httpServletResponse.addCookie(cookie);

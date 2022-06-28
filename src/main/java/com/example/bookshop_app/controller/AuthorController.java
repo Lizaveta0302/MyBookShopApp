@@ -15,7 +15,7 @@ import java.util.Map;
 
 @Controller
 @RequestMapping("/authors")
-@Api(description = "authors data")
+@Api(value = "authors data")
 public class AuthorController {
 
     private final AuthorService authorService;

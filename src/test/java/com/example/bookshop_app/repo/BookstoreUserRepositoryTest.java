@@ -32,7 +32,7 @@ class BookstoreUserRepositoryTest {
     }
 
     @Test
-    public void testAddNewUser() {
+    void testAddNewUser() {
         assertNotNull(bookstoreUserRepository.save(user));
     }
 

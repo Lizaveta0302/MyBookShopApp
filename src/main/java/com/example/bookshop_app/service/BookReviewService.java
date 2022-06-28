@@ -34,8 +34,7 @@ public class BookReviewService {
 
     @Loggable
     public BookReviewLike insertBookReviewLike(BookReviewLike bookReviewLike) {
-        BookReviewLike like = bookReviewLikeRepository.saveAndFlush(bookReviewLike);
-        return like;
+        return bookReviewLikeRepository.saveAndFlush(bookReviewLike);
     }
 
     @Transactional

@@ -18,7 +18,7 @@ public class PaymentService {
 
     public String getPaymentUrl(String sum) throws NoSuchAlgorithmException {
         MessageDigest md = MessageDigest.getInstance("MD5");
-        String invId = "5"; //just for testing TODO order indexing later
+        String invId = "5";
         md.update((merchantLogin + ":" + Double.toString(Double.parseDouble(sum)) + ":" + invId + ":" + firstTestPass).getBytes());
         return "https://auth.robokassa.ru/Merchant/Index.aspx" +
                 "?MerchantLogin=" + merchantLogin +

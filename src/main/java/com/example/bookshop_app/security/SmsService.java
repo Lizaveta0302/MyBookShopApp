@@ -14,14 +14,15 @@ import java.util.Random;
 @Service
 public class SmsService {
 
-    @Value("${twilio.ACCOUNT_SID}")
-    private String ACCOUNT_SID;
-    @Value("${twilio.AUTH_TOKEN}")
-    private String AUTH_TOKEN;
-    @Value("${twilio.TWILIO_NUMBER}")
-    private String TWILIO_NUMBER;
-
+    private static final Random rand = new Random();
     private final SmsCodeRepository smsCodeRepository;
+
+    @Value("${twilio.ACCOUNT_SID}")
+    private String accountSid;
+    @Value("${twilio.AUTH_TOKEN}")
+    private String authToken;
+    @Value("${twilio.TWILIO_NUMBER}")
+    private String twilioNumber;
 
     @Autowired
     public SmsService(SmsCodeRepository smsCodeRepository) {
@@ -29,12 +30,12 @@ public class SmsService {
     }
 
     public String sendSecretCodeSms(String contact) {
-        Twilio.init(ACCOUNT_SID, AUTH_TOKEN);
+        Twilio.init(accountSid, authToken);
         String formattedContact = contact.replaceAll("[( )-]", "");
         String generatedCode = generateCode();
         Message.creator(
                 new PhoneNumber(formattedContact),
-                new PhoneNumber(TWILIO_NUMBER),
+                new PhoneNumber(twilioNumber),
                 "Your secret code is: " + generatedCode
         ).create();
         return generatedCode;
@@ -42,10 +43,9 @@ public class SmsService {
 
     public String generateCode() {
         //nnn nnn - pattern
-        Random random = new Random();
         StringBuilder sb = new StringBuilder();
         while (sb.length() < 6) {
-            sb.append(random.nextInt(9));
+            sb.append(rand.nextInt(9));
         }
         sb.insert(3, " ");
         return sb.toString();

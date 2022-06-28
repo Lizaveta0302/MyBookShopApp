@@ -15,7 +15,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api")
-@Api(description = "book data api")
+@Api(value = "book data api")
 public class BooksRestApiController {
 
     private final BookService bookService;

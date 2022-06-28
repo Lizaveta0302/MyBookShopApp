@@ -33,6 +33,7 @@ public class ResourceStorage {
     private BookFileRepository bookFileRepository;
 
     public ResourceStorage() {
+        super();
     }
 
     public String saveNewBookImage(MultipartFile file, String slug) throws IOException {
@@ -41,14 +42,14 @@ public class ResourceStorage {
         if (!file.isEmpty()) {
             if (!new File(uploadPath).exists()) {
                 Files.createDirectories(Paths.get(uploadPath));
-                logger.info("created image folder in " + uploadPath);
+                logger.info("created image folder in {}", uploadPath);
             }
 
             String fileName = slug + "." + FilenameUtils.getExtension(file.getOriginalFilename());
             Path path = Paths.get(uploadPath, fileName);
             resourceURI = "/book_covers/" + fileName;
             file.transferTo(path);
-            logger.info(fileName + " uploaded successfully.");
+            logger.info("fileName {}", "uploaded successfully");
         }
         return resourceURI;
     }

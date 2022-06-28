@@ -34,6 +34,7 @@ import java.util.Map;
 public class BookController {
 
     private static final Logger logger = LoggerFactory.getLogger(BookController.class);
+    private static final String REDIRECT_URL = "redirect:/books/";
 
     @Autowired
     private TagService tagService;
@@ -154,7 +155,7 @@ public class BookController {
         Book bookToUpdate = bookService.getBookBySlug(slug);
         bookToUpdate.setImage(savePath);
         bookService.save(bookToUpdate);
-        return ("redirect:/books/" + bookToUpdate.getId());
+        return (REDIRECT_URL + bookToUpdate.getId());
     }
 
     @GetMapping("/download/{hash}")
@@ -183,7 +184,7 @@ public class BookController {
         rate.setBook(bookService.getBookById(bookId));
         rate.setMark(Short.valueOf(payload.get("value")));
         bookMarkService.insertBookRate(rate);
-        return "redirect:/books/" + Integer.valueOf(bookId);
+        return REDIRECT_URL + Integer.valueOf(bookId);
     }
 
     @Secured("ROLE_USER")
@@ -203,7 +204,7 @@ public class BookController {
             like.setValue(0);
             bookReviewService.insertBookReviewLike(like);
         }
-        return "redirect:/books/" + bookReview.getBook().getId();
+        return REDIRECT_URL + bookReview.getBook().getId();
     }
 
     private void fillModel(Model model, Book book) {

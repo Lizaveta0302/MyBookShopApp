@@ -20,6 +20,7 @@ public class Visit {
     private LocalDateTime visitedAt;
 
     public Visit() {
+        super();
     }
 
     public Long getId() {

@@ -145,8 +145,7 @@ public class BookService {
 
     @Loggable
     public Book save(Book bookToUpdate) {
-        Book savedBook = bookRepository.save(bookToUpdate);
-        return savedBook;
+        return bookRepository.save(bookToUpdate);
     }
 
     public Book findBookBySlug(String slug) {
@@ -174,14 +173,14 @@ public class BookService {
     }
 
     public List<Book> getPageOfGoogleBooksApiSearchResult(String searchWord, Integer offset, Integer limit) {
-        String REQUEST_URL = "https://www.googleapis.com/books/v1/volumes" +
+        String requestUrl = "https://www.googleapis.com/books/v1/volumes" +
                 "?q=" + searchWord +
                 "&key=" + apiKey +
                 "&filter=paid-ebooks" +
                 "&startIndex=" + offset +
                 "&maxResult=" + limit;
 
-        Root root = restTemplate.getForEntity(REQUEST_URL, Root.class).getBody();
+        Root root = restTemplate.getForEntity(requestUrl, Root.class).getBody();
         List<Book> list = new ArrayList<>();
         if (root != null) {
             for (Item item : root.getItems()) {
@@ -190,7 +189,7 @@ public class BookService {
                     if (Optional.ofNullable(item.getVolumeInfo().getAuthors()).isPresent()
                             && item.getVolumeInfo().getAuthors().stream().findFirst().isPresent()) {
                         Author author = new Author();
-                        author.setFirstName(item.getVolumeInfo().getAuthors().stream().findFirst().get());
+                        author.setFirstName(item.getVolumeInfo().getAuthors().stream().findFirst().orElse(null));
                         book.setAuthor(author);
                     }
                     book.setTitle(item.getVolumeInfo().getTitle());
