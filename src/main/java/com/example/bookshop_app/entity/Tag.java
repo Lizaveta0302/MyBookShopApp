@@ -8,6 +8,17 @@ import java.util.Set;
 
 @Entity
 @Table(schema = "shop", name = "tags")
+@NamedEntityGraph(name = "tag_entity_graph", attributeNodes = @NamedAttributeNode("books"),
+        subgraphs = {
+                @NamedSubgraph(
+                        name = "tag-books-author-subgraph",
+                        attributeNodes =
+                                {
+                                        @NamedAttributeNode("author")
+                                }
+                )
+        }
+)
 public class Tag {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

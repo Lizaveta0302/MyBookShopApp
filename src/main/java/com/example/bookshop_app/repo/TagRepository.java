@@ -4,6 +4,7 @@ import com.example.bookshop_app.entity.Tag;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
@@ -15,4 +16,6 @@ public interface TagRepository extends JpaRepository<Tag, Integer> {
     @Override
     List<Tag> findAll(Sort sort);
 
+    @EntityGraph(type = EntityGraph.EntityGraphType.FETCH, value = "tag_entity_graph")
+    List<Tag> findAll();
 }

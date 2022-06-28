@@ -17,6 +17,7 @@ import java.util.*;
 @Entity
 @Table(schema = "shop", name = "books")
 @ApiModel(description = "entity representing a book")
+@NamedEntityGraph(name = "book_entity_graph", attributeNodes = @NamedAttributeNode("author"))
 public class Book {
 
     @Id

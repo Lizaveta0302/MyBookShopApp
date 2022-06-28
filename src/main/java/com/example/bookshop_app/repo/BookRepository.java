@@ -5,6 +5,7 @@ import com.example.bookshop_app.entity.Tag;
 import com.example.bookshop_app.entity.book.Book;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -14,7 +15,6 @@ import java.sql.Date;
 import java.util.List;
 
 public interface BookRepository extends JpaRepository<Book, Integer> {
-    List<Book> findBooksByAuthorId(Integer id);
 
     Page<Book> findBooksByAuthorId(Pageable nextPage, Integer id);
 
@@ -40,10 +40,11 @@ public interface BookRepository extends JpaRepository<Book, Integer> {
     List<Book> getBooksWithMaxDiscount();
 
     @Query(value = "select *" +
-            " from shop.books b where is_bestseller = true " +
+            " from shop.books b LEFT JOIN shop.authors a on b.author_id = a.id where is_bestseller = true " +
             " order by (select count(*) from shop.visits v where v.book_id = b.id and v.visited_at >= NOW() - INTERVAL '7 DAY') desc", nativeQuery = true)
     Page<Book> findAllByIsBestsellerTrue(Pageable pageable);
 
+    @EntityGraph(type = EntityGraph.EntityGraphType.FETCH, value = "book_entity_graph")
     Page<Book> findAllByOrderByPubDateDesc(Pageable pageable);
 
     Page<Book> findAllByPubDateBetweenOrderByPubDateDesc(Pageable pageable, Date from, Date to);
