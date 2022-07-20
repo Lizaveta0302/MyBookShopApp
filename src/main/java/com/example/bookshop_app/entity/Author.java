@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@Cacheable
 @Table(schema = "shop", name = "authors")
 @ApiModel(description = "data model of author entity")
 public class Author {
